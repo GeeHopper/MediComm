@@ -1,0 +1,153 @@
+body {
+  background-color: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#doc-reg {
+  position: absolute;
+  top: 60px;
+}
+
+.bg-right {
+  right: 0px;
+  top: 0;
+  bottom: 0;
+  background: #f3eded;
+  position: absolute;
+  width: 46%;
+}
+
+label {
+  position: absolute;
+  font-size: 1rem;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  margin: 0 0.5rem;
+  transition: .1s ease-out;
+  transform-origin: left top;
+  pointer-events: none;
+}
+
+input {
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0.5rem 1.0rem;
+  color: gray;
+  transition: 0.1s ease-out;
+}
+
+input:focus {
+  border-color: #6200EE;
+}
+
+input:focus+label {
+  color: #6200EE;
+  top: -10px;
+}
+
+.title {
+  position: absolute;
+  text-align: center;
+  left: 990px;
+  top: 90px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #89a4c7;
+  z-index: 3;
+}
+
+.nachName {
+  top: 160px;
+  position: absolute;
+  left: 75%;
+}
+
+.vorName {
+  position: absolute;
+  top: 160px;
+  left: 60%;
+}
+
+.mail .input {
+  width: 415px;
+  top: 210px;
+  position: absolute;
+  left: 60%;
+}
+
+.pass .input {
+  width: 415px;
+  top: 260px;
+  position: absolute;
+  left: 60%;
+}
+
+.pass-w .input {
+  width: 415px;
+  top: 310px;
+  position: absolute;
+  left: 60%;
+}
+
+.anschrift .input {
+  width: 415px;
+  top: 360px;
+  position: absolute;
+  left: 60%;
+}
+
+.telefon .input {
+  width: 415px;
+  top: 410px;
+  position: absolute;
+  left: 60%;
+}
+
+.fax .input {
+  width: 415px;
+  top: 460px;
+  position: absolute;
+  left: 60%;
+}
+
+.arztNr .input {
+  width: 415px;
+  top: 510px;
+  position: absolute;
+  left: 60%;
+}
+
+.betriebsstättennummer .input {
+  width: 415px;
+  top: 560px;
+  position: absolute;
+  left: 60%;
+}
+
+.form .btn {
+  width: 15%;
+  position: absolute;
+  text-align: center;
+  left: 955px;
+  top: 650px;
+  background: #89a4c7;
+  text-align: center;
+  padding: 12px;
+  border-radius: 25px;
+}
+
+.form .btn a {
+  color: #fff;
+}

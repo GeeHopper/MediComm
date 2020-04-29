@@ -1,0 +1,250 @@
+body {
+  background-color: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.m-textfield {
+  top: 30px;
+  position: relative;
+}
+
+.p-textfield {
+  top: -07px;
+  position: relative;
+  left: 250px;
+}
+
+.mail {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pass {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+label {
+  position: absolute;
+  font-size: 1rem;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  margin: 0 0.5rem;
+  transition: .1s ease-out;
+  transform-origin: left top;
+  pointer-events: none;
+}
+
+input {
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0.5rem 1.0rem;
+  color: gray;
+  transition: 0.1s ease-out;
+}
+
+input:focus {
+  border-color: #6200EE;
+}
+
+input:focus+label {
+  color: #6200EE;
+  top: -10px;
+}
+
+.no-acc {
+  margin: 140px auto 0;
+  position: absolute;
+  top: 380px;
+  left: 1050px;
+  font-size: 18px;
+  font-weight: lighter;
+  color: #87c0cd;
+  z-index: 3;
+}
+
+#top-cut {
+  position: relative;
+  padding-top: 550px;
+  background-color: white;
+}
+
+#logImg {
+  position: absolute;
+  top: 20px;
+  left: -1%;
+}
+
+.acc-title {
+  position: absolute;
+  top: 145px;
+  z-index: 5;
+  left: 40%;
+  font-weight: lighter;
+  color: #87c0cd;
+}
+
+.desc-title {
+  position: absolute;
+  top: 490px;
+  z-index: 5;
+  left: 14%;
+  font-weight: lighter;
+  color: #87c0cd;
+}
+
+#middleOne {
+  top: 100px;
+  position: relative;
+  background-color: #bfd8d5;
+  padding-bottom: 550px;
+}
+
+#middleOne .kurzBeschreibung {
+  font-size: 26px;
+  font-weight: bold;
+  color: #87c0cd;
+  text-align: center;
+}
+
+#middleTwo {
+  top: 300px;
+  position: relative;
+  background-color: white;
+  padding-bottom: 350px;
+}
+
+#middleTwo .iconTermin {
+  position: absolute;
+  top: -100px;
+  left: 80px;
+  font-size: 80px;
+}
+
+#middleTwo .iconDoc {
+  position: absolute;
+  top: -1px;
+  left: 260px;
+  font-size: 80px;
+}
+
+#middleTwo .iconNote {
+  position: absolute;
+  top: -1px;
+  left: 520px;
+  font-size: 80px;
+}
+
+#middleTwo .iconFolder {
+  position: absolute;
+  top: -1px;
+  left: 820px;
+  font-size: 80px;
+}
+
+#middleTwo .iconMessage {
+  position: absolute;
+  top: -1px;
+  left: 1150px;
+  font-size: 80px;
+}
+
+#middleTwo .termin-title {
+  position: absolute;
+  left: 40px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+#middleTwo .doc-title {
+  position: absolute;
+  left: 300px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+#middleTwo .note-title {
+  position: absolute;
+  left: 580px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+#middleTwo .folder-title {
+  position: absolute;
+  left: 850px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+#middleTwo .message-title {
+  position: absolute;
+  left: 1150px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+#middleThree {
+  top: 100px;
+  position: relative;
+  background-color: #bfd8d5;
+  padding-bottom: 450px;
+}
+
+#top-cut .title {
+  position: absolute;
+  text-align: center;
+  left: 1090px;
+  top: 150px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #89a4c7;
+}
+
+#top-cut .form .input_field {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+#top-cut .form .input_field .input {
+  margin: 0 5px;
+  font-size: 15px;
+  position: relative;
+  top: -1700px;
+  left: 65%;
+  width: 28%;
+  padding: 12px;
+  padding-left: 30px;
+  /*border: none;*/
+  background: #eeeeee;
+}
+
+#top-cut .form .btn {
+  width: 15%;
+  position: absolute;
+  text-align: center;
+  left: 1035px;
+  top: 450px;
+  background: #89a4c7;
+  text-align: center;
+  padding: 12px;
+  border-radius: 25px;
+}
+
+#top-cut .form .btn a {
+  color: #fff;
+}
