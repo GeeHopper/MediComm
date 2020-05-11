@@ -107,7 +107,7 @@ z-index: 3;
   left: 60%;
 }
 
-.telefon .input{
+.profilepic .input {
   width: 415px;
   top: 410px;
   position: absolute;
@@ -127,18 +127,18 @@ z-index: 3;
   left: 60%;
 }
 
- .form .btn{
+ .btn{
   width: 15%;
   position: absolute;
   text-align: center;
-  left: 955px;
-  top: 650px;
+  left: 60%;
+  top: 560px;
   background:#89a4c7;
   text-align: center;
   padding: 12px;
   border-radius: 25px;
 }
 
- .form .btn a{
+ .btn a{
   color: #fff;
 }
