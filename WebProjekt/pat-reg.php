@@ -271,7 +271,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 
     <div id="agreement">
-      <input type="checkbox" name="agreement">Enable like from pic
+      <input type="checkbox" name="agreement">Please accept the <a href="res/DSGVO">License and User Agreement</a>
     </div>
 
 
