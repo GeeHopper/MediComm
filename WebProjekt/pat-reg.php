@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $firstname = $profilepic = $lastname = $address = $insurednumber = $healthinsurance = "";
-$username_err = $password_err = $confirm_password_err = $firstname_err = $lastname_err = $address_err = $insurednumber_err = $healthinsurance = "";
+$username = $password = $confirm_password = $firstname = $profilepic = $lastname = $address = $insurednumber = $healthinsurance = $agreement = "";
+$username_err = $password_err = $confirm_password_err = $firstname_err = $lastname_err = $address_err = $insurednumber_err = $healthinsurance = $agreement_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -96,9 +96,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
       $healthinsurance = trim($_POST["healthinsurance"]);
     }
+
+    if(!isset($_POST["agreement"])){
+      $agreement_err = "Please accept the User agreement.";     
+    } else{
+      $agreement = trim($_POST["agreement"]);
+    }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($firstname_err) && empty($lastname_err) && empty($address_err) && empty($insurednumber_err) && empty($healthinsurance_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($firstname_err) && empty($lastname_err) && empty($address_err) && empty($insurednumber_err) && empty($healthinsurance_err) && empty($agreement_err)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO users (password, profilepic, firstname, lastname, address) VALUES (?, ?, ?, ?, ?)";
@@ -264,6 +270,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>
     </div>
 
+    <div id="agreement">
+      <input type="checkbox" name="agreement">Enable like from pic
+    </div>
+
 
     <!--<div class="form">
       <div class="btn">
@@ -271,7 +281,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>
     </div>-->
     
-      <input type="submit" class="btn btn-primary" value="Submit">
+    <input type="submit" class="btn btn-primary" value="Submit">
       
   </form>
 

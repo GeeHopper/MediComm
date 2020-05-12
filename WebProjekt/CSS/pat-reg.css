@@ -132,7 +132,7 @@ z-index: 3;
   position: absolute;
   text-align: center;
   left: 60%;
-  top: 560px;
+  top: 610px;
   background:#89a4c7;
   text-align: center;
   padding: 12px;
@@ -141,4 +141,12 @@ z-index: 3;
 
  .btn a{
   color: #fff;
+}
+
+#agreement
+{
+  width: 415px;
+  top: 560px;
+  position: absolute;
+  left: 60%;
 }
