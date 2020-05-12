@@ -81,7 +81,7 @@ z-index: 3;
   left: 60%;
 }
 
-.mail .input{
+.mail .input {
   width: 415px;
   top: 210px;
   position: absolute;
@@ -141,6 +141,14 @@ z-index: 3;
 
  .btn a{
   color: #fff;
+}
+
+#agreement
+{
+  width: 415px;
+  top: 560px;
+  position: absolute;
+  left: 60%;
 }
 
 #agreement

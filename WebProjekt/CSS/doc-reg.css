@@ -136,6 +136,13 @@ input:focus+label {
   left: 60%;
 }
 
+.field .input {
+  width: 415px;
+  top: 610px;
+  position: absolute;
+  left: 60%;
+}
+
 .form .btn {
   width: 15%;
   position: absolute;
@@ -150,4 +157,20 @@ input:focus+label {
 
 .form .btn a {
   color: #fff;
+}
+
+#agreement
+{
+  width: 415px;
+  top: 660px;
+  position: absolute;
+  left: 60%;
+}
+
+#submitbtn
+{
+  width: 415px;
+  top: 690px;
+  position: absolute;
+  left: 60%;
 }

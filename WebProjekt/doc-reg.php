@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $firstname = $profilepic = $lastname = $address = $insurednumber = $healthinsurance = $agreement = $mail = "";
-$username_err = $password_err = $confirm_password_err = $firstname_err = $lastname_err = $address_err = $insurednumber_err = $healthinsurance_err = $agreement_err = $mail_err = "";
+$username = $password = $confirm_password = $firstname = $lastname = $address = $phone = $mail = $fax = $docnumber = $establishmentnumber = $field = "";
+$username_err = $password_err = $confirm_password_err = $firstname_err = $lastname_err = $address_err = $phone_err = $mail_err = $fax_err = $docnumber_err = $establishmentnumber_err = $field_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -73,28 +73,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $lastname = trim($_POST["lastname"]);
     }
 
-    if(empty(trim($_POST["profilepic"]))){
-      $profilepic_err = "Please submit a Profile Picture.";     
-    } else{
-      $profilepic = trim($_POST["profilepic"]);
-    }
-
     if(empty(trim($_POST["address"]))){
       $address_err = "Please enter an address.";     
     } else{
       $address = trim($_POST["address"]);
     }
 
-    if(empty(trim($_POST["insurednumber"]))){
-      $insurednumber_err = "Please enter an insured number.";     
+    if(empty(trim($_POST["mail"]))){
+      $mail_err = "Please enter an email.";     
     } else{
-      $insurednumber = trim($_POST["insurednumber"]);
+      $mail = trim($_POST["mail"]);
     }
 
-    if(empty(trim($_POST["healthinsurance"]))){
-      $healthinsurance_err = "Please enter a health insurance.";     
+    if(empty(trim($_POST["phone"]))){
+      $phone_err = "Please enter a Phone number.";     
     } else{
-      $healthinsurance = trim($_POST["healthinsurance"]);
+      $phone = trim($_POST["phone"]);
+    }
+
+    if(empty(trim($_POST["fax"]))){
+      $fax_err = "Please enter a fax.";     
+    } else{
+      $fax = trim($_POST["fax"]);
+    }
+
+    if(empty(trim($_POST["field"]))){
+      $field_err = "Please enter a field.";     
+    } else{
+      $field = trim($_POST["field"]);
+    }
+
+    if(empty(trim($_POST["establishmentnumber"]))){
+      $establishmentnumber_err = "Please enter an establishmentnumber.";     
+    } else{
+      $establishmentnumber = trim($_POST["establishmentnumber"]);
     }
 
     if(!isset($_POST["agreement"])){
@@ -102,30 +114,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
       $agreement = trim($_POST["agreement"]);
     }
-
-    if(!isset($_POST["mail"])){
-      $mail_err = "Please enter a valid E-mail address.";     
-    } else{
-      $mail = trim($_POST["mail"]);
-    }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($firstname_err) && empty($lastname_err) && empty($address_err) && empty($insurednumber_err) && empty($healthinsurance_err) && empty($agreement_err) && empty($mail_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($firstname_err) && empty($lastname_err) && empty($address_err) && empty($phone_err) && empty($mail_err) && empty($agreement_err) && empty($establishmentnumber_err)  && empty($field_err)){
         
-
         // Prepare an insert statement
-        $sql = "INSERT INTO users (mail, password, profilepic, firstname, lastname, address) VALUES (?, ?, ?, ?, ?, ?)";
-       
-        
+        $sql = "INSERT INTO users (mail, password, profilepic, firstname, lastname, address) VALUES (?, ?, ?, ?, ?, ?)";       
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssss", $param_mail, $param_password, $param_firstname, $param_lastname, $param_address, $param_profilepic);
+            mysqli_stmt_bind_param($stmt, "ssssss", $param_mail, $param_password, $param_profilepic, $param_firstname, $param_lastname, $param_address);
             
             // Set parameters
             $param_mail = $mail;
-            $param_profilepic = $profilepic;
-            $param_username = $username;
+            $param_profilepic = $firstname;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_firstname = $firstname;
             $param_lastname = $lastname;
@@ -142,20 +144,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Close statement
             mysqli_stmt_close($stmt);
         }
-
-        //fetching last inserted id
+        
         $id = mysqli_insert_id($link); // or mysql_insert_id() if you're using old code
-        echo $id;
-        $sql1 = "INSERT INTO patients (id, insurednumber, healthinsurance) VALUES (?, ?, ?)";
+        $sql1 = "INSERT INTO doctors (id, phone, fax, url, docnumber, establishmentnumber, field) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt1 = mysqli_prepare($link, $sql1)){
           // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt1, "iss", $param_id, $param_insurednumber, $param_healthinsurance);
+          mysqli_stmt_bind_param($stmt1, "isssiss", $param_id, $param_phone, $param_fax, $param_url, $param_docnumber, $param_establishmentnumber, $param_field);
           
+          $url = "ha";
           // Set parameters
-          $param_id = $id;
-          $param_insurednumber = $insurednumber;
-          $param_healthinsurance = $healthinsurance;
+          $param_id = $docnumber = $id;
+          $param_phone = $phone;
+          $param_fax = $fax;
+          $param_url = $url;
+          $param_docnumber = $docnumber;
+          $param_establishmentnumber = $establishmentnumber;
+          $param_field = $field;
           
           // Attempt to execute the prepared statement
           if(mysqli_stmt_execute($stmt1)){
@@ -169,17 +174,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           mysqli_stmt_close($stmt1);
         }
 
-        $sql2 = "INSERT INTO user_types (id, type) VALUES (?, 'patient')";
+        $sql2 = "INSERT INTO user_types (id, type) VALUES (?, 'doctor')";
 
         if($stmt2 = mysqli_prepare($link, $sql2)){
           // Bind variables to the prepared statement as parameters
           mysqli_stmt_bind_param($stmt2, "i", $param_id);
-          $param_id = $id;
           
+          $param_id = $id;
+
           // Attempt to execute the prepared statement
           if(mysqli_stmt_execute($stmt2)){
               // Redirect to login page
-              header("location: login.php");
+              //header("location: login.php");
           } else{
               echo "Something went wrong. Please try again later.2";
           }
@@ -200,20 +206,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
   <meta charset="utf-8">
   <title></title>
-  <link rel="stylesheet" href="css/pat-reg.css">
+  <link rel="stylesheet" href="css/doc-reg.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
 </head>
 
 <body>
 
+
+
   <div class="title">
     Registrieren
   </div>
 
 
-  <div id="pat-reg">
-    <img class="pat-reg" src="images/pat.png" alt="pat-reg" height="500"></a>
+  <div id="doc-reg">
+    <img class="doc-reg" src="images/doiic.png" alt="doc-reg"></a>
   </div>
 
 
@@ -221,16 +229,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     
-    <div class="mail">
-      <div class="input_field">
-        <input type="text" placeholder="Email" class="input" name="mail">
-        <i class="mail"></i>
-      </div>
-    </div>
-
+    
     <div class="vorName">
       <div class="input_field">
-        <input value="<?php echo $username; ?>" name="firstname" type="text" placeholder="Vorname" class="input">
+        <input type="text" placeholder="Vorname" class="input" name="firstname">
         <i class="name"></i>
       </div>
 
@@ -243,16 +245,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>
     </div>
 
+    <div class="mail">
+      <div class="input_field">
+        <input type="text" placeholder="Email" class="input" name="mail">
+        <i class="mail"></i>
+      </div>
+    </div>
+
     <div class="pass">
       <div class="input_field">
-        <input value="<?php echo $password; ?>" name="password" type="password" placeholder="Passwort" class="input">
+        <input type="password" placeholder="Passwort" class="input" name="password">
         <i class="enlock"></i>
       </div>
     </div>
 
     <div class="pass-w">
       <div class="input_field">
-        <input name="confirm_password" type="password" placeholder="Passwort wiederholen" class="input" value="<?php echo $confirm_password; ?>">
+        <input type="password" placeholder="Passwort wiederholen" class="input" name="confirm_password">
         <i class="enlock"></i>
       </div>
     </div>
@@ -264,31 +273,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>
     </div>
 
-    <div class="profilepic">
+    <div class="telefon">
       <div class="input_field">
-        <input value="<?php echo $profilepic; ?>" name="profilepic" type="text" placeholder="Pic" class="input">
-        <i class="enlock"></i>
-      </div>
-
-    </div>
-
-    <div class="kk">
-      <div class="input_field">
-        <input list="kk" placeholder="Krankenkasse" class="input" name="healthinsurance">
-        <datalist id="kk">
-          <option value="AOK">
-          <option value="Knappschaft">
-          <option value="Innungskrankenkasse ">
-          <option value="DAK Gesundheit">
-          <option value=" BARMER">
-        </datalist>
+        <input type="text" placeholder="Telefon" class="input" name="phone">
+        <i class="telefon"></i>
       </div>
     </div>
 
-    <div class="verNr">
+    <div class="fax">
       <div class="input_field">
-        <input type="text" placeholder="Versichertennummer" class="input" name="insurednumber">
-        <i class="verNr"></i>
+        <input type="text" placeholder="Fax" class="input" name="fax">
+        <i class="fax"></i>
+      </div>
+    </div>
+
+    <div class="arztNr">
+      <div class="input_field">
+        <input type="text" placeholder="Arztnummer" class="input" name="docnumber">
+        <i class="arztNr"></i>
+      </div>
+    </div>
+
+    <div class="betriebsstättennummer">
+      <div class="input_field">
+        <input type="text" placeholder="Betriebsstättennummer " class="input" name="establishmentnumber">
+        <i class="betriebsstättennummer "></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="input_field">
+        <input type="text" placeholder="Fachrichtung" class="input" name="field">
+        <i class="field "></i>
       </div>
     </div>
 
@@ -296,17 +312,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <input type="checkbox" name="agreement">Please accept the <a href="res/DSGVO">License and User Agreement</a>
     </div>
 
+    <input type="submit" id="submitbtn" value="Submit">
 
-    <!--<div class="form">
-      <div class="btn">
-        <a href="button">Registrieren</a>
-      </div>
-    </div>-->
-    
-    <input type="submit" class="btn btn-primary" value="Submit">
-      
   </form>
-
 
 
 </body>
