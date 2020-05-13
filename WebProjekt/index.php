@@ -1,3 +1,13 @@
+<?php
+  require_once "config.php";
+  session_start();
+
+  if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+  }
+
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -10,107 +20,10 @@
 
 <body>
 
-
-  <div id="top-cut">
-
-    <div class="title">
-      Registrieren
-    </div>
-
-
-    <div class="topnav">
-      <p>LOGO</p>
-      <div class="mail">
-        <div class="m-textfield">
-          <input placeholder=" " type="text">
-          <label>E-Mail-Adresse</label>
-        </div>
-      </div>
-      <div class="pass">
-        <div class="p-textfield">
-          <input placeholder=" " type="password">
-          <label>Passwort</label>
-        </div>
-      </div>
-    </div>
-
-
-    <div id="middleOne">
-      <p class="kurzBeschreibung">Beschreibung was die App bietet</p>
-    </div>
-
-    <div id="middleTwo">
-      <div class="iconTermin">
-        <i class="far fa-calendar-check"></i>
-        <div class="iconComm">
-          <i class="fas fa-comment-dots"></i>
-        </div>
-      </div>
-      <p class="termin-title">Termine vereinbaren</p>
-      <p class="comm-title">Kommunizieren </p>
-
-    </div>
-
-    <div id="middleThree">
-      WERBUNG MIT SCREENSHOTS
-    </div>
-
-    <div class="acc-title">
-      <h1>Choose your Account Type..</h1>
-    </div>
-
-    <div class="desc-title">
-      <h1>Hey..</h1>
-    </div>
-
-    <div id="box1">
-      <img class="doctor-img" src="images/doctor.png" alt="doctor-img">
-      <div class="d-caption">
-        Doctor
-      </div>
-    </div>
-
-    <div id="box2">
-      <img class="patient-img" src="images/patient.png" alt="patient-img">
-      <div class="p-caption">
-        Patient
-      </div>
-    </div>
-
-    <div class="vorName">
-      <div class="input_field">
-        <input type="text" placeholder="Vorname" class="input">
-        <i class="name"></i>
-      </div>
-
-    </div>
-
-    <div class="nachName">
-      <div class="input_field">
-        <input type="text" placeholder="Nachname" class="input">
-        <i class="name"></i>
-      </div>
-    </div>
-
-
-    <div class="form">
-      <div class="input_field">
-        <input type="text" placeholder="Email" class="input">
-        <i class="mail"></i>
-      </div>
-
-      <div class="input_field">
-        <input type="password" placeholder="Passwort" class="input">
-        <i class="enlock"></i>
-      </div>
-
-
-
-      <div class="btn">
-        <a href="button">Registrieren</a>
-      </div>
-    </div>
-
+  <div id="main">
+    <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["firstname"]); ?></b>. Welcome to our site.</h1>
+  </div>
+  
 
 
 </body>
