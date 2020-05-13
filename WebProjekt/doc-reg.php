@@ -221,7 +221,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
   <div id="doc-reg">
-    <img class="doc-reg" src="images/doiic.png" alt="doc-reg"></a>
+    <img class="doc-reg" src="images/doc.png" alt="doc-reg"></a>
   </div>
 
 
