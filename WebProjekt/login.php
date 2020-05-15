@@ -61,8 +61,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
-                            //$_SESSION["mail"] = $$mysqli->query("SELECT mail FROM users WHERE id = ' $id '")->fetch_object()->name; ;
-                            $_SESSION["firstname"] = $link->query("SELECT firstname FROM users WHERE id = ' $id '")->fetch_object()->firstname;                             
+                            $_SESSION["mail"] = $mysqli->query("SELECT mail FROM users WHERE id = ' $id '")->fetch_object()->mail;
+                            $_SESSION["firstname"] = $link->query("SELECT firstname FROM users WHERE id = ' $id '")->fetch_object()->firstname;     
+                            $_SESSION["lastname"] = $link->query("SELECT lastname FROM users WHERE id = ' $id '")->fetch_object()->lastname;
+                            $_SESSION["address"] = $link->query("SELECT firstname FROM users WHERE id = ' $id '")->fetch_object()->firstname;
+                                                        
                             //$_SESSION["firstname"] = "lol";
                             // Redirect user to welcome page
                             header("location: index.php");

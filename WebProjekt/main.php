@@ -14,6 +14,7 @@
 <head>
   <meta charset="utf-8">
   <title></title>
+  <link rel="manifest" src="/manifest.json" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 </head>
@@ -21,7 +22,8 @@
 <body>
 
   <div id="main">
-    <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["firstname"]); ?></b>. Welcome to our site.</h1>
+    <h1>Welcome, <b><?php echo htmlspecialchars($_SESSION["firstname"]); ?></b>. More Options will be added soon.</h1>
+    <a href="myprofile.php">Added Profile credentials.</a>
   </div>
   
 
