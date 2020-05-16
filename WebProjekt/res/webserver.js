@@ -3,6 +3,9 @@ var url = require("url");
 var chalk = require("chalk");
 var formidable = require("formidable");
 var fs = require("fs");
+var util = require("util");
+var events = require("events")
+var mysql = require("mysql");
 
 //self written requirements
 var date = require("./node_modules/dateTools");
@@ -32,6 +35,25 @@ console.log(chalk.red("rot"));*/
 //dateoutput
 //console.log(date.germanDate());
 
+//proper logging function
+/*var s = util.format("Guten %s", "Tag");
+util.log(s);
+console.log(s)*/
+
+var eventEmitter = new events.EventEmitter();
+
+
+var eventHandler = function() {
+    console.log("Event caught");
+}
+
+eventEmitter.on("myEvent", eventHandler);
+
+
+
+
+
+
 http.createServer(function(request, response) {
 
     if (request.url == "/fileupload"){
@@ -55,6 +77,48 @@ http.createServer(function(request, response) {
 
         response.writeHead(200, {"content-type": "text/html; charset=utf-8"});
         
+        var con = mysql.createConnection({
+            host: "localhost",
+            database: "medicomm",
+            user: "root",
+            password: ""
+        });
+
+        var message = "msgtemplate";
+
+        eventEmitter.on("db-ready", sendResponse);
+        con.connect(function(error){
+            if(error){
+                message = "Connection error: " + error.message;
+                eventEmitter.emit("db-ready");
+                throw error;
+            }
+            else{
+                con.query("SELECT * FROM users",
+                function(error, result, fields){
+                    if(error){
+                        
+                        message = "Query error: " + error.message;
+                        eventEmitter.emit("db-ready");
+                    }
+                    else{
+                        console.log(result);
+                        console.log(result[0].mail);
+                        eventEmitter.emit("db-ready");
+                        console.log("emitted :)");
+                    }
+                });
+                
+            }
+        });
+
+        function sendResponse(){
+            var htmlResponse = getHTMLStruct("MediComm",
+            "<h1 style='color:red;'>" + message + "</h1>");
+        
+            response.end(htmlResponse);
+        }
+
         var body =
             "<form action='fileupload' method='post' enctype='multipart/form-data'>"+
             "<input type='file' name='file'><br>"+
@@ -93,3 +157,4 @@ function getHTMLStruct(title, body){
 
     return htmlStruct;
 }
+
