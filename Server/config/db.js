@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-// Replace this with your MONGOURI.
+//mlab mongouri
 const MONGOURI = "mongodb+srv://MediComm:mcLx8se6d@medicomm-w3ph6.mongodb.net/test?retryWrites=true&w=majority";
 
 const InitiateMongoServer = async () => {

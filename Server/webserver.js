@@ -8,7 +8,7 @@ const events = require("events");
 //var mysql = require("mysql");
 const express = require("express");
 const mongo = require("mongodb").MongoClient;
-const parser = require("body-parser");
+const bodyParser = require("body-parser");
 const path = require("path");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
@@ -17,6 +17,7 @@ const cookieParser = require("cookie-parser");
 const date = require("./tools/dateTools");
 const dbTools = require("./tools/dbTools");
 const InitiateMongoServer = require("./config/db"); 
+const user = require("./routes/user"); //new addition
 
 class Webserver
 {
@@ -68,7 +69,7 @@ class Webserver
 
 
 
-    mongoConnect()
+    /*mongoConnect()
     {
     //connecting to db
         mongo.connect("mongodb://localhost:27017/", {useNewUrlParser: true},
@@ -86,7 +87,7 @@ class Webserver
                 }
             }
         );
-    }
+    }*/
 
     initAttributes()
     {
@@ -95,14 +96,19 @@ class Webserver
         //init express
         this.app = express();
         //extended: false->querystring,true->qs
-        this.urlParser = parser.urlencoded({extended:false});
+        this.urlParser = bodyParser.urlencoded({extended:false});
         this.upload = multer({dest: "uploads/"});
     }
 
     expressMethods()
     {
+        //use bodyparser
+        this.app.use(bodyParser.json());
+
         /* cookie usage */
         this.app.use(cookieParser());
+
+
         this.app.get("/cookie_set", function(request, response){
             response.cookie("hshl", "myValue", {expire: new Date() + 10000})
                 .end("set cookie");
@@ -118,6 +124,9 @@ class Webserver
             response.end("Cookie deleted");
         });
         /* end cookie usage */
+
+        //doc register
+        this.app.post("/doc-reg-sent", user);
 
         /* restful function examples */
         this.app.get("listUsers", function(request, responseJSON){
@@ -200,7 +209,7 @@ class Webserver
             }*/
 
             //File upload
-            response.sendFile(path.join(__dirname+"/static/content/upload_test.html"));
+            response.sendFile(path.join(__dirname+"/static/content/doc-reg.html"));
             
             /*var body =
                 "<form action='fileupload' method='post' enctype='multipart/form-data'>"+
@@ -307,8 +316,9 @@ class Webserver
 
     init()
     {
+        InitiateMongoServer();
         this.initEventEmitters();
-        this.mongoConnect();
+        //this.mongoConnect();
         this.initAttributes();
         this.expressMethods();
         this.startServer();
