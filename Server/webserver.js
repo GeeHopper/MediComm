@@ -95,6 +95,10 @@ class Webserver
         this.userData = null;
         //init express
         this.app = express();
+        //use bodyparser
+        //this.app.use(bodyParser.json());
+        /* cookie usage */
+        //this.app.use(cookieParser());
         //extended: false->querystring,true->qs
         this.urlParser = bodyParser.urlencoded({extended:false});
         this.upload = multer({dest: "uploads/"});
@@ -102,11 +106,7 @@ class Webserver
 
     expressMethods()
     {
-        //use bodyparser
-        this.app.use(bodyParser.json());
-
-        /* cookie usage */
-        this.app.use(cookieParser());
+        
 
 
         this.app.get("/cookie_set", function(request, response){
@@ -126,7 +126,8 @@ class Webserver
         /* end cookie usage */
 
         //doc register
-        this.app.post("/doc-reg-sent", user);
+        this.app.post("/doc-reg-sent", this.urlParser, user);
+        this.app.post("/login-sent", this.urlParser, user);
 
         /* restful function examples */
         this.app.get("listUsers", function(request, responseJSON){
@@ -209,7 +210,7 @@ class Webserver
             }*/
 
             //File upload
-            response.sendFile(path.join(__dirname+"/static/content/doc-reg.html"));
+            response.sendFile(path.join(__dirname+"/static/content/login.html"));
             
             /*var body =
                 "<form action='fileupload' method='post' enctype='multipart/form-data'>"+
@@ -256,14 +257,28 @@ class Webserver
 
         //app.post("file")
 
-        this.app.post("/login", this.urlParser, function(request, response){
+        this.app.get("/login", this.urlParser, function(request, response){
             //getting values of POST
-            responseJSON = {
+            /*responseJSON = {
                 username:request.body.name,
                 password:request.body.password
                 //request.url.attribute for GET I think 
             };
-            response.end(JSON.stringify(responseJSON));
+            response.end(JSON.stringify(responseJSON));*/
+            response.sendFile(path.join(__dirname+"/static/content/login.html"));
+
+        });
+
+        this.app.get("/doc-reg", this.urlParser, function(request, response){
+            //getting values of POST
+            /*responseJSON = {
+                username:request.body.name,
+                password:request.body.password
+                //request.url.attribute for GET I think 
+            };
+            response.end(JSON.stringify(responseJSON));*/
+            response.sendFile(path.join(__dirname+"/static/content/doc-reg.html"));
+
         });
 
         //single file upload
