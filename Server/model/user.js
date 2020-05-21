@@ -23,7 +23,19 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    agreement: {
+        type: String,
+        require: true
+    },
     profilepic: {
+        type: String,
+        required: false
+    },
+    docid: {
+        type: String,
+        required: false
+    },
+    patid: {
         type: String,
         required: false
     },

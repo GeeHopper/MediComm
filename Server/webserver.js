@@ -126,6 +126,9 @@ class Webserver
         /* end cookie usage */
 
         //doc register
+        this.app.post("/pat-reg-sent", this.urlParser, user);
+        //this.app.post("/pat-reg-sent", this.urlParser, patient);
+
         this.app.post("/doc-reg-sent", this.urlParser, user);
         this.app.post("/login-sent", this.urlParser, user);
 
@@ -278,6 +281,18 @@ class Webserver
             };
             response.end(JSON.stringify(responseJSON));*/
             response.sendFile(path.join(__dirname+"/static/content/doc-reg.html"));
+
+        });
+
+        this.app.get("/pat-reg", this.urlParser, function(request, response){
+            //getting values of POST
+            /*responseJSON = {
+                username:request.body.name,
+                password:request.body.password
+                //request.url.attribute for GET I think 
+            };
+            response.end(JSON.stringify(responseJSON));*/
+            response.sendFile(path.join(__dirname+"/static/content/pat-reg.html"));
 
         });
 
