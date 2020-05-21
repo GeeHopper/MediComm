@@ -61,6 +61,8 @@ router.post(
             address,
             agreement,
             profilepic,
+            docid,
+            patid,
             phone,
             fax,
             establishmentnumber,
@@ -87,7 +89,9 @@ router.post(
                 lastname,
                 address,
                 agreement,
-                profilepic
+                profilepic,
+                docid,
+                patid
             });
 
             doctor = new Doctor({
@@ -101,6 +105,13 @@ router.post(
             const salt = await bcrypt.genSalt(10);
             user.password  = await bcrypt.hash(password, salt);
 
+            /*try{
+              console.log("doc id:" + doctor.id)
+            }catch{
+              print("errorrr");
+            }*/
+            
+            user.docid = doctor.id;
             await user.save();
             await doctor.save();
 
