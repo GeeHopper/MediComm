@@ -37,6 +37,7 @@ router.post(
             });
         }
         const {
+            mail,
             password,
             firstname,
             lastname,
@@ -62,11 +63,9 @@ router.post(
                 profilepic
             });
 
-            user.mail=mail;
-            console.log("mail: " + req.body.mail);
 
             const salt = await bcrypt.genSalt(10);
-            //user.password = await bcrypt.hash(password, salt);
+            user.password  = await bcrypt.hash(password, salt);
 
             await user.save();
 
