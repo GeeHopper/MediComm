@@ -133,7 +133,7 @@ class Webserver
         this.app.post("/login-sent", this.urlParser, user);
 
         /* restful function examples */
-        this.app.get("listUsers", function(request, responseJSON){
+        this.app.get("/listUsers", function(request, responseJSON){
             response.end(JSON.stringify(this.readUserData()));
         });
 
