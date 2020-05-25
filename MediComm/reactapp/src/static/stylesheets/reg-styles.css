@@ -1,0 +1,123 @@
+body {
+  background-color: #faf9f9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.bg-right {
+  right: 0px;
+  top: 0;
+  bottom: 0;
+  background: #e1f2fb;
+  position: absolute;
+  width: 50%;
+}
+
+.bg-left {
+  left: 0px;
+  top: 0;
+  bottom: 0;
+  background: #f3eded;
+  position: absolute;
+  width: 50%;
+}
+
+/*titel funktioniert nicht, bearbeiten!*/
+.acc-title {
+  font-size: 20px;
+  top: 80px;
+  font-family: 'Indie Flower', cursive;
+  z-index: 7;
+}
+
+.doctor-img {
+  position: absolute;
+  top: 270px;
+  left: 280px;
+  opacity: 0.6;
+  z-index: 1;
+  margin: 0 5px;
+  width: 155px;
+  height: 155px;
+  line-height: 35px;
+  text-align: center;
+  border: 2px solid #eeeeee;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #eeeeee;
+  transition: all 0.5s ease;
+}
+
+.doctor-img:hover {
+  border: 2px solid #eb9788;
+  color: #eb9788;
+  opacity: 1;
+}
+
+#box1 .d-caption {
+  margin: 140px auto 0;
+  position: absolute;
+  top: 320px;
+  left: 23%;
+  font-size: 18px;
+  font-weight: lighter;
+  color: #b7472a;
+  z-index: 3;
+}
+
+#box1 a {
+  font-weight: lighter;
+  color: #0c7b93;
+}
+
+#box2 .p-caption {
+  margin: -280px auto 0;
+  top: 350px;
+  position: relative;
+  left: 285%;
+  font-size: 18px;
+  font-weight: lighter;
+  color: #0c7b93;
+  z-index: 4;
+}
+
+.patient-img:hover {
+  border: 2px solid #3aaf9f;
+  color: #3aaf9f;
+  opacity: 1;
+}
+
+.patient-img {
+  position: relative;
+  top: 40px;
+  left: 520px;
+  opacity: 0.6;
+  z-index: 2;
+  margin: 0 5px;
+  width: 155px;
+  height: 155px;
+  line-height: 35px;
+  text-align: center;
+  border: 2px solid #eeeeee;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #eeeeee;
+  transition: all 0.5s ease;
+}
+
+#box2 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 230px;
+  left: 450px;
+  border-radius: 20px;
+  z-index: 2;
+}
