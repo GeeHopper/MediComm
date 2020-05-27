@@ -96,9 +96,9 @@ class Webserver
         //init express
         this.app = express();
         //use bodyparser
-        //this.app.use(bodyParser.json());
+        this.app.use(bodyParser.json());
         /* cookie usage */
-        //this.app.use(cookieParser());
+        this.app.use(cookieParser());
         //extended: false->querystring,true->qs
         this.urlParser = bodyParser.urlencoded({extended:false});
         this.upload = multer({dest: "uploads/"});
@@ -128,9 +128,9 @@ class Webserver
         //doc register
         this.app.post("/pat-reg-sent", this.urlParser, user);
         //this.app.post("/pat-reg-sent", this.urlParser, patient);
-
         this.app.post("/doc-reg-sent", this.urlParser, user);
         this.app.post("/login-sent", this.urlParser, user);
+        this.app.get("/me", this.urlParser, user);
 
         /* restful function examples */
         this.app.get("/listUsers", function(request, responseJSON){

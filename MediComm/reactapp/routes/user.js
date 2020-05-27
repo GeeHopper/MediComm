@@ -8,6 +8,8 @@ const User = require("../model/User");
 const Patient = require("../model/Patient");
 const Doctor = require("../model/Doctor");
 
+const auth = require("../middleware/auth");
+
 /**
  * @method - POST
  * @param - /signup
@@ -299,6 +301,8 @@ router.post(
           },
           (err, token) => {
             if (err) throw err;
+            //setting cookie to identify user on secured content
+            res.cookie('token', token, { httpOnly: false })
             res.status(200).json({
               token
             });
@@ -312,6 +316,17 @@ router.post(
       }
     }
   );
+
+  router.get("/me", auth, async (req, res) => {
+    try {
+      // request.user is getting fetched from Middleware after token authentication
+      const user = await User.findById(req.user.id);
+      res.json(user);
+      //res.send(JSON.stringify(user));
+    } catch (e) {
+      res.send({ message: "Error in Fetching user" });
+    }
+  });
   
   
 

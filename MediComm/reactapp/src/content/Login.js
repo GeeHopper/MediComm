@@ -1,5 +1,6 @@
 import React from 'react';
 import Output from './Output';
+import loginpng from '../static/res/images/login.png';
 
 class Login extends React.Component{
     constructor(){
@@ -38,43 +39,43 @@ class Login extends React.Component{
             <div id="top-cut">
 
                 <div id="logImg">
-                <img class="logImg" src="images/login.png" alt="logImg" height="600" />
+                <img className="logImg" src={loginpng} alt="logImg" height="600" />
                 </div>
 
-                <div class="title">
+                <div className="title">
                 Login
                 </div>
-                <div class="no-acc">
+                <div className="no-acc">
                 <p>No Account? <a href="file:///Users/zulfiyecakmak/Desktop/WebProjekt-test/reg.html">Signup!</a></p>
 
                 </div>
 
                 <div id="middleOne">
-                <p class="kurzBeschreibung">Beschreibung was die App bietet</p>
+                <p className="kurzBeschreibung">Beschreibung was die App bietet</p>
                 </div>
 
                 <div id="middleTwo">
-                <div class="iconTermin">
-                    <i class="far fa-calendar-check"></i>
-                    <div class="iconDoc">
-                    <i class="fas fa-user-md"></i>
+                <div className="iconTermin">
+                    <i className="far fa-calendar-check"></i>
+                    <div className="iconDoc">
+                    <i className="fas fa-user-md"></i>
                     </div>
-                    <div class="iconNote">
-                    <i class="far fa-sticky-note"></i>
+                    <div className="iconNote">
+                    <i className="far fa-sticky-note"></i>
                     </div>
-                    <div class="iconFolder">
-                    <i class="far fa-folder"></i>
+                    <div className="iconFolder">
+                    <i className="far fa-folder"></i>
                     </div>
-                    <div class="iconMessage">
-                    <i class="far fa-envelope"></i>
+                    <div className="iconMessage">
+                    <i className="far fa-envelope"></i>
                     </div>
                 </div>
 
-                <p class="termin-title">Termine vereinbaren</p>
-                <p class="doc-title">Kommunizieren </p>
-                <p class="note-title">Ihre Notizen </p>
-                <p class="folder-title">Ihre Gesundheitsakte </p>
-                <p class="message-title">Austausch von Nachrichten</p>
+                <p className="termin-title">Termine vereinbaren</p>
+                <p className="doc-title">Kommunizieren </p>
+                <p className="note-title">Ihre Notizen </p>
+                <p className="folder-title">Ihre Gesundheitsakte </p>
+                <p className="message-title">Austausch von Nachrichten</p>
                 </div>
 
                 <div id="middleThree">
@@ -83,19 +84,19 @@ class Login extends React.Component{
                 
                 
                 <form action="login-sent" method="post">
-                    <div class="input_field">
-                        <input type="text" placeholder="Email" name="mail" class="input"  required></input>
-                        <i class="mail"></i>
+                    <div className="input_field">
+                        <input type="text" placeholder="Email" name="mail" className="input"  required></input>
+                        <i className="mail"></i>
                     </div>
 
-                    <div class="input_field">
-                        <input type="password" placeholder="Passwort" name="password" class="input" required></input>
-                        <i class="enlock"></i>
+                    <div className="input_field">
+                        <input type="password" placeholder="Passwort" name="password" className="input" required></input>
+                        <i className="enlock"></i>
                     </div>
 
 
 
-                    <div class="btn">
+                    <div className="btn">
                     <button type="submit" value="Login">Login</button>
                     
                     </div>
