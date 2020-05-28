@@ -12,39 +12,64 @@ class Me extends React.Component{
     constructor(){
         super();
         this.state = {
-            count: 0,
-            data: [
-                {"id":1, "name":"Schmidt"},
-                {"id":2, "name":"chmidt"},
-                {"id":3, "name":"hmidt"},
-                {"id":4, "name":"midt"},
-            ],
-            token: Cookies.get("token"),
-            persons: [1, 2, 3],
-            mail: []
+            profilepic: '',
+            mail: '',
+            firstname: '',
+            lastname: '',
+            address: '',
+            phone: '',
+            mail: '',
+            fax: '',
+            url: '',
+            fieldofwork: '',
+            insurednumber: '',
+            healthinsurance: '',
+            insurednumber: '',
+            isDoc: ''
         };
         
+        //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
         
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateData = this.updateData.bind(this);
           
     }
 
-    updateData(event) {
-        /*var newItem = {"id":5, "name":name}
-        this.setState(state => {
-            const data = state.data.concat(newItem);
-            return data, newItem;
-        });*/
-        this.setState({name: event.target.value});
-    }
+    handleInputChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+    };
 
-    handleSubmit(event)
+    handleSubmit = e =>
     {
-        this.setState({sendForm: this.state.name});
-        event.preventDefault();
+        e.preventDefault();
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance} = this.state;
+
+        const user = {
+            mail,
+            firstname,
+            lastname,
+            password,
+            address,
+            agreement,
+        }
+        const patient = {
+            insurednumber,
+            healthinsurance
+        };
+        console.log("mail: " + mail);
+        
+        //using axios to post
+        /*axios
+        .post('http://localhost:8080/pat-reg-sent', user)
+            .then(() => console.log('User registered :))'))
+            .catch(err => {
+                console.error(err);
+        });*/
+
+
+        /*this.setState({sendForm: this.state.name});
+        event.preventDefault();*/
     }
 
     setUsername(username)
@@ -53,6 +78,7 @@ class Me extends React.Component{
         console.log("username: " + username);
     }
 
+    //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
         const url = 'http://localhost:8080/me';
         const options = {
@@ -61,7 +87,7 @@ class Me extends React.Component{
             'token': Cookies.get("token"),
         },
         };
-
+        console.log("MOUNTED");
         axios.get(url, options)
         .then(response => {
             //console.log(response.json({message: "request received!", response}));
@@ -72,7 +98,14 @@ class Me extends React.Component{
             //this.setUsername(response.data.firstname)
             //this.setState(resp);
             //console.log(response.data);
-            this.setState({mail: response.data.firstname});
+            this.setState({mail: response.data.patient.mail});
+            this.setState({firstname: response.data.user.firstname});
+            this.setState({lastname: response.data.user.lastname});
+            this.setState({password: response.data.user.password});
+            this.setState({address: response.data.user.address});
+            this.setState({agreement: response.data.user.agreement});
+            this.setState({insurednumber: response.data.patient.insurednumber});
+            this.setState({healthinsurance: response.data.patient.healthinsurance});
         });
 
         
@@ -106,6 +139,109 @@ class Me extends React.Component{
         });*/
     }  
 
+    isDoc()
+    {
+        if(this.state.isDoc == "1")
+            return true;
+        else
+            return false;
+    }
+
+    docContent()
+    {
+        return("");
+    }
+
+    patientContent()
+    {
+        return(
+        <div>
+            <div className="title">
+                Profileedit
+            </div>
+
+
+            <div className="bg-right"></div>
+
+            <form onSubmit={this.handleSubmit}>
+                
+                <div className="mail">
+                    <div className="input_field">
+                        <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
+                        <i className="mail"></i>
+                    </div>
+                </div>
+
+                <div className="vorName">
+                    <div className="input_field">
+                        <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
+                    </div>
+
+                </div>
+
+                <div className="nachName">
+                    <div className="input_field">
+                        <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
+                    </div>
+                </div>
+
+                <div className="pass">
+                    <div className="input_field">
+                        <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
+                        <i className="enlock"></i>
+                    </div>
+                </div>
+
+                <div className="anschrift">
+                    <div className="input_field">
+                        <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
+                        <i className="anschrift"></i>
+                    </div>
+                </div>
+
+
+                <div className="kk">
+                    <div className="input_field">
+                        <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange}/>
+                        <datalist id="kk">
+                            <option value="AOK" />
+                            <option value="Knappschaft" />
+                            <option value="Innungskrankenkasse" />
+                            <option value="DAK Gesundheit" />
+                            <option value=" BARMER" />
+                        </datalist>
+                    </div>
+                </div>
+
+                <div className="verNr">
+                <div className="input_field">
+                    <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange}/>
+                    <i className="verNr"></i>
+                </div>
+                </div>
+
+                <div id="agreement">
+                    <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="res/DSGVO">License and User Agreement</a>
+                </div>
+                
+                <input type="submit" className="btn btn-primary" value="Submit" />
+                
+            </form>
+        </div>
+
+        )
+    }
+
+    getContent()
+    {
+        if(this.isDoc())
+            return this.docContent();
+        else
+            return this.patientContent();
+    }
+
     checkLogin(mail)
     {
         
@@ -122,16 +258,7 @@ class Me extends React.Component{
 
     render(){
 
-
-        
-        
-        return(
-            <ul>
-            
-                { this.state.mail } it is :)
-            
-            </ul>
-        );
+        return this.getContent();
     }
 }
 

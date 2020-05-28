@@ -95,6 +95,14 @@ class Webserver
         this.userData = null;
         //init express
         this.app = express();
+        //Setting header to pass cookies confrom CORS
+        this.app.use(function(req, res, next) {
+            res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, token");
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            res.header("Access-Control-Allow-Credentials", "true");
+            next();
+        });
         //use bodyparser
         this.app.use(bodyParser.json());
         /* cookie usage */
@@ -103,6 +111,8 @@ class Webserver
         this.urlParser = bodyParser.urlencoded({extended:false});
         this.upload = multer({dest: "uploads/"});
     }
+
+    
 
     expressMethods()
     {

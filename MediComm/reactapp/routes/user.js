@@ -16,6 +16,7 @@ const auth = require("../middleware/auth");
  * @description - User SignUp
  */
 
+
 router.post(
     "/doc-reg-sent",
     [
@@ -71,6 +72,7 @@ router.post(
             fieldofwork
         } = req.body;
         try {
+            isDoc = true;
             let user = await User.findOne({
                 mail
             });
@@ -93,16 +95,17 @@ router.post(
                 agreement,
                 profilepic,
                 docid,
-                patid
+                patid,
+                isDoc: "1"
             });
 
             doctor = new Doctor({
                 phone,
                 fax,
                 establishmentnumber,
-                fieldofwork
+                fieldofwork,
+                isDoc
             });
-
 
             const salt = await bcrypt.genSalt(10);
             user.password  = await bcrypt.hash(password, salt);
@@ -113,6 +116,7 @@ router.post(
               print("errorrr");
             }*/
             
+            //setting the docid of the user object to the Obj id of the doctor :)
             user.docid = doctor.id;
             await user.save();
             await doctor.save();
@@ -209,18 +213,25 @@ router.post(
                 lastname,
                 address,
                 agreement,
-                patobj,
-                profilepic
+                profilepic,
+                isDoc: "0"
             });
 
             patient = new Patient({
                 insurednumber,
-                healthinsurance
+                healthinsurance,
+                mail
             });
+
+            
 
             //hashing password
             const salt = await bcrypt.genSalt(10);
             user.password  = await bcrypt.hash(password, salt);
+            
+            console.log("mail: " + req.body.mail);
+            //setting the patid of the user object to the Obj id of the Patient :)
+            user.patid = patient.id;
 
             await user.save();
             await patient.save();
@@ -248,11 +259,11 @@ router.post(
             );
         } catch (err) {
             console.log(err.message);
+            console.log(err.stack)
             res.status(500).send("Error in Saving");
         }
     }
 );
-
 
 router.post(
     "/login-sent",
@@ -263,8 +274,9 @@ router.post(
       })
     ],
     async (req, res) => {
+      res.header('Access-Control-Allow-Origin', req.header('origin') );
       const errors = validationResult(req);
-  
+
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array()
@@ -280,7 +292,17 @@ router.post(
           return res.status(400).json({
             message: "User Not Exist"
           });
-  
+
+        const userid = user.id;
+        console.log("user id: " + userid);
+        let patient = await Patient.findOne({
+            mail
+        });
+        if (!patient)
+          return res.status(400).json({
+            message: "Patient Not Exist"
+          });
+          
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
           return res.status(400).json({
@@ -290,6 +312,9 @@ router.post(
         const payload = {
           user: {
             id: user.id
+          },
+          patient: {
+            id: patient.id
           }
         };
   
@@ -321,10 +346,16 @@ router.post(
     try {
       // request.user is getting fetched from Middleware after token authentication
       const user = await User.findById(req.user.id);
-      res.json(user);
+      const patient = await Patient.findById(req.patient.id);
+      res.json({
+          patient: patient, 
+          user: user
+        });
+      console.log("patient: " + JSON.stringify(patient));
       //res.send(JSON.stringify(user));
     } catch (e) {
-      res.send({ message: "Error in Fetching user" });
+        console.log(e.stack);
+      res.send({ message: "Error in Fetching user: " + e.stack });
     }
   });
   

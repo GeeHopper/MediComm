@@ -9,6 +9,10 @@ const PatientSchema = mongoose.Schema({
     healthinsurance: {
       type: String,
       required: true
+    },
+    mail: {
+      type: String,
+      required: true
     }
   });
   

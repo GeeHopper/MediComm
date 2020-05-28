@@ -27,6 +27,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    isDoc: {
+        type: String,
+        required: true
+    },
     profilepic: {
         type: String,
         required: false

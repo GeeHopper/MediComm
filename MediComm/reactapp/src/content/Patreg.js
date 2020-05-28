@@ -1,19 +1,24 @@
 import React from 'react';
+import patpng from '../static/res/images/pat.png';
+import axios from 'axios';
 
 class Register extends React.Component{
     constructor(){
         super();
+
+        //declaring states for the input values of the form
         this.state = {
-            count: 0,
-            data: [
-                {"id":1, "name":"Schmidt"},
-                {"id":2, "name":"chmidt"},
-                {"id":3, "name":"hmidt"},
-                {"id":4, "name":"midt"},
-            ]
+            mail: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+            address: '',
+            agreement: '',
+            insurednumber: '',
+            healthinsurance: ''
         };
     
-        this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
         this.updateData = this.updateData.bind(this);
     }
 
@@ -26,69 +31,100 @@ class Register extends React.Component{
         this.setState({name: event.target.value});
     }
 
-    handleSubmit(event)
+    //assigns the state values to the input values on input change
+    handleInputChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+    };
+
+    handleSubmit = e =>
     {
-        this.setState({sendForm: this.state.name});
-        event.preventDefault();
+        e.preventDefault();
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance} = this.state;
+
+        const user = {
+            mail,
+            firstname,
+            lastname,
+            password,
+            address,
+            agreement,
+            insurednumber,
+            healthinsurance
+        };
+        console.log("pressed :D: " + mail);
+        
+        //using axios to post
+        axios
+        .post('http://localhost:8080/pat-reg-sent', user)
+            .then(() => console.log('User registered :))'))
+            .catch(err => {
+                console.error(err);
+        });
+
+
+        /*this.setState({sendForm: this.state.name});
+        event.preventDefault();*/
     }
 
     render(){
         return(
         <div>
-            <div class="title">
+            <div className="title">
                 Registrieren
             </div>
 
 
             <div id="pat-reg">
-                <img class="pat-reg" src="images/pat.png" alt="pat-reg" height="500" />
+                <img className="pat-reg" src={patpng} alt="pat-reg" height="500" onChange={this.handleInputChange}/>
             </div>
 
 
-            <div class="bg-right"></div>
+            <div className="bg-right"></div>
 
-            <form action="/pat-reg-sent" method="post">
+            <form onSubmit={this.handleSubmit}>
                 
-                <div class="mail">
-                    <div class="input_field">
-                        <input type="text" placeholder="Email" class="input" name="mail" />
-                        <i class="mail"></i>
+                <div className="mail">
+                    <div className="input_field">
+                        <input type="text" placeholder="Eemail" className="input" name="mail" onChange={this.handleInputChange}/>
+                        <i className="mail"></i>
                     </div>
                 </div>
 
-                <div class="vorName">
-                    <div class="input_field">
-                        <input name="firstname" type="text" placeholder="Vorname" class="input" />
-                        <i class="name"></i>
+                <div className="vorName">
+                    <div className="input_field">
+                        <input name="firstname" type="text" placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
                     </div>
 
                 </div>
 
-                <div class="nachName">
-                    <div class="input_field">
-                        <input type="text" placeholder="Nachname" class="input" name="lastname" />
-                        <i class="name"></i>
+                <div className="nachName">
+                    <div className="input_field">
+                        <input type="text" placeholder="Nachname" className="input" name="lastname" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
                     </div>
                 </div>
 
-                <div class="pass">
-                    <div class="input_field">
-                        <input name="password" type="password" placeholder="Passwort" class="input" />
-                        <i class="enlock"></i>
+                <div className="pass">
+                    <div className="input_field">
+                        <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
+                        <i className="enlock"></i>
                     </div>
                 </div>
 
-                <div class="anschrift">
-                    <div class="input_field">
-                        <input type="text" placeholder="Anschrift" class="input" name="address" />
-                        <i class="anschrift"></i>
+                <div className="anschrift">
+                    <div className="input_field">
+                        <input type="text" placeholder="Anschrift" className="input" name="address" onChange={this.handleInputChange}/>
+                        <i className="anschrift"></i>
                     </div>
                 </div>
 
 
-                <div class="kk">
-                    <div class="input_field">
-                        <input list="kk" placeholder="Krankenkasse" class="input" name="healthinsurance" />
+                <div className="kk">
+                    <div className="input_field">
+                        <input list="kk" placeholder="Krankenkasse" className="input" name="healthinsurance" onChange={this.handleInputChange}/>
                         <datalist id="kk">
                             <option value="AOK" />
                             <option value="Knappschaft" />
@@ -99,18 +135,18 @@ class Register extends React.Component{
                     </div>
                 </div>
 
-                <div class="verNr">
-                <div class="input_field">
-                    <input type="text" placeholder="Versichertennummer" class="input" name="insurednumber" />
-                    <i class="verNr"></i>
+                <div className="verNr">
+                <div className="input_field">
+                    <input type="text" placeholder="Versichertennummer" className="input" name="insurednumber" onChange={this.handleInputChange}/>
+                    <i className="verNr"></i>
                 </div>
                 </div>
 
                 <div id="agreement">
-                    <input type="checkbox" name="agreement" />Please accept the <a href="res/DSGVO">License and User Agreement</a>
+                    <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="res/DSGVO">License and User Agreement</a>
                 </div>
                 
-                <input type="submit" class="btn btn-primary" value="Submit" />
+                <input type="submit" className="btn btn-primary" value="Submit" />
                 
             </form>
         </div>

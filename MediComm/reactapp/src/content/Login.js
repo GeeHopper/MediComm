@@ -1,21 +1,16 @@
 import React from 'react';
 import Output from './Output';
 import loginpng from '../static/res/images/login.png';
+import axios from 'axios';
 
 class Login extends React.Component{
     constructor(){
         super();
         this.state = {
-            count: 0,
-            data: [
-                {"id":1, "name":"Schmidt"},
-                {"id":2, "name":"chmidt"},
-                {"id":3, "name":"hmidt"},
-                {"id":4, "name":"midt"},
-            ]
+            mail: '',
+            password: ''
         };
     
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.updateData = this.updateData.bind(this);
     }
 
@@ -28,10 +23,35 @@ class Login extends React.Component{
         this.setState({name: event.target.value});
     }
 
-    handleSubmit(event)
+    handleInputChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+    };
+
+    handleSubmit = e =>
     {
-        this.setState({sendForm: this.state.name});
-        event.preventDefault();
+        e.preventDefault();
+        const {mail, password,} = this.state;
+
+        const login = {
+            mail,
+            password
+        };
+        console.log("pressed :D: " + mail);
+        
+        //using axios to post, withcredentials also gets the cookie
+        axios
+        .post('http://localhost:8080/login-sent', login, {withCredentials: true})
+        //.post('http://192.168.2.102:5000/login-sent', login, {withCredentials: true})
+            .then(() => console.log('Logged in :)'))
+            .catch(err => {
+                console.error(err);
+        });
+
+
+        /*this.setState({sendForm: this.state.name});
+        event.preventDefault();*/
     }
 
     render(){
@@ -83,14 +103,14 @@ class Login extends React.Component{
                 </div>
                 
                 
-                <form action="login-sent" method="post">
+                <form onSubmit={this.handleSubmit}>
                     <div className="input_field">
-                        <input type="text" placeholder="Email" name="mail" className="input"  required></input>
+                        <input type="text" placeholder="Email" name="mail" className="input"  required onChange={this.handleInputChange}></input>
                         <i className="mail"></i>
                     </div>
 
                     <div className="input_field">
-                        <input type="password" placeholder="Passwort" name="password" className="input" required></input>
+                        <input type="password" placeholder="Passwort" name="password" className="input" required onChange={this.handleInputChange}></input>
                         <i className="enlock"></i>
                     </div>
 
