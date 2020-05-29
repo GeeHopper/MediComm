@@ -9,6 +9,7 @@ const Patient = require("../model/Patient");
 const Doctor = require("../model/Doctor");
 
 const auth = require("../middleware/auth");
+var ObjectID = require('mongodb').ObjectID;
 
 /**
  * @method - POST
@@ -359,6 +360,111 @@ router.post(
     }
   });
   
-  
+  router.post(
+    "/edit-sent-user",
+    [
+        check("firstname", "Please Enter a Valid firstname")
+        .not()
+        .isEmpty(),
+        check("lastname", "Please Enter a Valid lastname")
+        .not()
+        .isEmpty(),
+        check("mail", "Please enter a valid email").isEmail(),
+        check("password", "Please enter a valid password").isLength({
+            min: 6
+        }),
+        check("address", "Please Enter a Valid address")
+        .not()
+        .isEmpty()
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+        const {
+            mail,
+            password,
+            firstname,
+            lastname,
+            address,
+            agreement,
+            profilepic,
+            userid
+        } = req.body;
+        try {
+            let user = await User.findOne({
+              "_id" : ObjectID(userid)
+            });
+            if (!user) {
+                return res.status(400).json({
+                    msg: "no user found with the requested id"
+                });
+            }
+
+            //hashing password
+            const salt = await bcrypt.genSalt(10);
+            user.password  = await bcrypt.hash(password, salt);
+            
+            //setting the patid of the user object to the Obj id of the Patient :)
+            user.mail = req.body.mail;
+            user.firstname = req.body.firstname;
+            user.lastname = req.body.lastname;
+            user.address = req.body.address;
+
+            await user.save()
+            //await patient.save();
+
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
+router.post(
+  "/edit-sent-patient",
+  [
+      check("insurednumber", "Please Enter a Valid insurednumber")
+      .not()
+      .isEmpty(),
+      check("healthinsurance", "Please Enter a Valid healthinsurance")
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.status(400).json({
+              errors: errors.array()
+          });
+      }
+      const {
+          insurednumber,
+          healthinsurance,
+          patid
+      } = req.body;
+      try {
+          let patient = await Patient.findOne({
+              "_id" : ObjectID(patid)
+          });
+          if(!patient)
+          {
+            console.log("no patient found with the requested id");
+          }
+
+          patient.healthinsurance = req.body.healthinsurance;
+          patient.insurednumber = req.body.insurednumber
+          patient.save();
+      } catch (err) {
+          console.log(err.message);
+          console.log(err.stack)
+          res.status(500).send("Error in Saving");
+      }
+  }
+);
 
 module.exports = router;

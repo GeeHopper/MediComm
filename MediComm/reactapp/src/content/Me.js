@@ -4,6 +4,7 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+var ObjectID = require('mongodb').ObjectID;
 
 class Me extends React.Component{
 
@@ -24,8 +25,10 @@ class Me extends React.Component{
             fieldofwork: '',
             insurednumber: '',
             healthinsurance: '',
-            insurednumber: '',
-            isDoc: ''
+            isDoc: '',
+            patid: '',
+            userid: '',
+            docid: '',
         };
         
         //always passing our token so the site can verify wether we're logged in or not
@@ -43,7 +46,7 @@ class Me extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, patid, userid} = this.state;
 
         const user = {
             mail,
@@ -52,20 +55,28 @@ class Me extends React.Component{
             password,
             address,
             agreement,
+            userid
         }
         const patient = {
             insurednumber,
-            healthinsurance
+            healthinsurance,
+            patid
         };
-        console.log("mail: " + mail);
+        console.log("id: " + patid);
         
         //using axios to post
-        /*axios
-        .post('http://localhost:8080/pat-reg-sent', user)
-            .then(() => console.log('User registered :))'))
+        axios
+        .post('http://localhost:8080/edit-sent-user', user)
+            .then(() => console.log('User updated :))'))
             .catch(err => {
                 console.error(err);
-        });*/
+        });
+        axios
+        .post('http://localhost:8080/edit-sent-patient', patient)
+            .then(() => console.log('Patient updated :))'))
+            .catch(err => {
+                console.error(err);
+        });
 
 
         /*this.setState({sendForm: this.state.name});
@@ -87,7 +98,6 @@ class Me extends React.Component{
             'token': Cookies.get("token"),
         },
         };
-        console.log("MOUNTED");
         axios.get(url, options)
         .then(response => {
             //console.log(response.json({message: "request received!", response}));
@@ -98,15 +108,18 @@ class Me extends React.Component{
             //this.setUsername(response.data.firstname)
             //this.setState(resp);
             //console.log(response.data);
+            this.setState({userid: response.data.user._id});
+            this.setState({patid: response.data.patient._id});
             this.setState({mail: response.data.patient.mail});
             this.setState({firstname: response.data.user.firstname});
             this.setState({lastname: response.data.user.lastname});
             this.setState({password: response.data.user.password});
             this.setState({address: response.data.user.address});
-            this.setState({agreement: response.data.user.agreement});
             this.setState({insurednumber: response.data.patient.insurednumber});
             this.setState({healthinsurance: response.data.patient.healthinsurance});
         });
+
+      
 
         
 
@@ -187,6 +200,7 @@ class Me extends React.Component{
                     </div>
                 </div>
 
+
                 <div className="pass">
                     <div className="input_field">
                         <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
@@ -210,7 +224,7 @@ class Me extends React.Component{
                             <option value="Knappschaft" />
                             <option value="Innungskrankenkasse" />
                             <option value="DAK Gesundheit" />
-                            <option value=" BARMER" />
+                            <option value="BARMER" />
                         </datalist>
                     </div>
                 </div>
@@ -220,10 +234,6 @@ class Me extends React.Component{
                     <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange}/>
                     <i className="verNr"></i>
                 </div>
-                </div>
-
-                <div id="agreement">
-                    <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="res/DSGVO">License and User Agreement</a>
                 </div>
                 
                 <input type="submit" className="btn btn-primary" value="Submit" />
