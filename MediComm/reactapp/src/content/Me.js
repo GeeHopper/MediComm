@@ -6,9 +6,20 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 var ObjectID = require('mongodb').ObjectID;
 
+//makeid to save profile pics and associate them with the users
+function makeprofilepicid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result + ".png";
+ }
+
 class Me extends React.Component{
 
-    username = "test";
+    profilepicfile = "";
 
     constructor(){
         super();
@@ -29,6 +40,7 @@ class Me extends React.Component{
             patid: '',
             userid: '',
             docid: '',
+            profilepicfile: ''
         };
         
         //always passing our token so the site can verify wether we're logged in or not
@@ -46,8 +58,9 @@ class Me extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, patid, userid} = this.state;
-
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid} = this.state;
+        const form_data = new FormData();
+        //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const user = {
             mail,
             firstname,
@@ -55,15 +68,26 @@ class Me extends React.Component{
             password,
             address,
             agreement,
-            userid
+            userid,
+            profilepic
         }
+        
+        if(e.target.profilepic.files[0])
+        {
+            const newfilename = makeprofilepicid(20);
+            form_data.append("file", e.target.profilepic.files[0]);
+            form_data.append("newfilename", newfilename);
+            user.profilepic = newfilename;
+        }
+       
         const patient = {
             insurednumber,
             healthinsurance,
             patid
         };
-        console.log("id: " + patid);
         
+        console.log("user profilepic: " + user.profilepic);
+
         //using axios to post
         axios
         .post('http://localhost:8080/edit-sent-user', user)
@@ -77,6 +101,18 @@ class Me extends React.Component{
             .catch(err => {
                 console.error(err);
         });
+        const headerss = {
+            'content-type': 'multipart/form-data'
+        }
+        if(e.target.profilepic.files[0])
+        {
+            axios
+            .post('http://localhost:8080/profilepic-sent', form_data,{headerss})
+                .then(() => console.log('Profilepic set.'))
+                .catch(err => {
+                    console.error(err);
+            });
+        }
 
 
         /*this.setState({sendForm: this.state.name});
@@ -108,6 +144,12 @@ class Me extends React.Component{
             //this.setUsername(response.data.firstname)
             //this.setState(resp);
             //console.log(response.data);
+            console.log(response.data.profilepic);
+            if(response.data.user.profilepic)
+            {
+                this.setState({profilepic: response.data.user.profilepic});
+                this.setState({profilepicfile: response.data.user.profilepic});
+            }
             this.setState({userid: response.data.user._id});
             this.setState({patid: response.data.patient._id});
             this.setState({mail: response.data.patient.mail});
@@ -165,6 +207,14 @@ class Me extends React.Component{
         return("");
     }
 
+    checkProfilepic()
+    {
+        if(this.state.profilepicfile)
+            return (<img src = {require("../uploads/" + this.state.profilepicfile)} />);
+        else
+            return ("no image");
+    }
+
     patientContent()
     {
         return(
@@ -176,7 +226,7 @@ class Me extends React.Component{
 
             <div className="bg-right"></div>
 
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
                 
                 <div className="mail">
                     <div className="input_field">
@@ -235,6 +285,9 @@ class Me extends React.Component{
                     <i className="verNr"></i>
                 </div>
                 </div>
+                {this.checkProfilepic()}
+
+                <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
                 
                 <input type="submit" className="btn btn-primary" value="Submit" />
                 

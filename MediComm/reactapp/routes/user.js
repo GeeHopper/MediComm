@@ -10,6 +10,7 @@ const Doctor = require("../model/Doctor");
 
 const auth = require("../middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
+var fs = require("fs");
 
 /**
  * @method - POST
@@ -352,7 +353,6 @@ router.post(
           patient: patient, 
           user: user
         });
-      console.log("patient: " + JSON.stringify(patient));
       //res.send(JSON.stringify(user));
     } catch (e) {
         console.log(e.stack);
@@ -392,7 +392,7 @@ router.post(
             address,
             agreement,
             profilepic,
-            userid
+            userid,
         } = req.body;
         try {
             let user = await User.findOne({
@@ -403,6 +403,9 @@ router.post(
                     msg: "no user found with the requested id"
                 });
             }
+            /*var file = __dirname + "/" + req.file.originalname;
+            fs.rename(req.file.path,
+              req.file.destination+req.fiel.originalname);*/
 
             //hashing password
             const salt = await bcrypt.genSalt(10);
@@ -413,6 +416,7 @@ router.post(
             user.firstname = req.body.firstname;
             user.lastname = req.body.lastname;
             user.address = req.body.address;
+            user.profilepic = req.body.profilepic
 
             await user.save()
             //await patient.save();

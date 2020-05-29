@@ -109,7 +109,7 @@ class Webserver
         this.app.use(cookieParser());
         //extended: false->querystring,true->qs
         this.urlParser = bodyParser.urlencoded({extended:false});
-        this.upload = multer({dest: "uploads/"});
+        this.upload = multer({dest: "src/uploads/"});
     }
 
     
@@ -142,7 +142,7 @@ class Webserver
         this.app.post("/login-sent", this.urlParser, user);
         this.app.get("/me", this.urlParser, user);
         this.app.post("/edit-sent-patient", this.urlParser, user);
-        this.app.post("/edit-sent-user", this.urlParser, user);
+        this.app.post("/edit-sent-user", this.upload.single("profilepic"), this.urlParser, user);
 
         /* restful function examples */
         this.app.get("/listUsers", function(request, responseJSON){
@@ -309,14 +309,15 @@ class Webserver
         });
 
         //single file upload
-        this.app.post("/fileupload", this.upload.single("file"), function(request, response){
+        this.app.post("/profilepic-sent", this.upload.single("file"), function(request, response){
+            console.log("filename: " + request.body.newfilename)
             var file = __dirname + "/" + request.file.originalname;
             fs.rename(request.file.path,
-                request.file.destination+request.file.originalname,
+                request.file.destination+request.body.newfilename,
                 (error) => {
                     if(error)
                         throw error;
-                    responseJSON = {
+                    var responseJSON = {
                         message: "File uploaded successfull",
                         filename: request.file.originalname
                     };
