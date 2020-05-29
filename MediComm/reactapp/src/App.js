@@ -7,6 +7,7 @@ import Login from './content/Login';
 import Patreg from './content/Patreg';
 import Profileedit from './content/Profileedit';
 import Me from './content/Me';
+import Dsgvo from './content/DSGVO';
 import {Route, Link, Switch} from 'react-router-dom';
 
 function App() {
@@ -26,6 +27,7 @@ function changeColor(selector, color){
           <Route path = "/pat-reg" component = {Patreg}/>
           <Route path = "/profileedit" component = {Profileedit}/>
           <Route path = "/me" component = {Me}/>
+          <Route path = "/dsgvo" component = {Dsgvo}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>
           )}/>

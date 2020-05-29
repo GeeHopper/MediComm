@@ -1,6 +1,9 @@
 import React from 'react';
 import patpng from '../static/res/images/pat.png';
 import axios from 'axios';
+import fs from 'fs';
+
+
 
 class Register extends React.Component{
     constructor(){
@@ -143,7 +146,7 @@ class Register extends React.Component{
                 </div>
 
                 <div id="agreement">
-                    <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="res/DSGVO">License and User Agreement</a>
+                    <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="/dsgvo">License and User Agreement</a>
                 </div>
                 
                 <input type="submit" className="btn btn-primary" value="Submit" />

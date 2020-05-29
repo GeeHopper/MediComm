@@ -284,6 +284,8 @@ class Webserver
 
         });
 
+       
+
         this.app.get("/doc-reg", this.urlParser, function(request, response){
             //getting values of POST
             /*responseJSON = {
