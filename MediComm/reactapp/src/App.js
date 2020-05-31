@@ -8,6 +8,8 @@ import Patreg from './content/Patreg';
 import Profileedit from './content/Profileedit';
 import Me from './content/Me';
 import Dsgvo from './content/DSGVO';
+import Profile from './content/Profile';
+import Search from './content/Search';
 import {Route, Link, Switch} from 'react-router-dom';
 
 function App() {
@@ -28,6 +30,8 @@ function changeColor(selector, color){
           <Route path = "/profileedit" component = {Profileedit}/>
           <Route path = "/me" component = {Me}/>
           <Route path = "/dsgvo" component = {Dsgvo}/>
+          <Route path = "/profile/:userid" component = {Profile}/>
+          <Route path = "/search/:query" component = {Search}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>
           )}/>

@@ -471,4 +471,70 @@ router.post(
   }
 );
 
+router.post("/checkUserUrl", auth, async (req, res) => {
+    try {
+      // request.user is getting fetched from Middleware after token authentication
+      console.log("User id is: " + req.body.data.userid);
+      const user = await User.findById(req.body.data.userid);
+      const patient = await Patient.findById(user.patid);
+      const doctor = await Doctor.findById(user.docid);
+      if(user.patid)
+      {
+        res.json({
+            user: user,
+            patient: patient
+        });
+      }
+      else
+      {
+        res.json({
+            user: user,
+            doctor: doctor
+        });
+      }
+      
+      //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+      res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+  });
+
+  router.post("/searchQuery", auth, async (req, res) => {
+    try {
+      // request.user is getting fetched from Middleware after token authentication
+      console.log("search Query is: " + req.body.data.query);
+      const users = await User.find({"mail" : {$regex : ".*"+req.body.data.query+".*"}});
+      var patients = [];
+      console.log("user 0: " + users[0].patid)
+      for(i = 0; i < users.length; i++)
+      {
+        patients.push(await Patient.findById(users[i].patid));
+        console.log("user: " + i + " added");
+        
+      
+        const doctors = await Doctor.findById(users[i].docid);
+      if(users[0].patid)
+      {
+        res.json({
+            users: users,
+            patients: patients
+        });
+      }
+      else
+      {
+        res.json({
+            users: users,
+            doctors: doctors
+        });
+      }
+    }
+      
+      //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+      res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+  });
+
 module.exports = router;
