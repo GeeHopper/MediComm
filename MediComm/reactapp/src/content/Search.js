@@ -100,9 +100,8 @@ class Search extends React.Component {
                     });
                     this.state.userid.push(response.data.users[i]._id);
                     this.setState({
-                        mail: this.state.mail
+                        _id: this.state.userid
                     });
-                    console.log("mail is: " + response.data.users[i].mail);
                     
                     this.state.firstname.push(response.data.users[i].firstname);
                     this.setState({
@@ -206,13 +205,6 @@ class Search extends React.Component {
 
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
-                    <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input" name="mail" onChange={this.handleInputChange} />
-                            <i className="mail"></i>
-                        </div>
-                    </div>
-
                     <div className="vorName">
                         <div className="input_field">
                             <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
@@ -228,41 +220,14 @@ class Search extends React.Component {
                         </div>
                     </div>
 
-
-                    <div className="pass">
+                    <div className="_id">
                         <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
-
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
+                            <a type="text" placeholder="URL" href={"http://localhost:3000/profile/"+this.state.userid[i]} className="input" name="lastname" onChange={this.handleInputChange}>Profile</a>
+                            <i className="name"></i>
                         </div>
                     </div>
 
 
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
-                            <datalist id="kk">
-                                <option value="AOK" />
-                                <option value="Knappschaft" />
-                                <option value="Innungskrankenkasse" />
-                                <option value="DAK Gesundheit" />
-                                <option value="BARMER" />
-                            </datalist>
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
                     {/*this.checkProfilepic(i)*/}
 
 
