@@ -10,7 +10,7 @@ const DoctorSchema = mongoose.Schema({
       type: String,
       required: true
     },
-    docnumber: {
+    docnum: {
         type: String,
         required: false
     },
@@ -22,6 +22,10 @@ const DoctorSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    mail: {
+      type: String,
+      required: true
+    }
   });
   
   //export user model with UserSchema

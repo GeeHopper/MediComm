@@ -10,7 +10,7 @@ const DoctorSchema = mongoose.Schema({
       type: String,
       required: true
     },
-    docnumber: {
+    docnum: {
         type: String,
         required: false
     },
@@ -21,6 +21,10 @@ const DoctorSchema = mongoose.Schema({
     fieldofwork: {
         type: String,
         required: true
+    },
+    mail: {
+      type: String,
+      required: true
     },
   });
   

@@ -8,9 +8,10 @@ const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
 
-class Search extends React.Component {
+class SearchMyDocs extends React.Component {
 
     profilepicfile = "";
+    patient = "";
 
     constructor(props) {
         super(props);
@@ -57,20 +58,92 @@ class Search extends React.Component {
     }
 
 
-    //using axios in here to get access to the response of our backend in our frontend
-    componentDidMount() {
-
-        const url = 'http://localhost:8080/searchQuery';
+    fetchPatient()
+    {
+        const url = 'http://localhost:8080/me';
         const options = {
+        method: 'GET',
+        headers: {
+            'token': Cookies.get("token"),
+        },
+        };
+        axios.get(url, options)
+        .then(response => {
+            //console.log(response.json({message: "request received!", response}));
+            //this.state.mail = response.json({message: "request received!", response}).parse();
+            //console.log (response.json());
+            //this.state.mail = response.data.firstname;
+            //console.log(response.data);
+            //this.setUsername(response.data.firstname)
+            //this.setState(resp);
+            //console.log(response.data);
+
+            
+            
+            if(response.data.user.isDoc === "0")
+            {
+                console.log("youre a patient");
+                this.patient = response.data.user;
+                return true;
+            }
+            else
+            {
+                console.log("youre a doc");
+                return false;
+            }
+        });
+    }
+
+    
+    //using axios in here to get access to the response of our backend in our frontend
+    async componentDidMount() {
+        var doclastname = this.props.match.params.query;
+        var url = 'http://localhost:8080/me';
+        var options = {
+        method: 'GET',
+        headers: {
+            'token': Cookies.get("token"),
+        },
+        };
+        await axios.get(url, options)
+        .then(response => {
+            //console.log(response.json({message: "request received!", response}));
+            //this.state.mail = response.json({message: "request received!", response}).parse();
+            //console.log (response.json());
+            //this.state.mail = response.data.firstname;
+            //console.log(response.data);
+            //this.setUsername(response.data.firstname)
+            //this.setState(resp);
+            //console.log(response.data);
+
+            
+            
+            if(response.data.user.isDoc === "0")
+            {
+                console.log("youre a patient");
+                this.patient = response.data.user;
+            }
+            else
+            {
+                console.log("youre a doc");
+            }
+        });
+
+
+        
+        console.log("your id is: " + this.patient._id);
+        url = 'http://localhost:8080/searchMyDocs';
+        options = {
             method: 'POST',
             headers: {
                 'token': Cookies.get("token")
             },
             data: {
-                'query': this.props.match.params.query
+                'pat_userid': this.patient._id,
+                'doc_lastname': doclastname
             }
         };
-        console.log("User Id is: " + this.props.match.params.query)
+        
         axios.post(url, options)
             .then(response => {
                 //console.log(response.json({message: "request received!", response}));
@@ -81,44 +154,52 @@ class Search extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                for (var i = 0; i < response.data.users.length; i++) {
-                    if (response.data.users[i].profilepic != undefined) {
-                        this.state.profilepic.push(response.data.users[i].profilepic);
-                        this.setState({
-                            profilepic: this.state.profilepic
-                        });
+                console.log("firstname: " + response.data.doctors[0].firstname);
+                for (var i = 0; i < response.data.doctors.length; i++) {
+                    try
+                    {
+                        if (response.data.doctors[i].profilepic != undefined) {
+                            this.state.profilepic.push(response.data.doctors[i].profilepic);
+                            this.setState({
+                                profilepic: this.state.profilepic
+                            });
 
-                        this.state.profilepicfile.push(response.data.users[i].profilepicfile);
-                        this.setState({
-                            profilepicfile: this.state.profilepicfile
-                        });
+                            this.state.profilepicfile.push(response.data.doctors[i].profilepicfile);
+                            this.setState({
+                                profilepicfile: this.state.profilepicfile
+                            });
+                        }
                     }
-                    this.state.mail.push(response.data.users[i].mail);
+                    catch
+                    {
+                        this.state.profilepic = "doc_pic.png"
+                    }
+                    this.state.mail.push(response.data.doctors[i].mail);
                     this.setState({
                         mail: this.state.mail
                     });
-                    this.state.userid.push(response.data.users[i]._id);
+                    this.state.userid.push(response.data.doctors[i]._id);
                     this.setState({
                         mail: this.state.mail
                     });
-                    console.log("mail is: " + response.data.users[i].mail);
+                    console.log("mail is: " + response.data.doctors[i].mail);
 
-                    this.state.firstname.push(response.data.users[i].firstname);
+                    this.state.firstname.push(response.data.doctors[i].firstname);
                     this.setState({
                         firstname: this.state.firstname
                     });
 
-                    this.state.lastname.push(response.data.users[i].lastname);
+                    this.state.lastname.push(response.data.doctors[i].lastname);
                     this.setState({
                         lastname: this.state.lastname
                     });
 
-                    this.state.address.push(response.data.users[i].address);
+                    this.state.address.push(response.data.doctors[i].address);
                     this.setState({
                         address: this.state.address
                     });
 
-                    this.state.patid.push(response.data.users[i].patid);
+                    this.state.patid.push(response.data.doctors[i].patid);
                     this.setState({
                         patid: this.state.patid
                     });
@@ -140,7 +221,7 @@ class Search extends React.Component {
                         content: this.state.content
                     })
                 }
-                console.log("len: " + response.data.users.length);
+                console.log("len: " + response.data.doctors.length);
             });
 
 
@@ -193,7 +274,6 @@ class Search extends React.Component {
     }
 
     patientSearchContent(i) {
-        console.log("MAAAIL " + this.state.mail[i])
         return (
             <div key={"main" + i}>
 
@@ -295,4 +375,4 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default SearchMyDocs;

@@ -139,11 +139,14 @@ class Webserver
         this.app.post("/pat-reg-sent", this.urlParser, user);
         //this.app.post("/pat-reg-sent", this.urlParser, patient);
         this.app.post("/doc-reg-sent", this.urlParser, user);
+        this.app.post("/addPatient", this.urlParser, user);
         this.app.post("/login-sent", this.urlParser, user);
         this.app.get("/me", this.urlParser, user);
         this.app.post("/checkUserUrl", this.urlParser, user);
         this.app.post("/edit-sent-patient", this.urlParser, user);
         this.app.post("/edit-sent-user", this.upload.single("profilepic"), this.urlParser, user);
+        this.app.post("/overviewMyDocs", this.urlParser, user);
+        this.app.post("/searchMyDocs", this.urlParser, user);
         this.app.post("/searchQuery", this.urlParser, user);
 
         /* restful function examples */

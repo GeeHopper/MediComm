@@ -10,7 +10,10 @@ import Me from './content/Me';
 import Dsgvo from './content/DSGVO';
 import Profile from './content/Profile';
 import Search from './content/Search';
+import Docreg from'./content/Docreg';
 import {Route, Link, Switch} from 'react-router-dom';
+import MyDocsOverview from './content/OverviewMyDocs';
+import SearchMyDocs from './content/SearchMyDocs';
 
 function App() {
 
@@ -27,11 +30,14 @@ function changeColor(selector, color){
           <Route path ="/header" component = {Header}/>
           <Route path = "/login" component = {Login}/>
           <Route path = "/pat-reg" component = {Patreg}/>
+          <Route path = "/doc-reg" component = {Docreg}/>
           <Route path = "/profileedit" component = {Profileedit}/>
           <Route path = "/me" component = {Me}/>
           <Route path = "/dsgvo" component = {Dsgvo}/>
           <Route path = "/profile/:userid" component = {Profile}/>
           <Route path = "/search/:query" component = {Search}/>
+          <Route path = "/myDocsOverview" component = {MyDocsOverview}/>
+          <Route path = "/myDocsSearch/:query" component = {SearchMyDocs}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>
           )}/>

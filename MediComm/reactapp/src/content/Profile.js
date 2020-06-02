@@ -8,9 +8,11 @@ const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
 
+
 class Profile extends React.Component {
 
     profilepicfile = "";
+    doctor = "";
 
     constructor(props) {
         super(props);
@@ -80,7 +82,7 @@ class Profile extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                console.log("patient: " + response.data.user);
+                console.log("doctor: " + response.data.user);
                 if (response.data.user.profilepic != undefined) {
                     this.setState({ profilepic: response.data.user.profilepic });
                     this.setState({ profilepicfile: response.data.user.profilepic });
@@ -143,6 +145,70 @@ class Profile extends React.Component {
             return (<img src={require("../uploads/" + this.state.profilepicfile)} />);
         else
             return ("no image");
+    }
+
+    fetchDoc()
+    {
+        const url = 'http://localhost:8080/me';
+        const options = {
+        method: 'GET',
+        headers: {
+            'token': Cookies.get("token"),
+        },
+        };
+        axios.get(url, options)
+        .then(response => {
+            //console.log(response.json({message: "request received!", response}));
+            //this.state.mail = response.json({message: "request received!", response}).parse();
+            //console.log (response.json());
+            //this.state.mail = response.data.firstname;
+            //console.log(response.data);
+            //this.setUsername(response.data.firstname)
+            //this.setState(resp);
+            //console.log(response.data);
+
+            
+            
+            if(response.data.user.isDoc === "1")
+            {
+                console.log("youre a doc");
+                this.doctor = response.data.user;
+                return true;
+            }
+            else
+            {
+                console.log("youre not a doc");
+                return false;
+            }
+        });
+    }
+
+    addPatient = e =>
+    {
+        this.fetchDoc();
+        if(this.doctor.isDoc === "1")
+        {
+            console.log("yews doc");
+            console.log("your id is: " + this.doctor._id);
+            console.log("your patients id is: " + this.state.userid);
+            var params = {
+                doc_userid: this.doctor._id,
+                pat_userid: this.state.userid
+            };
+            axios
+            .post('http://localhost:8080/addPatient/', params)
+                .then(() => console.log('Patient added :)'))
+                .catch(err => {
+                    console.error(err);
+            });
+        }
+        else{
+            console.log("no doc");
+        }
+
+        //using axios to post
+        
+
     }
 
     patientContent() {
@@ -214,6 +280,11 @@ class Profile extends React.Component {
                             <i className="verNr"></i>
                         </div>
                     </div>
+
+                    <div className="addFriend">
+                        <button onClick={this.addPatient}>Add Patient</button>
+                    </div>
+
                     {this.checkProfilepic()}
 
 

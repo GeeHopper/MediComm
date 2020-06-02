@@ -5,7 +5,7 @@ import fs from 'fs';
 
 
 
-class Patreg extends React.Component{
+class Docreg extends React.Component{
     constructor(){
         super();
 
@@ -16,9 +16,12 @@ class Patreg extends React.Component{
             lastname: '',
             password: '',
             address: '',
+            phone: '',
+            fax: '',
+            fieldofwork: '',
             agreement: '',
-            insurednumber: '',
-            healthinsurance: ''
+            docnum: '',
+            establishmentnumber: ''
         };
     
         //this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,7 +47,7 @@ class Patreg extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance} = this.state;
+        const {mail, firstname, lastname, password, address, phone, fax, fieldofwork, agreement, docnum, establishmentnumber} = this.state;
 
         const user = {
             mail,
@@ -52,15 +55,17 @@ class Patreg extends React.Component{
             lastname,
             password,
             address,
+            phone,
+            fax,
+            fieldofwork,
             agreement,
-            insurednumber,
-            healthinsurance
+            docnum,
+            establishmentnumber
         };
-        console.log("pressed :D: " + mail);
         
         //using axios to post
         axios
-        .post('http://localhost:8080/pat-reg-sent', user)
+        .post('http://localhost:8080/doc-reg-sent', user)
             .then(() => console.log('User registered :))'))
             .catch(err => {
                 console.error(err);
@@ -125,24 +130,39 @@ class Patreg extends React.Component{
                 </div>
 
 
-                <div className="kk">
+                <div className="phone">
                     <div className="input_field">
-                        <input list="kk" placeholder="Krankenkasse" className="input" name="healthinsurance" onChange={this.handleInputChange}/>
-                        <datalist id="kk">
-                            <option value="AOK" />
-                            <option value="Knappschaft" />
-                            <option value="Innungskrankenkasse" />
-                            <option value="DAK Gesundheit" />
-                            <option value=" BARMER" />
-                        </datalist>
+                        <input type="text" placeholder="Telefonnummer" className="input" name="phone" onChange={this.handleInputChange}/>
+                        <i className="phone"></i>
                     </div>
                 </div>
 
-                <div className="verNr">
-                <div className="input_field">
-                    <input type="text" placeholder="Versichertennummer" className="input" name="insurednumber" onChange={this.handleInputChange}/>
-                    <i className="verNr"></i>
+                <div className="fax">
+                    <div className="input_field">
+                        <input type="text" placeholder="Fax" className="input" name="fax" onChange={this.handleInputChange}/>
+                        <i className="fax"></i>
+                    </div>
                 </div>
+
+                <div className="docnum">
+                    <div className="input_field">
+                        <input type="text" placeholder="Arztnummer" className="input" name="docnum" onChange={this.handleInputChange}/>
+                        <i className="anschrift"></i>
+                    </div>
+                </div>
+
+                <div className="establishmentnumber">
+                    <div className="input_field">
+                        <input type="text" placeholder="Betriebsstättennummer" className="input" name="establishmentnumber" onChange={this.handleInputChange}/>
+                        <i className="establishmentnumber"></i>
+                    </div>
+                </div>
+
+                <div className="fieldofwork">
+                    <div className="input_field">
+                        <input type="text" placeholder="Fachrichtung" className="input" name="fieldofwork" onChange={this.handleInputChange}/>
+                        <i className="fieldofwork"></i>
+                    </div>
                 </div>
 
                 <div id="agreement">
@@ -157,4 +177,4 @@ class Patreg extends React.Component{
     }
 }
 
-export default Patreg;
+export default Docreg;
