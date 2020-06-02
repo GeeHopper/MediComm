@@ -11,30 +11,9 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.m-textfield {
-  top: 30px;
-  position: relative;
-}
 
-.p-textfield {
-  top: -07px;
-  position: relative;
-  left: 250px;
-}
 
-.mail {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.pass {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-label {
+ label {
   position: absolute;
   font-size: 1rem;
   left: 0;
@@ -57,35 +36,40 @@ input {
   transition: 0.1s ease-out;
 }
 
-input:focus {
+ input:focus {
   border-color: #6200EE;
 }
 
-input:focus+label {
+ input:focus+label {
   color: #6200EE;
   top: -10px;
 }
 
-.no-acc {
-  margin: 140px auto 0;
+  .no-acc{
   position: absolute;
-  top: 380px;
-  left: 1050px;
+  top: 400px;
   font-size: 18px;
+  left: 44%;
   font-weight: lighter;
   color: #87c0cd;
   z-index: 3;
 }
 
-#top-cut {
+.col-sm-6{
+  position: absolute;
+  left: 10%;
+
+}
+
+.container-fluid {
   position: relative;
-  padding-top: 550px;
+
   background-color: white;
 }
 
-#logImg {
+.col-sm-6 {
   position: absolute;
-  top: 20px;
+
   left: -1%;
 }
 
@@ -108,7 +92,7 @@ input:focus+label {
 }
 
 #middleOne {
-  top: 100px;
+
   position: relative;
   background-color: #bfd8d5;
   padding-bottom: 550px;
@@ -122,129 +106,119 @@ input:focus+label {
 }
 
 #middleTwo {
-  top: 300px;
+
   position: relative;
   background-color: white;
-  padding-bottom: 350px;
+  padding-bottom: 250px;
 }
 
-#middleTwo .iconTermin {
+.iconTermin {
   position: absolute;
-  top: -100px;
   left: 80px;
   font-size: 80px;
 }
 
-#middleTwo .iconDoc {
+ .iconDoc {
   position: absolute;
-  top: -1px;
   left: 260px;
   font-size: 80px;
 }
 
-#middleTwo .iconNote {
+ .iconNote {
   position: absolute;
-  top: -1px;
   left: 520px;
   font-size: 80px;
 }
 
-#middleTwo .iconFolder {
+ .iconFolder {
   position: absolute;
-  top: -1px;
   left: 820px;
   font-size: 80px;
 }
 
-#middleTwo .iconMessage {
+ .iconMessage {
   position: absolute;
-  top: -1px;
   left: 1150px;
   font-size: 80px;
 }
 
 #middleTwo .termin-title {
   position: absolute;
-  left: 40px;
   font-size: 20px;
   font-weight: lighter;
 }
 
 #middleTwo .doc-title {
   position: absolute;
-  left: 300px;
   font-size: 20px;
   font-weight: lighter;
 }
 
 #middleTwo .note-title {
   position: absolute;
-  left: 580px;
   font-size: 20px;
   font-weight: lighter;
 }
 
 #middleTwo .folder-title {
   position: absolute;
-  left: 850px;
   font-size: 20px;
   font-weight: lighter;
 }
 
 #middleTwo .message-title {
   position: absolute;
-  left: 1150px;
   font-size: 20px;
   font-weight: lighter;
 }
 
 #middleThree {
-  top: 100px;
   position: relative;
   background-color: #bfd8d5;
   padding-bottom: 450px;
 }
 
-#top-cut .title {
+
+.col-sm-6 .title {
   position: absolute;
   text-align: center;
-  left: 1090px;
-  top: 150px;
+  left: 50%;
+  top: 100px;
   font-size: 26px;
   font-weight: bold;
   color: #89a4c7;
 }
 
-#top-cut .form .input_field {
+.container-fluid .col-sm-6 .form .input_field {
   position: relative;
   margin-bottom: 50px;
 }
 
-#top-cut .form .input_field .input {
+.container-fluid .col-sm-6 .form .input_field .input {
   margin: 0 5px;
   font-size: 15px;
   position: relative;
-  top: -1700px;
-  left: 65%;
-  width: 28%;
+  left: 30%;
+  top: 200px;
+  width: 50%;
   padding: 12px;
   padding-left: 30px;
   /*border: none;*/
   background: #eeeeee;
 }
 
-#top-cut .form .btn {
-  width: 15%;
+.container-fluid .col-sm-6 .form .btn {
+  width: 25%;
   position: absolute;
-  text-align: center;
-  left: 1035px;
-  top: 450px;
+  left: 50%;
+  margin-left: -50px;
+  bottom: 80px;
   background: #89a4c7;
   text-align: center;
   padding: 12px;
   border-radius: 25px;
 }
 
-#top-cut .form .btn a {
+.container-fluid .col-sm-6 .form .btn a {
   color: #fff;
 }

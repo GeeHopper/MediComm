@@ -3,29 +3,32 @@
 
 <head>
   <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 
 <body>
 
   <!-- TODO:
 
- 1. passwort hashen
- 2. datenschutzerklärung check
- 3. bescheibung vor doc und pat buttons
- 4. neue seite nach registrierung und login
- 5. hintergrundbild für die blauen felder (auf der Login seite)
- 6. logo einfügen oberhalb der seite
+ 1. bescheibung vor doc und pat buttons
+ 2. neue seite nach registrierung und login
+ 3. hintergrundbild für die blauen felder (auf der Login seite)
+ 4. logo einfügen oberhalb der seite
  -->
 
-  <div id="top-cut">
+  <div class="container-fluid">
 
-    <div id="logImg">
+<div class="row">
+<div class="col-sm-6">
+
       <img class="logImg" src="images/login.png" alt="logImg" height="600"></a>
     </div>
 
+ <div class="col-sm-6 ">
     <div class="title">
       Login
     </div>
@@ -34,37 +37,59 @@
 
     </div>
 
+<div class="form">
+      <div class="input_field">
+        <input type="text" placeholder="Email" class="input">
+        <i class="mail"></i>
+</div>
+<div class="input_field">
+        <input type="password" placeholder="Passwort" class="input">
+        <i class="enlock"></i>
+      </div>
+
+
+      <div class="btn">
+
+        <a href="button">Login</a>
+      </div>
+      </div>
+</div>
+
+     </div>
+
+<div class="row">
+   <div class="col-sm-6 ">
     <div id="middleOne">
       <p class="kurzBeschreibung">Beschreibung was die App bietet</p>
     </div>
+      </div>
+      </div>
 
+<div class="row">
+ <div class="col-sm-6 ">
     <div id="middleTwo">
       <div class="iconTermin">
         <i class="far fa-calendar-check"></i>
+          <p class="termin-title">Termine vereinbaren</p>
+        </div>
         <div class="iconDoc">
           <i class="fas fa-user-md"></i>
+            <p class="doc-title">Kommunizieren </p>
         </div>
         <div class="iconNote">
           <i class="far fa-sticky-note"></i>
+            <p class="note-title">Ihre Notizen </p>
         </div>
         <div class="iconFolder">
           <i class="far fa-folder"></i>
+                <p class="folder-title">Ihre Gesundheitsakte </p>
         </div>
         <div class="iconMessage">
           <i class="far fa-envelope"></i>
+            <p class="message-title">Austausch von Nachrichten</p>
         </div>
       </div>
 
-      <p class="termin-title">Termine vereinbaren</p>
-      <p class="doc-title">Kommunizieren </p>
-      <p class="note-title">Ihre Notizen </p>
-      <p class="folder-title">Ihre Gesundheitsakte </p>
-      <p class="message-title">Austausch von Nachrichten</p>
-    </div>
-
-    <div id="middleThree">
-      WERBUNG MIT SCREENSHOTS
-    </div>
 
     <form action="login-sent" method="post">
       <div class="form">
@@ -75,12 +100,31 @@
           <i class="mail"></i>
         </div>
 
+<<<<<<< HEAD:WebProjekt/login.html
+
+
+=======
         <div class="input_field">
           <input type="password" placeholder="Passwort" name="password" class="input" required>
           <i class="enlock"></i>
         </div>
+>>>>>>> 153d82d66c8cd9ba04157c8e8ed04d1b555ebf4f:MediComm/reactapp/src/static/content/login.html
 
+    </div>
+      </div>
+      </div>
 
+<<<<<<< HEAD:WebProjekt/login.html
+<div class="row">
+ <div class="col-sm-6 ">
+    <div id="middleThree">
+      WERBUNG MIT SCREENSHOTS
+    </div>
+  </div>
+</div>
+
+      </div>
+=======
 
         <div class="btn">
           <button type="submit" value="Login">Login</button>
@@ -88,6 +132,7 @@
         </div>
       </div>
     </form>
+>>>>>>> 153d82d66c8cd9ba04157c8e8ed04d1b555ebf4f:MediComm/reactapp/src/static/content/login.html
 
 
 
