@@ -8,10 +8,10 @@ const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
 
-class SearchMyDocs extends React.Component {
+class OverviewMyPats extends React.Component {
 
     profilepicfile = "";
-    patient = "";
+    doctor = "";
 
     constructor(props) {
         super(props);
@@ -80,15 +80,15 @@ class SearchMyDocs extends React.Component {
 
             
             
-            if(response.data.user.isDoc === "0")
+            if(response.data.user.isDoc === "1")
             {
-                console.log("youre a patient");
-                this.patient = response.data.user;
+                console.log("youre a doctor");
+                this.doctor = response.data.user;
                 return true;
             }
             else
             {
-                console.log("youre a doc");
+                console.log("youre a pat");
                 return false;
             }
         });
@@ -97,7 +97,6 @@ class SearchMyDocs extends React.Component {
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
-        var doclastname = this.props.match.params.query;
         var url = 'http://localhost:8080/me';
         var options = {
         method: 'GET',
@@ -118,32 +117,30 @@ class SearchMyDocs extends React.Component {
 
             
             
-            if(response.data.user.isDoc === "0")
+            if(response.data.user.isDoc === "1")
             {
-                console.log("youre a patient");
-                this.patient = response.data.user;
+                console.log("youre a doctor");
+                this.doctor = response.data.user;
             }
             else
             {
-                console.log("youre a doc");
+                console.log("youre a pat");
             }
         });
 
 
-        
-        console.log("your id is: " + this.patient._id);
-        url = 'http://localhost:8080/searchMyDocs';
+
+        console.log("your id is: " + this.doctor._id);
+        url = 'http://localhost:8080/overviewMyPats';
         options = {
             method: 'POST',
             headers: {
                 'token': Cookies.get("token")
             },
             data: {
-                'pat_userid': this.patient._id,
-                'doc_lastname': doclastname
+                'doc_userid': this.doctor._id
             }
         };
-        
         axios.post(url, options)
             .then(response => {
                 //console.log(response.json({message: "request received!", response}));
@@ -154,51 +151,45 @@ class SearchMyDocs extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                for (var i = 0; i < response.data.doctors.length; i++) {
-                    try
-                    {
-                        if (response.data.doctors[i].profilepic != undefined) {
-                            this.state.profilepic.push(response.data.doctors[i].profilepic);
-                            this.setState({
-                                profilepic: this.state.profilepic
-                            });
+                console.log(response.data.patients[0].firstname);
+                for (var i = 0; i < response.data.patients.length; i++) {
+                    if (response.data.patients[i].profilepic != undefined) {
+                        this.state.profilepic.push(response.data.patients[i].profilepic);
+                        this.setState({
+                            profilepic: this.state.profilepic
+                        });
 
-                            this.state.profilepicfile.push(response.data.doctors[i].profilepicfile);
-                            this.setState({
-                                profilepicfile: this.state.profilepicfile
-                            });
-                        }
+                        this.state.profilepicfile.push(response.data.patients[i].profilepicfile);
+                        this.setState({
+                            profilepicfile: this.state.profilepicfile
+                        });
                     }
-                    catch
-                    {
-                        this.state.profilepic = "doc_pic.png"
-                    }
-                    this.state.mail.push(response.data.doctors[i].mail);
+                    this.state.mail.push(response.data.patients[i].mail);
                     this.setState({
                         mail: this.state.mail
                     });
-                    this.state.userid.push(response.data.doctors[i]._id);
+                    this.state.userid.push(response.data.patients[i]._id);
                     this.setState({
                         mail: this.state.mail
                     });
-                    console.log("mail is: " + response.data.doctors[i].mail);
+                    console.log("mail is: " + response.data.patients[i].mail);
 
-                    this.state.firstname.push(response.data.doctors[i].firstname);
+                    this.state.firstname.push(response.data.patients[i].firstname);
                     this.setState({
                         firstname: this.state.firstname
                     });
 
-                    this.state.lastname.push(response.data.doctors[i].lastname);
+                    this.state.lastname.push(response.data.patients[i].lastname);
                     this.setState({
                         lastname: this.state.lastname
                     });
 
-                    this.state.address.push(response.data.doctors[i].address);
+                    this.state.address.push(response.data.patients[i].address);
                     this.setState({
                         address: this.state.address
                     });
 
-                    this.state.patid.push(response.data.doctors[i].patid);
+                    this.state.patid.push(response.data.patients[i].patid);
                     this.setState({
                         patid: this.state.patid
                     });
@@ -220,7 +211,7 @@ class SearchMyDocs extends React.Component {
                         content: this.state.content
                     })
                 }
-                console.log("len: " + response.data.doctors.length);
+                console.log("len: " + response.data.patients.length);
             });
 
 
@@ -374,4 +365,4 @@ class SearchMyDocs extends React.Component {
     }
 }
 
-export default SearchMyDocs;
+export default OverviewMyPats;

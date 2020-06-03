@@ -621,6 +621,30 @@ router.post("/overviewMyDocs", auth, async (req, res) => {
     }
 });
 
+router.post("/overviewMyPats", auth, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        console.log("in my pats search");
+        console.log("doc id is: " + req.body.data.doc_userid);
+        const therapies = await Therapy.find({ doc_userid: req.body.data.doc_userid });
+        var patients = [];
+
+        for (i = 0; i < therapies.length; i++) {
+            console.log("therapy: " + i + " added");
+            console.log("docid is: " + therapies[i].pat_userid + " added");
+            patients.push(await User.findOne({ "_id": therapies[i].pat_userid }));
+        }
+        res.json({
+            patients: patients
+        })
+        console.log(therapies[0].doc_userid + "is the doc");
+
+        //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+        res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+});
 
 router.post("/searchMyDocs", auth, async (req, res) => {
     try {
@@ -660,6 +684,46 @@ router.post("/searchMyDocs", auth, async (req, res) => {
         res.send({ message: "Error in Fetching patient: " + e.stack });
     }
 });
+
+router.post("/searchMyPats", auth, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        console.log("in my pats search");
+        console.log("doc userid is: " + req.body.data.doc_userid);
+        console.log("lastname filter is: " + req.body.data.pat_lastname)
+        const therapies = await Therapy.find({ doc_userid: req.body.data.doc_userid });
+        var patients = [];
+        var pat;
+
+        for (i = 0; i < therapies.length; i++) {
+            console.log("therapy: " + i + " added");
+            console.log("patid is: " + therapies[i].pat_userid);
+            console.log("query is is: " + req.body.data.pat_lastname);
+            pat = await User.findOne({ "_id": therapies[i].pat_userid });
+            console.log("lastname of pat: " + pat.lastname);
+            try
+            {
+                if (pat.lastname.includes(req.body.data.pat_lastname)) {
+                    console.log("it fits")
+                    patients.push(pat);
+                }
+            }
+            catch{
+                console.log("no lastname");
+            };
+        }
+        res.json({
+            patients: patients
+        });
+        console.log(therapies[0].pat_userid + "is the pat");
+
+        //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+        res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+});
+
 
 router.post("/searchQuery", auth, async (req, res) => {
     try {

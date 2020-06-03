@@ -13,7 +13,9 @@ import Search from './content/Search';
 import Docreg from'./content/Docreg';
 import {Route, Link, Switch} from 'react-router-dom';
 import MyDocsOverview from './content/OverviewMyDocs';
+import MyPatsOverview from './content/OverviewMyPats';
 import SearchMyDocs from './content/SearchMyDocs';
+import SearchMyPats from './content/SearchMyPats';
 
 function App() {
 
@@ -36,8 +38,10 @@ function changeColor(selector, color){
           <Route path = "/dsgvo" component = {Dsgvo}/>
           <Route path = "/profile/:userid" component = {Profile}/>
           <Route path = "/search/:query" component = {Search}/>
-          <Route path = "/myDocsOverview" component = {MyDocsOverview}/>
-          <Route path = "/myDocsSearch/:query" component = {SearchMyDocs}/>
+          <Route path = "/OverviewMyDocs" component = {MyDocsOverview}/>
+          <Route path = "/OverviewMyPats" component = {MyPatsOverview}/>
+          <Route path = "/SearchMyDocs/:query" component = {SearchMyDocs}/>
+          <Route path = "/SearchMyPats/:query" component = {SearchMyPats}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>
           )}/>
