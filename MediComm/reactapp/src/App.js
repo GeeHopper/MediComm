@@ -16,6 +16,7 @@ import MyDocsOverview from './content/OverviewMyDocs';
 import MyPatsOverview from './content/OverviewMyPats';
 import SearchMyDocs from './content/SearchMyDocs';
 import SearchMyPats from './content/SearchMyPats';
+import FileUpload from './content/FileUpload';
 
 function App() {
 
@@ -42,6 +43,7 @@ function changeColor(selector, color){
           <Route path = "/OverviewMyPats" component = {MyPatsOverview}/>
           <Route path = "/SearchMyDocs/:query" component = {SearchMyDocs}/>
           <Route path = "/SearchMyPats/:query" component = {SearchMyPats}/>
+          <Route path = "/fileUpload" component = {FileUpload}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>
           )}/>

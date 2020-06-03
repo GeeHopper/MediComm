@@ -8,6 +8,7 @@ const User = require("../model/User");
 const Patient = require("../model/Patient");
 const Doctor = require("../model/Doctor");
 const Therapy = require("../model/therapy");
+const Patientfile = require("../model/patientfile");
 
 const auth = require("../middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
@@ -391,7 +392,7 @@ router.get("/me", auth, async (req, res) => {
         var patient;
         var doctor;
         if (user.isDoc === "0") {
-            patient = await Patient.findById(user.docid);
+            patient = await Patient.findById(user.patid);
             res.json({
                 patient: patient,
                 user: user
@@ -758,5 +759,44 @@ router.post("/searchQuery", auth, async (req, res) => {
         res.send({ message: "Error in Fetching patient: " + e.stack });
     }
 });
+
+
+router.post(
+    "/patientfile-sent",
+    [
+       
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+        const {
+            pat_userid,
+            filename,
+            original_filename,
+            filetype
+        } = req.body;
+        try {
+           
+            //setting the patid of the user object to the Obj id of the Patient :)
+            var patientfile = new Patientfile({
+                pat_userid: req.body.pat_userid,
+                filename: req.body.filename,
+                original_filename: req.body.original_filename,
+                filetype: req.body.filetype
+            })
+            await patientfile.save();
+            //await patient.save();
+
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
 
 module.exports = router;

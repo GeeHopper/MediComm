@@ -145,6 +145,11 @@ class Webserver
         this.app.post("/checkUserUrl", this.urlParser, user);
         this.app.post("/edit-sent-patient", this.urlParser, user);
         this.app.post("/edit-sent-user", this.upload.single("profilepic"), this.urlParser, user);
+
+        //adding file infos in database and putting file in another directory
+        this.app.post("/patientfile-sent", this.urlParser, user);
+
+
         this.app.post("/overviewMyDocs", this.urlParser, user);
         this.app.post("/overviewMyPats", this.urlParser, user);
         this.app.post("/searchMyDocs", this.urlParser, user);
@@ -317,9 +322,9 @@ class Webserver
 
         });
 
-        //single file upload
+        //profilepic file upload
         this.app.post("/profilepic-sent", this.upload.single("file"), function(request, response){
-            console.log("filename: " + request.body.newfilename)
+            console.log("filename: " + request.body.newfilename);
             var file = __dirname + "/" + request.file.originalname;
             fs.rename(request.file.path,
                 request.file.destination+request.body.newfilename,
@@ -334,8 +339,27 @@ class Webserver
                 });
         });
 
+        //single file upload
+        this.app.post("/fileUpload", this.upload.single("file"), function(request, response){
+            console.log("filename: " + request.body.newfilename);
+            var file = __dirname + "/" + request.file.originalname;
+            fs.rename(request.file.path,
+                request.file.destination+request.body.newfilename,
+                (error) => {
+                    if(error)
+                        throw error;
+                    var responseJSON = {
+                        message: "File uploaded successfull",
+                        filename: request.file.originalname
+                    };
+                    response.end(JSON.stringify(responseJSON));
+                });
+        });
+
+        
+
         //multiple file upload
-        this.app.post("/fileupload", this.upload.array("files"), function(request, response){
+        this.app.post("/filesupload", this.upload.array("files"), function(request, response){
             for (var index in request.files){
                 var regFile = request.files[index];
                 var file = __dirname + "/" + reqFile.originalname;
