@@ -57,6 +57,46 @@ class Me extends React.PureComponent{
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
+
+        //Fetching user data
+        var url = 'http://localhost:8080/me';
+        var options = {
+        method: 'GET',
+        headers: {
+            'token': Cookies.get("token"),
+        },
+        };
+        axios.get(url, options)
+        .then(response => {
+            //console.log(response.json({message: "request received!", response}));
+            //this.state.mail = response.json({message: "request received!", response}).parse();
+            //console.log (response.json());
+            //this.state.mail = response.data.firstname;
+            //console.log(response.data);
+            //this.setUsername(response.data.firstname)
+            //this.setState(resp);
+            //console.log(response.data);
+            if(response.data.user.profilepic)
+            {
+                this.setState({profilepic: response.data.user.profilepic});
+                this.setState({profilepicfile: response.data.user.profilepic});
+            }
+            this.setState({userid: response.data.user._id});
+            //this.setState({patid: response.data.patient._id});
+            //this.setState({mail: response.data.patient.mail});
+            this.setState({firstname: response.data.user.firstname});
+            this.setState({lastname: response.data.user.lastname});
+            this.setState({password: response.data.user.password});
+            this.setState({address: response.data.user.address});
+            this.setState({isDoc: response.data.user.isDoc});
+            //this.setState({insurednumber: response.data.patient.insurednumber});
+            //this.setState({healthinsurance: response.data.patient.healthinsurance});
+
+            if(this.isDoc())
+                console.log("u doc")
+            else
+                console.log("u no doc");
+        });
         
 
         var filename = this.props.match.params.query;
@@ -92,112 +132,93 @@ class Me extends React.PureComponent{
             this.setState({originalfilename: response.data.patientfile.originalfilename});
             this.setState({filetype: response.data.patientfile.filetype});
             console.log("filename: " + response.data.patientfile.filename + "." + response.data.patientfile.filetype);
-            var test = "/uploads/" + response.data.patientfile.filename + "." + response.data.patientfile.filetype;
-            this.setState({fileToPlay: test});
+            var temp = "../uploads/" + response.data.patientfile.filename + "." + response.data.patientfile.filetype;
+            this.setState({fileToPlay: temp});
         });
 
         
         
         
 
-        //Fetching user data
-        var url = 'http://localhost:8080/me';
-        var options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({userid: response.data.user._id});
-            //this.setState({patid: response.data.patient._id});
-            //this.setState({mail: response.data.patient.mail});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-            //this.setState({insurednumber: response.data.patient.insurednumber});
-            //this.setState({healthinsurance: response.data.patient.healthinsurance});
-
-            if(this.isDoc())
-                console.log("u doc")
-            else
-                console.log("u no doc");
-        });
+        
 
     }  
 
     //check if file has been loaded from the server already
-    checkFile() {
+    image() {
         return(
-            
-
-            <div>test</div>
-        )
+            <div><img src={this.state.fileToPlay}/>{this.state.isDoc}</div>
+        );
 
     };
 
+    pdf(){
+        return(
+            <embed src={this.state.fileToPlay} width="500" height="375" 
+            type="application/pdf"></embed>
+        );
+    }
+
     isDoc()
     {
-        if(this.state.isDoc == "1")
+        if(this.state.isDoc === "1")
+        {
+            console.log("isodc true");
             return true;
+
+        }
         else
+        {
+            console.log("isdoc false");
             return false;
+        }
     }
 
     patientContent()
     {
-        return(this.docContent());
+        return(<div>u pat brü</div>);
     }
 
     docContent()
     {
-        return(this.checkFile());
+        if(this.state.filetype === "png")
+        {
+            console.log("its a png");
+            return(this.image());
+        }
+        else if(this.state.filetype === "pdf")
+        {
+            console.log("its a pdf");
+            return(this.pdf());
+        }
+        else
+            return(<div> no image lul</div>)
     }
 
     getContent()
     {
         if(this.isDoc())
+        {
+            console.log("youre a doctor");
             return this.docContent();
+        }
         else
+        {
+            console.log("youre a patient");
             return this.patientContent();
+        }
     }
 
-    checkLogin(mail)
+    checkAuth()
     {
         
-            return mail()
-
-            /*try {
-                const decoded = jwt.verify(this.state.token, "randomString");
-                //return "it is: " + decoded.user;
-                const user = User.findById(req.user.id);
-            } catch (e) {
-                console.error(e);
-            }*/
-    }
-
-    render(){
         const { pageNumber, numPages } = this.state;
         if(this.state.fileToPlay != '')
         {
         return (
         <div>
-            <img src={this.state.fileToPlay} />
+            <img src={this.state.fileToPlay} /><br >
+            </br><div> lel</div>
         </div>
         );
         }
@@ -209,7 +230,10 @@ class Me extends React.PureComponent{
             </div>
             );
         }
+    }
 
+    render(){
+        return this.getContent();
     }
 }
 

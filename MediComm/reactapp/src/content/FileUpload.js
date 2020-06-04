@@ -44,7 +44,8 @@ class Me extends React.Component{
             pat_userid: '',
             filename: '',
             original_filename: '',
-            filetype: ''
+            filetype: '',
+            notes: ''
         };
         
         //always passing our token so the site can verify wether we're logged in or not
@@ -71,7 +72,7 @@ class Me extends React.Component{
             pat_userid: this.state.userid,
             filename: makefileid(20, ".pdf"),
             original_filename: '',
-            filetype: "test"
+            filetype: ''
         };
 
         //console.log("file is: " + e.target.file.files[0]);
@@ -82,6 +83,8 @@ class Me extends React.Component{
             form_data.append("file", e.target.file.files[0]);
             form_data.append("newfilename", patientfile.filename);
             patientfile.original_filename = e.target.file.files[0].name;
+            patientfile.filetype = e.target.file.files[0].name.split('.').pop();
+            patientfile.notes = this.state.notes;
         }
 
         const headerss = {
@@ -224,6 +227,8 @@ class Me extends React.Component{
 
                 <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
                 
+                <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
+
                 <input type="submit" className="btn btn-primary" value="Submit" />
                 
             </form>

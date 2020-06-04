@@ -786,7 +786,8 @@ router.post(
                 pat_userid: req.body.pat_userid,
                 filename: req.body.filename,
                 original_filename: req.body.original_filename,
-                filetype: req.body.filetype
+                filetype: req.body.filetype,
+                notes: req.body.notes
             })
             await patientfile.save();
             //await patient.save();
