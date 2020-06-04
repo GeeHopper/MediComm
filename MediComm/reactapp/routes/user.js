@@ -799,4 +799,33 @@ router.post(
     }
 );
 
+
+router.post("/checkFile", auth, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        
+        const filename = req.body.data.filename
+        console.log("filename is: " + filename);
+        const patientfile = await Patientfile.findOne({"filename": filename});
+
+        if(!patientfile)
+        {
+            console.log("no file");
+        }
+        else
+        {
+            console.log("found one! :)");
+            console.log("type: " + patientfile.filetype);
+        }
+        res.json({
+            patientfile: patientfile
+        });
+
+        //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+        res.send({ message: "Error in Fetching File: " + e.stack });
+    }
+});
+
 module.exports = router;
