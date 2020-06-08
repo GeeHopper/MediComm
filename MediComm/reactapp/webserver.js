@@ -109,7 +109,7 @@ class Webserver
         this.app.use(cookieParser());
         //extended: false->querystring,true->qs
         this.urlParser = bodyParser.urlencoded({extended:false});
-        this.upload = multer({dest: "src/uploads/"});
+        this.upload = multer({dest: "public/uploads/"});
     }
 
     
@@ -145,7 +145,12 @@ class Webserver
         this.app.post("/checkUserUrl", this.urlParser, user);
         this.app.post("/checkFile", this.urlParser, user);
         this.app.post("/edit-sent-patient", this.urlParser, user);
+        this.app.post("/edit-sent-patientfile", this.urlParser, user);
+        this.app.post("/edit-sent-patnotes", this.urlParser, user);
+        this.app.post("/edit-sent-docnotes", this.urlParser, user);
         this.app.post("/edit-sent-user", this.upload.single("profilepic"), this.urlParser, user);
+        this.app.post("/chat-sent", this.urlParser, user);
+        this.app.post("/chat-receive", this.urlParser, user);
 
         //adding file infos in database and putting file in another directory
         this.app.post("/patientfile-sent", this.urlParser, user);
@@ -153,6 +158,7 @@ class Webserver
 
         this.app.post("/overviewMyDocs", this.urlParser, user);
         this.app.post("/overviewMyPats", this.urlParser, user);
+        this.app.post("/overviewMyFiles", this.urlParser, user);
         this.app.post("/searchMyDocs", this.urlParser, user);
         this.app.post("/searchMyPats", this.urlParser, user);
         this.app.post("/searchQuery", this.urlParser, user);
@@ -345,7 +351,7 @@ class Webserver
             console.log("filename: " + request.body.newfilename);
             var file = __dirname + "/" + request.file.originalname;
             fs.rename(request.file.path,
-                request.file.destination+request.body.newfilename,
+                request.file.destination+request.body.newfilename + "." + request.body.filetype,
                 (error) => {
                     if(error)
                         throw error;

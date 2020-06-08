@@ -1,3 +1,4 @@
+
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -18,6 +19,10 @@ import SearchMyDocs from './content/SearchMyDocs';
 import SearchMyPats from './content/SearchMyPats';
 import FileUpload from './content/FileUpload';
 import ViewFile from './content/ViewFile';
+import FileUploadDoc from './content/FileUploadDoc';
+import OverviewMyFiles from './content/OverviewMyFiles';
+import Picture from './content/Picture';
+import Chat from './content/Chat';
 
 function App() {
 
@@ -41,10 +46,14 @@ function changeColor(selector, color){
           <Route path = "/profile/:userid" component = {Profile}/>
           <Route path = "/search/:query" component = {Search}/>
           <Route path = "/OverviewMyDocs" component = {MyDocsOverview}/>
+          <Route path = "/Picture" component = {Picture}/>
+          <Route path = "/Chat" component = {Chat}/>
           <Route path = "/OverviewMyPats" component = {MyPatsOverview}/>
+          <Route path = "/OverviewMyFiles" component = {OverviewMyFiles}/>
           <Route path = "/SearchMyDocs/:query" component = {SearchMyDocs}/>
           <Route path = "/SearchMyPats/:query" component = {SearchMyPats}/>
           <Route path = "/fileUpload" component = {FileUpload}/>
+          <Route path = "/fileUploadDoc" component = {FileUploadDoc} />
           <Route path = "/viewFile/:query" component = {ViewFile}/>
           <Route path="/inline" render={() => (
             <div class="test">inline test</div>

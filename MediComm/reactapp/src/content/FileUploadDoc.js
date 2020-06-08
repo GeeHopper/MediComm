@@ -17,7 +17,7 @@ function makefileid(length, ending) {
     return result;
  }
 
-class FileUpload extends React.Component{
+class FileUploadDoc extends React.Component{
 
     profilepicfile = "";
 
@@ -46,7 +46,7 @@ class FileUpload extends React.Component{
             original_filename: '',
             filetype: '',
             notes: '',
-            shareWith: []
+            sharedWith: []
         };
         
         //always passing our token so the site can verify wether we're logged in or not
@@ -70,7 +70,7 @@ class FileUpload extends React.Component{
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const patientfile = 
         {
-            pat_userid: this.state.patient._id,
+            pat_userid: '',
             filename: makefileid(20),
             original_filename: '',
             filetype: '',
@@ -88,8 +88,8 @@ class FileUpload extends React.Component{
             patientfile.original_filename = e.target.file.files[0].name;
             patientfile.filetype = e.target.file.files[0].name.split('.').pop();
             patientfile.notes = this.state.notes;
-            patientfile.shareWith = this.state.shareWith;
-            console.log("sharing with: " + patientfile.shareWith)
+            patientfile.pat_userid = this.state.pat_userid;
+            patientfile.shareWith = this.state.docid;
         }
 
         const headerss = {
@@ -152,14 +152,13 @@ class FileUpload extends React.Component{
                 this.setState({profilepicfile: response.data.user.profilepic});
             }
             this.setState({userid: response.data.user._id});
-            this.setState({patid: response.data.patient._id});
-            this.setState({mail: response.data.patient.mail});
+            this.setState({docid: response.data.doctor._id});
+            console.log("docid is: " + response.data.doctor._id);
+            this.setState({mail: response.data.user.mail});
             this.setState({firstname: response.data.user.firstname});
             this.setState({lastname: response.data.user.lastname});
             this.setState({password: response.data.user.password});
             this.setState({address: response.data.user.address});
-            this.setState({insurednumber: response.data.patient.insurednumber});
-            this.setState({healthinsurance: response.data.patient.healthinsurance});
         });
 
       
@@ -231,10 +230,10 @@ class FileUpload extends React.Component{
                 
 
                 <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
+
+                <input type="text" placeholder="Patient related to the document" onChange={this.handleInputChange} name="pat_userid"></input>
                 
                 <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
-
-                <input type="text" placeholder="Doctor IDs" onChange={this.handleInputChange} name="shareWith"></input>
 
                 <input type="submit" className="btn btn-primary" value="Submit" />
                 
@@ -272,4 +271,4 @@ class FileUpload extends React.Component{
     }
 }
 
-export default FileUpload;
+export default FileUploadDoc;

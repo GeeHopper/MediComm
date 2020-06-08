@@ -7,7 +7,7 @@ import axios from 'axios';
 var ObjectID = require('mongodb').ObjectID;
 
 
-class Me extends React.PureComponent{
+class ViewFile extends React.PureComponent{
 
     profilepicfile = "";
     
@@ -37,6 +37,11 @@ class Me extends React.PureComponent{
             filename: '',
             originalfilename: '',
             filetype: '',
+            //one share with for authentication
+            shareWith: [],
+            //one share with as string to be passed(when editing file infos for example)
+            shareWithString: '',
+            notes: ''
 
         };
 
@@ -52,6 +57,32 @@ class Me extends React.PureComponent{
           [e.target.name]: e.target.value,
         });
     };
+
+
+    handleSubmit = e =>
+    {
+        e.preventDefault();
+        const {pat_userid, filename, originalfilename, filetype, notes, shareWithString} = this.state;
+        
+        const patfile = {
+            pat_userid,
+            filename: this.state.filename,
+            originalfilename,
+            filetype,
+            notes,
+            shareWithString
+        }
+
+
+        
+        //using axios to post
+        axios
+        .post('http://localhost:8080/edit-sent-patientfile', patfile)
+            .then(() => console.log('Patientfile updated :))'))
+            .catch(err => {
+                console.error(err);
+        });
+    }
 
 
 
@@ -89,13 +120,18 @@ class Me extends React.PureComponent{
             this.setState({password: response.data.user.password});
             this.setState({address: response.data.user.address});
             this.setState({isDoc: response.data.user.isDoc});
+            if(response.data.user.isDoc === "1")
+            {
+                console.log("set docid");
+                this.setState({docid: response.data.user.docid});
+            }
+            else
+            {
+                console.log("set patid");
+                this.setState({patid: response.data.user.patid});
+            }
             //this.setState({insurednumber: response.data.patient.insurednumber});
             //this.setState({healthinsurance: response.data.patient.healthinsurance});
-
-            if(this.isDoc())
-                console.log("u doc")
-            else
-                console.log("u no doc");
         });
         
 
@@ -131,7 +167,18 @@ class Me extends React.PureComponent{
             //this.setState({filename: "../uploads/dummy.png"});
             this.setState({originalfilename: response.data.patientfile.originalfilename});
             this.setState({filetype: response.data.patientfile.filetype});
-            console.log("filename: " + response.data.patientfile.filename + "." + response.data.patientfile.filetype);
+            if(response.data.patientfile.shareWith === undefined)
+                console.log("shared with nobody");
+            else
+            {
+                this.setState({shareWith: response.data.patientfile.shareWith.split(',')});
+                this.setState({shareWithString: response.data.patientfile.shareWith});
+            }
+            if(response.data.patientfile.notes === undefined)
+                console.log("no notes");
+            else
+                this.setState({notes: response.data.patientfile.notes});
+            console.log("sharewith is: " + this.state.shareWith);
             var temp = "../uploads/" + response.data.patientfile.filename + "." + response.data.patientfile.filetype;
             this.setState({fileToPlay: temp});
         });
@@ -147,15 +194,32 @@ class Me extends React.PureComponent{
     //check if file has been loaded from the server already
     image() {
         return(
-            <div><img src={this.state.fileToPlay}/>{this.state.isDoc}</div>
+            <div>
+                <img src={this.state.fileToPlay}/>
+                on itt
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">    
+                    <input type="text" placeholder="keywords/comments" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
+                    <input type="text" placeholder="Doctor IDs" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
+                    <input type="submit" className="btn btn-primary" value="Submit" />         
+                </form>
+            </div>
+            
         );
 
     };
 
     pdf(){
         return(
-            <embed src={this.state.fileToPlay} width="500" height="375" 
-            type="application/pdf"></embed>
+            <div>
+                <embed src={this.state.fileToPlay} width="500" height="375" 
+                type="application/pdf"></embed>
+
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+                    <input type="text" placeholder="keywords/comments" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
+                    <input type="text" placeholder="Doctor IDs" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
+                    <input type="submit" className="btn btn-primary" value="Submit" />
+                </form>
+            </div>
         );
     }
 
@@ -163,36 +227,81 @@ class Me extends React.PureComponent{
     {
         if(this.state.isDoc === "1")
         {
-            console.log("isodc true");
             return true;
 
         }
         else
         {
-            console.log("isdoc false");
             return false;
         }
     }
 
     patientContent()
     {
-        return(<div>u pat brü</div>);
+        console.log("your patid is: " + this.state.patid);
+        console.log("sharewith is: " + this.state.shareWith);
+        console.log("desired patid is: " + this.state.pat_userid);
+        if(this.state.patid === this.state.pat_userid)
+        {
+            console.log("you're authorized")
+            if(this.state.filetype === "png" || this.state.filetype === "jpg")
+            {
+                console.log("its a png");
+                return(this.image());
+            }
+            else if(this.state.filetype === "pdf")
+            {
+                console.log("its a pdf");
+                return(this.pdf());
+            }
+            else
+                return(<div> no image lul</div>) 
+        }
+        else
+        {
+            console.log("youre not authorized")
+            return(<div>not authorized</div>);
+        }
+    }
+
+    checkShare()
+    {
+        for(var i = 0;i < this.state.shareWith.length;i++)
+        {
+            console.log("shares are: " + this.state.shareWith[i]);
+
+            //replacing comma
+            if(this.state.shareWith[i].replace(/\s/g, '') === this.state.docid)
+                return true;
+        }
+        return false;
     }
 
     docContent()
     {
-        if(this.state.filetype === "png")
+        console.log("your docid is: " + this.state.docid);
+        var authorized = this.checkShare();
+        if(authorized)
         {
-            console.log("its a png");
-            return(this.image());
-        }
-        else if(this.state.filetype === "pdf")
-        {
-            console.log("its a pdf");
-            return(this.pdf());
+            console.log("you're authorized")
+            if(this.state.filetype === "png" || this.state.filetype === "jpg")
+            {
+                console.log("its a png");
+                return(this.image());
+            }
+            else if(this.state.filetype === "pdf")
+            {
+                console.log("its a pdf");
+                return(this.pdf());
+            }
+            else
+                return(<div> no image lul</div>) 
         }
         else
-            return(<div> no image lul</div>)
+        {
+            console.log("youre not authorized")
+            return(<div>not authorized</div>);
+        }
     }
 
     getContent()
@@ -209,32 +318,9 @@ class Me extends React.PureComponent{
         }
     }
 
-    checkAuth()
-    {
-        
-        const { pageNumber, numPages } = this.state;
-        if(this.state.fileToPlay != '')
-        {
-        return (
-        <div>
-            <img src={this.state.fileToPlay} /><br >
-            </br><div> lel</div>
-        </div>
-        );
-        }
-        else
-        {
-            return (
-            <div>
-                no pdf
-            </div>
-            );
-        }
-    }
-
     render(){
         return this.getContent();
     }
 }
 
-export default Me;
+export default ViewFile;

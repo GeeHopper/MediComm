@@ -9,6 +9,7 @@ const Patient = require("../model/Patient");
 const Doctor = require("../model/Doctor");
 const Therapy = require("../model/therapy");
 const Patientfile = require("../model/patientfile");
+const Chat = require("../model/chat");
 
 const auth = require("../middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
@@ -419,6 +420,8 @@ router.post("/addPatient", auth, async (req, res) => {
     if (doctor.isDoc === "1") {
         doc_userid = req.body.doc_userid;
         pat_userid = req.body.pat_userid;
+        patNotes = '';
+        docNotes = '';
 
         console.log("You're a doc");
         console.log("your id is: " + req.body.doc_userid);
@@ -434,10 +437,12 @@ router.post("/addPatient", auth, async (req, res) => {
                         msg: "Therapy Already Exists"
                     });
                 });
-
+            console.log("pat notes are: " + patNotes);
             therapy = new Therapy({
                 doc_userid,
-                pat_userid
+                pat_userid,
+                patNotes,
+                docNotes
             });
 
             await therapy.save();
@@ -570,6 +575,122 @@ router.post(
     }
 );
 
+router.post(
+    "/edit-sent-patientfile",
+    [
+        check("filename", "oppps wata filename")
+            .not()
+            .isEmpty()
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        const {
+            shareWithString,
+            notes,
+            filename
+        } = req.body;
+
+        try {
+            console.log("shareWithString is: " + req.body.shareWithString)
+            let patientfile = await Patientfile.findOne({
+                "filename": filename
+            });
+            if (!patientfile) {
+                console.log("no patientfile found with the requested filename");
+            }
+
+            patientfile.shareWith = req.body.shareWithString;
+            patientfile.notes = req.body.notes;
+            patientfile.save();
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
+router.post(
+    "/edit-sent-patnotes",
+    [
+        
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        const {
+            patid,
+            doctorid,
+            patNotes
+        } = req.body;
+
+        try {
+            console.log("patid is: " + req.body.patid);
+            console.log("docid is: " + req.body.doctorid);
+            const therapy = await Therapy.findOne({ doc_userid: req.body.doctorid, pat_userid: req.body.patid });
+        
+            console.log("docid is: " + therapy.pat_userid + " added");
+            therapy.patNotes = req.body.patNotes;
+         
+            therapy.save();
+        
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
+router.post(
+    "/edit-sent-docnotes",
+    [
+        
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        const {
+            patientid,
+            docid,
+            docNotes
+        } = req.body;
+
+        try {
+            console.log("patid is: " + req.body.patientid);
+            console.log("docid is: " + req.body.docid);
+            const therapy = await Therapy.findOne({ doc_userid: req.body.docid, pat_userid: req.body.patientid });
+        
+            console.log("patid is: " + therapy.pat_userid + " added");
+            console.log("notes " + req.body.docNotes);
+            therapy.docNotes = req.body.docNotes;
+         
+            therapy.save();
+        
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
 router.post("/checkUserUrl", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
@@ -604,16 +725,38 @@ router.post("/overviewMyDocs", auth, async (req, res) => {
         console.log("pat id is: " + req.body.data.pat_userid);
         const therapies = await Therapy.find({ pat_userid: req.body.data.pat_userid });
         var doctors = [];
+        var docNotes = [];
 
         for (i = 0; i < therapies.length; i++) {
             console.log("therapy: " + i + " added");
             console.log("docid is: " + therapies[i].doc_userid + " added");
             doctors.push(await User.findOne({ "_id": therapies[i].doc_userid }));
+            docNotes.push(therapies[i].docNotes);
         }
         res.json({
-            doctors: doctors
+            doctors: doctors,
+            docNotes: docNotes
         })
         console.log(therapies[0].doc_userid + "is the doc");
+
+        //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+        res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+});
+
+router.post("/overviewMyFiles", auth, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        console.log("in myfilesoverview ");
+        console.log("pat id is: " + req.body.data.pat_userid);
+        const patientfiles = await Patientfile.find({ pat_userid: req.body.data.pat_userid });
+        
+        res.json({
+            patientfiles: patientfiles
+        })
+        console.log(patientfiles[0].original_filename + "is the original filename");
 
         //res.send(JSON.stringify(user));
     } catch (e) {
@@ -629,14 +772,19 @@ router.post("/overviewMyPats", auth, async (req, res) => {
         console.log("doc id is: " + req.body.data.doc_userid);
         const therapies = await Therapy.find({ doc_userid: req.body.data.doc_userid });
         var patients = [];
+        var patNotes = [];
 
         for (i = 0; i < therapies.length; i++) {
             console.log("therapy: " + i + " added");
             console.log("docid is: " + therapies[i].pat_userid + " added");
             patients.push(await User.findOne({ "_id": therapies[i].pat_userid }));
+            patNotes.push(therapies[i].patNotes);
         }
+
+
         res.json({
-            patients: patients
+            patients: patients,
+            patNotes: patNotes
         })
         console.log(therapies[0].doc_userid + "is the doc");
 
@@ -777,7 +925,9 @@ router.post(
             pat_userid,
             filename,
             original_filename,
-            filetype
+            filetype,
+            notes,
+            shareWith
         } = req.body;
         try {
            
@@ -787,7 +937,8 @@ router.post(
                 filename: req.body.filename,
                 original_filename: req.body.original_filename,
                 filetype: req.body.filetype,
-                notes: req.body.notes
+                notes: req.body.notes,
+                shareWith: req.body.shareWith
             })
             await patientfile.save();
             //await patient.save();
@@ -828,5 +979,71 @@ router.post("/checkFile", auth, async (req, res) => {
         res.send({ message: "Error in Fetching File: " + e.stack });
     }
 });
+
+router.post(
+    "/chat-sent",
+    [
+       
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+        const {
+            sender,
+            receiver,
+            message,
+            type,
+        } = req.body;
+        try {
+           
+            //setting the patid of the user object to the Obj id of the Patient :)
+            var nChat = new Chat({
+                sender: req.body.sender,
+                receiver: req.body.receiver,
+                message: req.body.message,
+                type: req.body.type,
+            })
+            await nChat.save();
+            //await patient.save();
+
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
+
+router.post("/chat-receive", auth, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        console.log("receiving chat");
+        console.log("user id is: " + req.body.data.userid);
+        const messages = await Chat.find({ sender: req.body.data.userid });
+
+        /*for (i = 0; i < messages.length; i++) {
+            console.log("therapy: " + i + " added");
+            console.log("docid is: " + therapies[i].pat_userid + " added");
+            messages.push(await User.findOne({ "_id": therapies[i].pat_userid }));
+            patNotes.push(therapies[i].patNotes);
+        }*/
+
+
+        res.json({
+            messages: messages,
+        })
+
+        //res.send(JSON.stringify(user));
+    } catch (e) {
+        console.log(e.stack);
+        res.send({ message: "Error in Fetching patient: " + e.stack });
+    }
+});
+
 
 module.exports = router;

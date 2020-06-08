@@ -9,7 +9,15 @@ const TherapySchema = mongoose.Schema({
     pat_userid: {
       type: String,
       required: true
-    }
+    },
+    patNotes: {
+      type: String,
+      required: false
+    },
+    docNotes: {
+      type: String,
+      required: false
+    },
   });
   
   //export user model with UserSchema

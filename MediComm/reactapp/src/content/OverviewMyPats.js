@@ -33,7 +33,11 @@ class OverviewMyPats extends React.Component {
             userid: [],
             docid: [],
             profilepicfile: [],
-            content: []
+            content: [],
+            patNotes: [],
+
+            //ID of the doctor looking at his pats
+            doctorid: ''
         };
 
         //always passing our token so the site can verify wether we're logged in or not
@@ -44,56 +48,71 @@ class OverviewMyPats extends React.Component {
 
     handleInputChange = e => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
+    handlePatNotesChange(i, e) {
+        console.log("iii: " + i);
 
+        const newNotes = this.state.patNotes;
+        newNotes[i] = e.target.value;
+        console.log("changed: " + e.target.value);
+
+        this.setState({
+            patNotes: newNotes
+        }, () => {
+            console.log("notes: " + this.state.patNotes);
+        });
+        
+        var newContent = [];
+        console.log("length is: " + this.state.mail.length);
+        for(var i = 0; i < this.state.mail.length; i++)
+        {
+            console.log("i: " + i);
+            newContent.push(this.patientOverviewContent(i));
+        }
+
+        this.setState({
+            content: newContent
+        }, () => {
+            console.log("content: " + this.state.content);
+        });
+    };
+
+
+
+    handleSubmit(i, e) {
+        e.preventDefault();
+        const patid = this.state.patid[i];
+        const doctorid = this.state.doctorid;
+        const patNotes = this.state.patNotes[i];
+        
+        const therapy = {
+            patid,
+            doctorid,
+            patNotes,
+        }
+
+
+        
+        //using axios to post
+        axios
+        .post('http://localhost:8080/edit-sent-patnotes', therapy)
+            .then(() => console.log('patNotes updated :))'))
+            .catch(err => {
+                console.error(err);
+        });
+
+    }
 
 
         /*this.setState({sendForm: this.state.name});
         event.preventDefault();*/
-    }
+    
 
 
-    fetchPatient()
-    {
-        const url = 'http://localhost:8080/me';
-        const options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-
-            
-            
-            if(response.data.user.isDoc === "1")
-            {
-                console.log("youre a doctor");
-                this.doctor = response.data.user;
-                return true;
-            }
-            else
-            {
-                console.log("youre a pat");
-                return false;
-            }
-        });
-    }
-
+   
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
@@ -121,6 +140,7 @@ class OverviewMyPats extends React.Component {
             {
                 console.log("youre a doctor");
                 this.doctor = response.data.user;
+                this.setState({doctorid: response.data.user._id});
             }
             else
             {
@@ -143,14 +163,6 @@ class OverviewMyPats extends React.Component {
         };
         axios.post(url, options)
             .then(response => {
-                //console.log(response.json({message: "request received!", response}));
-                //this.state.mail = response.json({message: "request received!", response}).parse();
-                //console.log (response.json());
-                //this.state.mail = response.data.firstname;
-                //console.log(response.data);
-                //this.setUsername(response.data.firstname)
-                //this.setState(resp);
-                //console.log(response.data);
                 console.log(response.data.patients[0].firstname);
                 for (var i = 0; i < response.data.patients.length; i++) {
                     if (response.data.patients[i].profilepic != undefined) {
@@ -189,11 +201,20 @@ class OverviewMyPats extends React.Component {
                         address: this.state.address
                     });
 
-                    this.state.patid.push(response.data.patients[i].patid);
+                    this.state.patid.push(response.data.patients[i]._id);
                     this.setState({
                         patid: this.state.patid
                     });
 
+                    this.state.patNotes.push(response.data.patNotes[i]);
+                    this.setState({
+                        patNotes: this.state.patNotes
+                    });
+
+                    this.state.content.push(this.patientOverviewContent(i));
+                    this.setState({
+                        content: this.state.content 
+                    })
                     /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
                     this.setState({
                         insurednumber: this.state.insurednumber
@@ -206,10 +227,7 @@ class OverviewMyPats extends React.Component {
 
                     /*if(this.state.lastname ==== "krickler")*/
                     //if(this.state.mail === this.props.match.params.query)
-                    this.state.content.push(this.patientSearchContent(i));
-                    this.setState({
-                        content: this.state.content
-                    })
+                    
                 }
                 console.log("len: " + response.data.patients.length);
             });
@@ -263,7 +281,7 @@ class OverviewMyPats extends React.Component {
 
     }
 
-    patientSearchContent(i) {
+    patientOverviewContent(i) {
         return (
             <div key={"main" + i}>
 
@@ -274,7 +292,7 @@ class OverviewMyPats extends React.Component {
 
                 <div className="bg-right"></div>
 
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+                <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
 
                     <div className="mail">
                         <div className="input_field">
@@ -327,7 +345,16 @@ class OverviewMyPats extends React.Component {
                             <i className="verNr"></i>
                         </div>
                     </div>
+
+                    <div className="verNr">
+                        <div className="input_field">
+                            <input type="text" placeholder="Notizen" className="input" value={this.state.patNotes[i]} name="patNotes" onChange={(event) => this.handlePatNotesChange(i, event)} />
+                            <i className="verNr"></i>
+                        </div>
+                    </div>
                     {/*this.checkProfilepic(i)*/}
+
+                    <input type="submit" className="btn btn-primary" value="Update patNotes" />
 
 
                 </form>
@@ -354,6 +381,8 @@ class OverviewMyPats extends React.Component {
     }
 
     render() {
+       
+
 
         return (
             <div className="container flex center">

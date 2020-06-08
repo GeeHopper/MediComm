@@ -8,7 +8,7 @@ const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
 
-class OverviewMyDocs extends React.Component {
+class OverviewMyFiles extends React.Component {
 
     profilepicfile = "";
     patient = "";
@@ -16,6 +16,7 @@ class OverviewMyDocs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            //user related states
             profilepic: [],
             mail: [],
             firstname: [],
@@ -34,9 +35,14 @@ class OverviewMyDocs extends React.Component {
             docid: [],
             profilepicfile: [],
             content: [],
-            docNotes: [],
 
-            patientid:''
+            //file related states
+            pat_userid: [],
+            filename: [],
+            original_filename: [],
+            filetype: [],
+            notes: [],
+            shareWith: []
         };
 
         //always passing our token so the site can verify wether we're logged in or not
@@ -51,61 +57,13 @@ class OverviewMyDocs extends React.Component {
         });
     };
 
-
-    //handleSubmit = e => {
-    async handleSubmit(i, e) {
+    handleSubmit = e => {
         e.preventDefault();
-        const docid = this.state.docid[i];
-        const patientid = this.state.patientid;
-        const docNotes = this.state.docNotes[i];
-        
-        const therapy = {
-            docid,
-            patientid,
-            docNotes,
-        }
 
-        console.log("doc notes are: " + therapy.docNotes);
 
-        
-        //using axios to post
-        axios
-        .post('http://localhost:8080/edit-sent-docnotes', therapy)
-            .then(() => console.log('docNotes updated :))'))
-            .catch(err => {
-                console.error(err);
-        });
-
+        /*this.setState({sendForm: this.state.name});
+        event.preventDefault();*/
     }
-
-    handleDocNotesChange(i, e) {
-        console.log("iii: " + i);
-
-        const newNotes = this.state.docNotes;
-        newNotes[i] = e.target.value;
-        console.log("changed: " + e.target.value);
-
-        this.setState({
-            docNotes: newNotes
-        }, () => {
-            console.log("notes: " + this.state.docNotes);
-        });
-        
-        var newContent = [];
-        console.log("length is: " + this.state.mail.length);
-        for(var i = 0; i < this.state.mail.length; i++)
-        {
-            console.log("i: " + i);
-            newContent.push(this.doctorOverviewContent(i));
-        }
-
-        this.setState({
-            content: newContent
-        }, () => {
-            console.log("content: " + this.state.content);
-        });
-    };
-
 
 
     
@@ -135,7 +93,6 @@ class OverviewMyDocs extends React.Component {
             {
                 console.log("youre a patient");
                 this.patient = response.data.user;
-                this.state.patientid = response.data.user._id;
             }
             else
             {
@@ -145,15 +102,15 @@ class OverviewMyDocs extends React.Component {
 
 
 
-        console.log("your id is: " + this.patient._id);
-        url = 'http://localhost:8080/overviewMyDocs';
+        console.log("your id is: " + this.patient.patid);
+        url = 'http://localhost:8080/overviewMyFiles';
         options = {
             method: 'POST',
             headers: {
                 'token': Cookies.get("token")
             },
             data: {
-                'pat_userid': this.patient._id
+                'pat_userid': this.patient.patid
             }
         };
         axios.post(url, options)
@@ -166,52 +123,39 @@ class OverviewMyDocs extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                console.log(response.data.doctors[0].firstname);
-                for (var i = 0; i < response.data.doctors.length; i++) {
-                    if (response.data.doctors[i].profilepic != undefined) {
-                        this.state.profilepic.push(response.data.doctors[i].profilepic);
-                        this.setState({
-                            profilepic: this.state.profilepic
-                        });
-
-                        this.state.profilepicfile.push(response.data.doctors[i].profilepicfile);
-                        this.setState({
-                            profilepicfile: this.state.profilepicfile
-                        });
-                    }
-                    this.state.mail.push(response.data.doctors[i].mail);
+                //console.log("original filename: " + response.data.patientfiles[0].original_filename);
+                for (var i = 0; i < response.data.patientfiles.length; i++) {
+                    
+                    this.state.pat_userid.push(response.data.patientfiles[i].pat_userid);
                     this.setState({
-                        mail: this.state.mail
-                    });
-                    this.state.userid.push(response.data.doctors[i]._id);
-                    this.setState({
-                        mail: this.state.mail
-                    });
-                    console.log("mail is: " + response.data.doctors[i].mail);
-
-                    this.state.firstname.push(response.data.doctors[i].firstname);
-                    this.setState({
-                        firstname: this.state.firstname
+                        pat_userid: this.state.pat_userid
                     });
 
-                    this.state.lastname.push(response.data.doctors[i].lastname);
+                    this.state.filename.push(response.data.patientfiles[i].filename);
                     this.setState({
-                        lastname: this.state.lastname
+                        filename: this.state.filename
                     });
 
-                    this.state.address.push(response.data.doctors[i].address);
+                    console.log("filename is: " + response.data.patientfiles[i].filename);
+
+                    this.state.original_filename.push(response.data.patientfiles[i].original_filename);
                     this.setState({
-                        address: this.state.address
+                        original_filename: this.state.original_filename
                     });
 
-                    this.state.docid.push(response.data.doctors[i]._id);
+                    this.state.filetype.push(response.data.patientfiles[i].filetype);
                     this.setState({
-                        docid: this.state.docid
+                        filetype: this.state.filetype
                     });
 
-                    this.state.docNotes.push(response.data.docNotes[i]);
+                    this.state.notes.push(response.data.patientfiles[i].notes);
                     this.setState({
-                        docNotes: this.state.docNotes
+                        notes: this.state.notes
+                    });
+
+                    this.state.shareWith.push(response.data.patientfiles[i].shareWith);
+                    this.setState({
+                        shareWith: this.state.shareWith
                     });
 
                     /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
@@ -226,12 +170,11 @@ class OverviewMyDocs extends React.Component {
 
                     /*if(this.state.lastname ==== "krickler")*/
                     //if(this.state.mail === this.props.match.params.query)
-                    this.state.content.push(this.doctorOverviewContent(i));
+                    this.state.content.push(this.overviewContent(i));
                     this.setState({
                         content: this.state.content
                     })
                 }
-                console.log("len: " + response.data.doctors.length);
             });
 
 
@@ -283,29 +226,29 @@ class OverviewMyDocs extends React.Component {
 
     }
 
-    doctorOverviewContent(i) {
+    overviewContent(i) {
         return (
             <div key={"main" + i}>
 
                 <div className="title">
-                    Profileedit
+                    Fileedit
                 </div>
 
 
                 <div className="bg-right"></div>
 
-                <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
                     <div className="mail">
                         <div className="input_field">
-                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input" name="mail" onChange={this.handleInputChange} />
+                            <input type="text" placeholder="sharewith" value={this.state.shareWith[i]} className="input" name="shareWith" onChange={this.handleInputChange} />
                             <i className="mail"></i>
                         </div>
                     </div>
 
                     <div className="vorName">
                         <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
+                            <input name="firstname" type="text" value={this.state.notes[i]} placeholder="notes" className="notes" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
 
@@ -313,51 +256,21 @@ class OverviewMyDocs extends React.Component {
 
                     <div className="nachName">
                         <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
+                            <input type="text" placeholder="Nachname" value={this.state.original_filename[i]} className="input" name="original_filename" onChange={this.handleInputChange} />
+                            <i className="name"></i>
+                        </div>
+                    </div>
+
+                    <div className="nachName">
+                        <div className="input_field">
+                            <a href={"viewFile/" + this.state.filename[i]}>Show file</a>
                             <i className="name"></i>
                         </div>
                     </div>
 
 
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
-
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
-
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Notizen" className="input" value={this.state.docNotes[i]} name="docNotes" onChange={(event) => this.handleDocNotesChange(i, event)} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
-                    {/*this.checkProfilepic(i)*/}
-
-                    <input type="submit" className="btn btn-primary" value="Update docNotes" />
-
-
+                    <br />
+                    <br />
                 </form>
             </div>
 
@@ -393,4 +306,4 @@ class OverviewMyDocs extends React.Component {
     }
 }
 
-export default OverviewMyDocs;
+export default OverviewMyFiles;

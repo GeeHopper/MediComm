@@ -1,33 +1,25 @@
 const mongoose = require("mongoose");
 
 //creating schema for Patientfile in database
-const PatientfileSchema = mongoose.Schema({
-    pat_userid: {
+const ChatSchema = mongoose.Schema({
+    sender: {
       type: String,
       required: true
     },
-    filename: {
+    receiver: {
         type: String,
         required: true
     },
-    original_filename: {
+    message: {
         type: String,
         required: true
     },
-    filetype: {
+    type: {
         type: String,
         required: true
     },
-    notes: {
-        type: String,
-        required: true
-    },
-    shareWith: {
-        type: String,
-        required: true
-    }
 
   });
   
   //export Patientfile model with Patientfileschema
-  module.exports = mongoose.model("patientfile", PatientfileSchema);
+  module.exports = mongoose.model("chat", ChatSchema);
