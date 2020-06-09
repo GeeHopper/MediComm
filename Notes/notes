@@ -1,0 +1,1 @@
+just started fetching patientid via url and getting it in PAtientprofile.js. Stopped at setting the state of the profiles attribute to the state of the side.

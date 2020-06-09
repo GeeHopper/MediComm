@@ -53,7 +53,7 @@ class OverviewMyDocs extends React.Component {
 
 
     //handleSubmit = e => {
-    async handleSubmit(i, e) {
+    handleSubmit(i, e) {
         e.preventDefault();
         const docid = this.state.docid[i];
         const patientid = this.state.patientid;
