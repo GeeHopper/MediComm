@@ -39,7 +39,9 @@ class Chat extends React.Component {
             messages: [],
             senders: [],
             receivers: [],
-            content: []
+            content: [],
+
+            errormsg: ''
         };
 
         //always passing our token so the site can verify wether we're logged in or not
@@ -95,6 +97,8 @@ class Chat extends React.Component {
                 'token': Cookies.get("token"),
             },
         };
+
+
         axios.get(url, options)
             .then(response => {
                 //console.log(response.json({message: "request received!", response}));
@@ -171,33 +175,35 @@ class Chat extends React.Component {
                     });
 
 
+            }).catch(error => {
+                this.setState({errormsg: error.message});
+                console.log("error is: " + error.message);
             });
+
 
         //Fetching messages
     }
 
- 
+
 
     chatContent(i) {
         var content = [];
 
-        if(this.state.senders[i] !== this.state.userid)
-        {
+        if (this.state.senders[i] !== this.state.userid) {
             return (
                 <div key={"main" + i}>
                     <input type="text" placeholder="received message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
-                    from {this.state.senders[i]} 
-                    </div>
+                    from {this.state.senders[i]}
+                </div>
 
             );
         }
-        else
-        {
+        else {
             return (
                 <div key={"main" + i}>
                     <input type="text" placeholder="sent message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
                     to {this.state.receivers[i]}
-                    </div>
+                </div>
 
             );
         }
@@ -322,11 +328,28 @@ class Chat extends React.Component {
         )
     }
 
+    errorContent()
+    {
+        return(
+            <div>
+                Something went wrong :( error is: {this.state.errormsg}
+            </div>
+
+        );
+    }
+
     getContent() {
-        if (this.isDoc())
-            return this.docContent();
+        if(this.state.error === '')
+        {
+            if (this.isDoc())
+                return this.docContent();
+            else
+                return this.patientContent();
+        }
         else
-            return this.patientContent();
+        {
+            return this.errorContent();
+        }
     }
 
     checkLogin(mail) {
@@ -343,7 +366,6 @@ class Chat extends React.Component {
     }
 
     render() {
-
         return this.getContent();
     }
 }
