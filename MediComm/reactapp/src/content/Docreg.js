@@ -1,5 +1,5 @@
 import React from 'react';
-import patpng from '../static/res/images/pat.png';
+import docpng from '../static/res/images/doc.png';
 import axios from 'axios';
 import fs from 'fs';
 
@@ -78,6 +78,123 @@ class Docreg extends React.Component{
 
     render(){
         return(
+            <div className="container-fluid">
+            <div className="row" style={{backgroundColor: "#f3eded"}}>
+                <div className="col-md-7" style={{backgroundColor: "#ffffff"}}>
+                    <div id="doc-reg">
+                        <img className="doc-reg img-fluid" src={docpng} alt="doc-reg" />
+                    </div>
+                </div>
+    
+    
+                <div className="col-md-4 pt-5 ml-md-5" style={{minHeigth: 100}}>
+                    <div className="title text-center mt-4">
+                        <h2 className="text-secondary mb-4">Registrieren</h2>
+                    </div>
+                    <div className="bg-right"></div>
+    
+                    <form className="" onSubmit={this.handleSubmit}>
+    
+                        <div className="row">
+                            <div className="vorName col">
+                                <div className="input_field">
+                                    <input type="text" placeholder="Vorname" onChange={this.handleInputChange} name="firstname" className="input form-control" />
+                                    <i className="name"></i>
+                                </div>
+    
+                            </div>
+    
+                            <div className="nachName col">
+                                <div className="input_field">
+                                    <input type="text" placeholder="Nachname" onChange={this.handleInputChange} name="lastname" className="input form-control" />
+                                    <i className="name"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mail">
+                            <div className="input_field">
+                                <input type="text" placeholder="Email" onChange={this.handleInputChange} name="mail" className="input form-control my-3" />
+                                <i className="mail"></i>
+                            </div>
+                        </div>
+    
+                        <div className="pass">
+                            <div className="input_field">
+                                <input type="password" placeholder="Passwort" onChange={this.handleInputChange} name="password" className="input form-control my-3" />
+                                <i className="enlock"></i>
+                            </div>
+                        </div>
+    
+                        <div className="pass-w">
+                            <div className="input_field">
+                                <input type="password" placeholder="Passwort wiederholen" onChange={this.handleInputChange} className="input form-control my-3" />
+                                <i className="enlock"></i>
+                            </div>
+                        </div>
+    
+                        <div className="anschrift">
+                            <div className="input_field">
+                                <input type="text" placeholder="Anschrift" name="address" onChange={this.handleInputChange} className="input form-control my-3" />
+                                <i className="anschrift"></i>
+                            </div>
+                        </div>
+    
+                        <div className="telefon">
+                            <div className="input_field">
+                                <input type="text" placeholder="Telefon" name="phone" onChange={this.handleInputChange} className="input form-control my-3" />
+                                <i className="telefon"></i>
+                            </div>
+                        </div>
+    
+                        <div className="fax">
+                            <div className="input_field">
+                                <input type="text" placeholder="Fax" name="fax" onChange={this.handleInputChange} className="input form-control my-3" />
+                                <i className="fax"></i>
+                            </div>
+                        </div>
+    
+                        <div className="arztNr">
+                            <div className="input_field">
+                                <input type="text" placeholder="Arztnummer" onChange={this.handleInputChange} name="docnum" className="input form-control my-3" />
+                                <i className="arztNr"></i>
+                            </div>
+                        </div>
+    
+                        <div className="betriebsstättennummer">
+                            <div className="input_field">
+                                <input type="text" placeholder="Betriebsstättennummer " onChange={this.handleInputChange} name="establishmentnumber" className="input form-control my-3" /> 
+                                <i className="betriebsstättennummer "></i>
+                            </div>
+                        </div>
+                        <div className="adresse">
+                            <div className="input_field">
+                                <input type="text" placeholder="Adresse " onChange={this.handleInputChange} name="adresse" className="input form-control my-3" /> 
+                                <i className="adresse "></i>
+                            </div>
+                        </div>
+                        <div className="fachrichtung">
+                            <div className="input_field">
+                                <input type="text" placeholder="Fachrichtung " onChange={this.handleInputChange} name="fieldofwork" className="input form-control my-3" /> 
+                                <i className="adresse "></i>
+                            </div>
+                        </div>
+                        <div id="agreement">
+                            <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="/dsgvo">License and User Agreement</a>
+                        </div>
+
+                        <div className="form">
+                            <div className="button text-center">
+                                <input type="submit" className="btn btn-primary badge-pill w-50 mt-4" onChange={this.handleInputChange} value="Registrieren" />
+                            </div>
+                        </div>
+                    
+                    </form>
+                </div>
+            </div>
+        </div>
+        );
+
+        /*return(
         <div>
             <div className="title">
                 Registrieren
@@ -173,7 +290,7 @@ class Docreg extends React.Component{
                 
             </form>
         </div>
-        );
+        );*/
     }
 }
 

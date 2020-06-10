@@ -23,6 +23,7 @@ import FileUploadDoc from './content/FileUploadDoc';
 import OverviewMyFiles from './content/OverviewMyFiles';
 import Picture from './content/Picture';
 import Chat from './content/Chat';
+import Dashboard from './content/Dashboard';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <div className="MediComm">
               <Switch>
                 <Route path ="/header" component = {Header}/>
+                <Route path = "/dashboard" component = {Dashboard}/>
                 <Route path = "/login" component = {Login}/>
                 <Route path = "/pat-reg" component = {Patreg}/>
                 <Route path = "/doc-reg" component = {Docreg}/>
@@ -55,7 +57,6 @@ function App() {
                   <div class="test">inline test</div>
                 )}/>
                 {/* keep '/' route at the bottom to avoid bugs */}
-                <Route path = "/" component = {Login}/>
                 <Route render={() =>(
                   <div>404: Site doesn't exist</div>
                 )}/>

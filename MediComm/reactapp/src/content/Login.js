@@ -98,7 +98,7 @@ class Login extends React.Component{
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <img className="logImg img-fluid" src="img/login.png" alt="logImg" />
+                                    <img className="logImg img-fluid" src={loginpng} alt="logImg" />
                                 </div>
                                 <div className="col-sm-6 mt-5 text-center">
                                     <div className="title py-4">
@@ -115,7 +115,7 @@ class Login extends React.Component{
                                                 <i className="enlock"></i>
                                             </div>
                                             <div className="no-acc">
-                                                <p>No Account? <a href="file:///Users/zulfiyecakmak/Desktop/Web-Projekt/reg.html">Signup!</a></p>
+                                                <p>Noch kein Account? <a href="/reg">Signup!</a></p>
                                             </div>
                                             <div className="button">
                                                 <button type="submit" className="btn btn-primary w-50 my-4">Login</button>
