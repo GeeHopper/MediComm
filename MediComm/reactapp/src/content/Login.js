@@ -2,6 +2,7 @@ import React from 'react';
 import Output from './Output';
 import loginpng from '../static/res/images/login.png';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 class Login extends React.Component{
     constructor(){
@@ -38,17 +39,19 @@ class Login extends React.Component{
             mail,
             password
         };
-        console.log("pressed :D: " + mail);
         
         //using axios to post, withcredentials also gets the cookie
         axios
         .post('http://localhost:8080/login-sent', login, {withCredentials: true})
         //.post('http://192.168.2.102:5000/login-sent', login, {withCredentials: true})
-            .then(() => console.log('Logged in :)'))
+            .then(() =>{
+             console.log('Logged in :)');
+             //redirect after succesful login
+             this.props.history.push("/dashboard");
+            })
             .catch(err => {
                 console.error(err);
         });
-
 
         /*this.setState({sendForm: this.state.name});
         event.preventDefault();*/
@@ -117,9 +120,9 @@ class Login extends React.Component{
                                             <div className="no-acc">
                                                 <p>Noch kein Account? <a href="/reg">Signup!</a></p>
                                             </div>
-                                            <div className="button">
-                                                <button type="submit" className="btn btn-primary w-50 my-4">Login</button>
-                                            </div>
+                                                <div className="button">
+                                                    <button type="submit" className="btn btn-primary w-50 my-4"><Link to="/overview">Login</Link></button>
+                                                </div>
                                         </div>
                                     </form>
                                 </div>
