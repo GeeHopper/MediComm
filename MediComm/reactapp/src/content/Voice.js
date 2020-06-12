@@ -19,13 +19,15 @@ function makefileid(length, ending) {
  }
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+var blob_file = '';
 
-class FileUpload extends React.Component{
+
+class Voice extends React.Component{
 
     profilepicfile = "";
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             profilepic: '',
             mail: '',
@@ -61,7 +63,7 @@ class FileUpload extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-        
+        this.stop = this.stop.bind(this);
           
     }
 
@@ -75,22 +77,24 @@ class FileUpload extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, receiver, blobURL} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, receiver, blobURL, blob} = this.state;
         const form_data = new FormData();
         
         //console.log("file is: " + e.target.file.files[0]);
         
+        console.log("NOW BLOB IS: " + blob_file);
+
         const chat = {
             sender: this.state.userid,
             receiver: this.state.receiver,
-            message: this.state.blobURL,
+            message: blob_file,
             type: 'audio',
         }
 
-        if(this.state.blob !== '')
+        if(blob_file !== '')
         {
             console.log("blob found");
-            form_data.append("blob", this.state.blobURL);
+            form_data.append("blob", blob_file);
         }
         else{
             console.log("please record audio before submitting");
@@ -153,7 +157,7 @@ class FileUpload extends React.Component{
           );
     }  
 
-    start = () => {
+    start = () =>{
         if (this.state.isBlocked) {
           console.log('Permission Denied');
         } else {
@@ -165,11 +169,22 @@ class FileUpload extends React.Component{
         }
     };
 
-    stop = () => {
+    stop = () =>{
+        console.log("stoppedDdD");
+        
         Mp3Recorder
           .stop()
           .getMp3()
           .then(([buffer, blob]) => {
+            var reader = new FileReader();
+            reader.readAsDataURL(blob); 
+            var base64data = '';
+            reader.onloadend = function() {
+                base64data = reader.result;                
+                console.log("blob is: " + base64data);
+                blob_file = base64data;
+            }
+            
             const blobURL = URL.createObjectURL(blob)
             this.setState({ blobURL, isRecording: false });
           }).catch((e) => console.log(e));
@@ -185,9 +200,12 @@ class FileUpload extends React.Component{
 
                     <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
                     
-                    <input type="submit" className="btn btn-primary" value="Submit" />
+                    <input type="submit" className="btn btn-primary" value="Submit" /><br />
 
                     
+                    
+                </form>
+
                     <button onClick={this.start} disabled={this.state.isRecording}>
                         Record
                     </button>
@@ -195,10 +213,9 @@ class FileUpload extends React.Component{
                         Stop
                     </button>
                     <audio src={this.state.blobURL} controls="controls" />
-                </form>
             </div>
         );
     }
 }
 
-export default FileUpload;
+export default Voice;

@@ -4,6 +4,8 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import MicRecorder from 'mic-recorder-to-mp3';
+import ReactPlayer from 'react-player/lazy'
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -41,6 +43,7 @@ class Chat extends React.Component {
             receivers: [],
             content: [],
             types: [],
+            blob_urls: [],
 
             errormsg: ''
         };
@@ -115,8 +118,6 @@ class Chat extends React.Component {
                     this.setState({ profilepicfile: response.data.user.profilepic });
                 }
                 this.setState({ userid: response.data.user._id });
-                this.setState({ docid: response.data.doctor._id });
-                this.setState({ mail: response.data.doctor.mail });
                 this.setState({ firstname: response.data.user.firstname });
                 this.setState({ lastname: response.data.user.lastname });
                 this.setState({ password: response.data.user.password });
@@ -146,6 +147,14 @@ class Chat extends React.Component {
                             this.setState({
                                 messages: this.state.messages
                             });
+
+                            /*var blobURL = URL.createObjectURL(this.state.messages[i]);
+                            this.state.blob_urls.push(blobURL);
+                            this.setState({
+                                blob_urls: this.state.blob_urls
+                            });*/
+
+
                             console.log("senders: " + response.data.messages[i].receiver)
 
                             this.state.senders.push(response.data.messages[i].sender);
@@ -199,10 +208,21 @@ class Chat extends React.Component {
             {
                 return (
                     <div key={"main" + i}>
+                        test1
                         <input type="text" placeholder="received message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
                         from {this.state.senders[i]}
                     </div>
 
+                );
+            }
+            else if(this.state.types[i] === "audio"){
+                console.log("type is...: " + this.state.types[i]);
+                return(
+                    <div key={"main" + i}>
+                        test2
+                        test blob is {this.state.messages[i]}
+                            <ReactPlayer url={this.state.messages[i]} controls />
+                    </div>
                 );
             }
         }
@@ -211,6 +231,7 @@ class Chat extends React.Component {
             {
                 return (
                     <div key={"main" + i}>
+                        test3
                         <input type="text" placeholder="sent message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
                         to {this.state.receivers[i]}
                     </div>
@@ -221,7 +242,9 @@ class Chat extends React.Component {
                 console.log("type is...: " + this.state.types[i]);
                 return(
                     <div key={"main" + i}>
-                            <audio src={this.state.messages[i]} controls="controls" /> to {this.state.receivers[i]}
+                        test4
+                        test blob is {this.state.messages[i]}
+                            <ReactPlayer url={this.state.messages[i]} controls />
                     </div>
                 );
             }
@@ -269,81 +292,21 @@ class Chat extends React.Component {
     patientContent() {
         return (
             <div>
-                <div className="title">
-                    Profileedit
-            </div>
-
-
-                <div className="bg-right"></div>
-
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
-                    <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
-                            <i className="mail"></i>
-                        </div>
-                    </div>
+                    {
+                        this.state.content
+                    }
+                    <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Message" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
 
-                    <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-
-                    </div>
-
-                    <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
-
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange} />
-                            <datalist id="kk">
-                                <option value="AOK" />
-                                <option value="Knappschaft" />
-                                <option value="Innungskrankenkasse" />
-                                <option value="DAK Gesundheit" />
-                                <option value="BARMER" />
-                            </datalist>
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
-                    {this.checkProfilepic()}
-
-                    <input type="file" name="profilepic" onChange={this.handleInputChange} /> <br />
 
                     <input type="submit" className="btn btn-primary" value="Submit" />
 
                 </form>
-            </div>
 
+
+            </div>
         )
     }
 
