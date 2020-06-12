@@ -40,6 +40,7 @@ class Chat extends React.Component {
             senders: [],
             receivers: [],
             content: [],
+            types: [],
 
             errormsg: ''
         };
@@ -145,7 +146,7 @@ class Chat extends React.Component {
                             this.setState({
                                 messages: this.state.messages
                             });
-                            console.log("senders:: " + response.data.messages[i].receiver)
+                            console.log("senders: " + response.data.messages[i].receiver)
 
                             this.state.senders.push(response.data.messages[i].sender);
                             this.setState({
@@ -157,6 +158,10 @@ class Chat extends React.Component {
                                 receivers: this.state.receivers
                             });
 
+                            this.state.types.push(response.data.messages[i].type);
+                            this.setState({
+                                types: this.state.types
+                            });
 
                         }
 
@@ -190,22 +195,36 @@ class Chat extends React.Component {
         var content = [];
 
         if (this.state.senders[i] !== this.state.userid) {
-            return (
-                <div key={"main" + i}>
-                    <input type="text" placeholder="received message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
-                    from {this.state.senders[i]}
-                </div>
+            if(this.state.types[i] === "text")
+            {
+                return (
+                    <div key={"main" + i}>
+                        <input type="text" placeholder="received message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
+                        from {this.state.senders[i]}
+                    </div>
 
-            );
+                );
+            }
         }
         else {
-            return (
-                <div key={"main" + i}>
-                    <input type="text" placeholder="sent message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
-                    to {this.state.receivers[i]}
-                </div>
+            if(this.state.types[i] === "text")
+            {
+                return (
+                    <div key={"main" + i}>
+                        <input type="text" placeholder="sent message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
+                        to {this.state.receivers[i]}
+                    </div>
 
-            );
+                );
+            }
+            else if(this.state.types[i] === "audio"){
+                console.log("type is...: " + this.state.types[i]);
+                return(
+                    <div key={"main" + i}>
+                            <audio src={this.state.messages[i]} controls="controls" /> to {this.state.receivers[i]}
+                    </div>
+                );
+            }
         }
     }
 
@@ -339,7 +358,7 @@ class Chat extends React.Component {
     }
 
     getContent() {
-        if(this.state.error === '')
+        if(this.state.errormsg === '')
         {
             if (this.isDoc())
                 return this.docContent();

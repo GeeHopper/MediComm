@@ -18,6 +18,10 @@ const ChatSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    blob: {
+        type: String,
+        required: false
+    }
   });
   
   //export Patientfile model with Patientfileschema
