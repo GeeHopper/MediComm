@@ -64,7 +64,7 @@ class Login extends React.Component{
                     #middleOne{\
                         position: relative;\
                         background-color: #c6cfff;\
-                        padding-bottom: 550px;\
+                        padding-bottom: 40px;\
                         width: 100%;\
                     }\
                     #middleThree {\
@@ -94,6 +94,11 @@ class Login extends React.Component{
                         background-color: #c6cfff;\
                         color: #666666;\
                     }\
+                    h2{\
+                        color: rgb(170, 125, 243);\
+                        font-family: 'Lobster', cursive;\
+                        text-align: center;\
+                      }\
                 "}
                 </style>
                 
@@ -101,6 +106,8 @@ class Login extends React.Component{
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-sm-6">
+                                <br />
+                                <h2>Medibook</h2>
                                     <img className="logImg img-fluid" src={loginpng} alt="logImg" />
                                 </div>
                                 <div className="col-sm-6 mt-5 text-center">
@@ -130,7 +137,12 @@ class Login extends React.Component{
                             <div className="row">
                                 <div className="col-sm-12 text-center px-0">
                                     <div id="middleOne">
-                                        <h3 className="kurzBeschreibung text-secondary">Beschreibung was die App bietet</h3>
+                                        <h3 className="kurzBeschreibung text-secondary"> 
+                                        <br />
+                         Willkommen auf  Medibook- Ihre eigene, digitale und mobile Gesundheitsakte. <br /> 
+                        Legen Sie sich Ihr persönliches Profil  an und profitieren Sie von allen Funktionen die Medibook bietet, <br />
+                        wie dem Doc Portal für den sicheren Nachrichten- und Dokumentenaustausch mit den Ärzten Ihrer Wahl, Aktendokumentation, Terminbuchungen und dem Beantragen von Rezepten. <br />
+                        Registrieren Sie sich!</h3>
                                     </div>
                                 </div>
                             </div>
