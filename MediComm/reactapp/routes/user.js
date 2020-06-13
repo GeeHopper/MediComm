@@ -756,8 +756,7 @@ router.post("/overviewMyFiles", auth, async (req, res) => {
         res.json({
             patientfiles: patientfiles
         })
-        console.log(patientfiles[0].original_filename + "is the original filename");
-
+        
         //res.send(JSON.stringify(user));
     } catch (e) {
         console.log(e.stack);
@@ -1024,7 +1023,8 @@ router.post("/chat-receive", auth, async (req, res) => {
         // request.user is getting fetched from Middleware after token authentication
         console.log("receiving chat");
         console.log("user id is: " + req.body.data.userid);
-        const messages = await Chat.find({ sender: req.body.data.userid });
+        //const messages = await Chat.find({ sender: req.body.data.userid });
+        const messages = await Chat.find({ $or:[ {'sender':req.body.data.userid}, {'receiver':req.body.data.userid}]});
 
         /*for (i = 0; i < messages.length; i++) {
             console.log("therapy: " + i + " added");

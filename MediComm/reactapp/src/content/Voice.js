@@ -20,13 +20,16 @@ function makefileid(length, ending) {
     return result;
  }
 
+const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+var blob_file = '';
+
+
 class Voice extends React.Component{
 
     profilepicfile = "";
-    
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             profilepic: '',
             mail: '',
@@ -52,7 +55,9 @@ class Voice extends React.Component{
             notes: '',
             shareWith: [],
 
-            //voice related
+            receiver: '',
+
+            //audio related states
             isRecording: false,
             blobURL: '',
             isBlocked: false,
@@ -60,7 +65,7 @@ class Voice extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-        
+        this.stop = this.stop.bind(this);
           
     }
 
@@ -74,54 +79,42 @@ class Voice extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, filename, original_filename, filetype} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, receiver, blobURL, blob} = this.state;
         const form_data = new FormData();
-        //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
-        const patientfile = 
-        {
-            pat_userid: this.state.patient._id,
-            filename: makefileid(20),
-            original_filename: '',
-            filetype: '',
-            shareWith: ''
-        };
-
+        
         //console.log("file is: " + e.target.file.files[0]);
         
-        if(e.target.file.files[0])
+        console.log("NOW BLOB IS: " + blob_file);
+
+        const chat = {
+            sender: this.state.userid,
+            receiver: this.state.receiver,
+            message: blob_file,
+            type: 'audio',
+        }
+
+        if(blob_file !== '')
         {
-            console.log("file found");
-            form_data.append("file", e.target.file.files[0]);
-            form_data.append("newfilename", patientfile.filename);
-            form_data.append("filetype", e.target.file.files[0].name.split('.').pop());
-            patientfile.original_filename = e.target.file.files[0].name;
-            patientfile.filetype = e.target.file.files[0].name.split('.').pop();
-            patientfile.notes = this.state.notes;
-            patientfile.shareWith = this.state.shareWith;
-            console.log("sharing with: " + patientfile.shareWith)
+            console.log("blob found");
+            form_data.append("blob", blob_file);
+        }
+        else{
+            console.log("please record audio before submitting");
         }
 
         const headerss = {
             'content-type': 'multipart/form-data'
         }
-        if(e.target.file.files[0])
+        if(this.state.blobURL)
         {
+            console.log("sending blob...");
             axios
-            .post('http://localhost:8080/fileUpload', form_data,{headerss})
-                .then(() => console.log('File uploaded.'))
-                .catch(err => {
-                    console.error(err);
-            });
-            axios
-            .post('http://localhost:8080/patientfile-sent', patientfile)
-                .then(() => console.log('patientfile uploaded.'))
-                .catch(err => {
-                    console.error(err);
+            .post('http://localhost:8080/chat-sent', chat)
+            .then(() => console.log('Message sent :))'))
+            .catch(err => {
+                console.error(err);
             });
         }
-       //HIER WEITER
-        
-        console.log("new filename: " + patientfile.filename);
 
 
 
@@ -129,33 +122,6 @@ class Voice extends React.Component{
         event.preventDefault();*/
     }
 
-    setUsername(username)
-    {
-        this.username = username;
-        console.log("username: " + username);
-    }
-
-    start = () => {
-        if (this.state.isBlocked) {
-          console.log('Permission Denied');
-        } else {
-          Mp3Recorder
-            .start()
-            .then(() => {
-              this.setState({ isRecording: true });
-            }).catch((e) => console.error(e));
-        }
-    };
-
-    stop = () => {
-        Mp3Recorder
-          .stop()
-          .getMp3()
-          .then(([buffer, blob]) => {
-            const blobURL = URL.createObjectURL(blob)
-            this.setState({ blobURL, isRecording: false });
-          }).catch((e) => console.log(e));
-    };
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
@@ -168,14 +134,6 @@ class Voice extends React.Component{
         };
         axios.get(url, options)
         .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
             console.log(response.data.profilepic);
             if(response.data.user.profilepic)
             {
@@ -183,14 +141,10 @@ class Voice extends React.Component{
                 this.setState({profilepicfile: response.data.user.profilepic});
             }
             this.setState({userid: response.data.user._id});
-            this.setState({patid: response.data.patient._id});
-            this.setState({mail: response.data.patient.mail});
             this.setState({firstname: response.data.user.firstname});
             this.setState({lastname: response.data.user.lastname});
             this.setState({password: response.data.user.password});
             this.setState({address: response.data.user.address});
-            this.setState({insurednumber: response.data.patient.insurednumber});
-            this.setState({healthinsurance: response.data.patient.healthinsurance});
         });
 
         navigator.getUserMedia({ audio: true },
@@ -203,120 +157,64 @@ class Voice extends React.Component{
               this.setState({ isBlocked: true })
             },
           );
-
-        
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
     }  
 
-    isDoc()
-    {
-        if(this.state.isDoc == "1")
-            return true;
-        else
-            return false;
-    }
+    start = () =>{
+        if (this.state.isBlocked) {
+          console.log('Permission Denied');
+        } else {
+          Mp3Recorder
+            .start()
+            .then(() => {
+              this.setState({ isRecording: true });
+            }).catch((e) => console.error(e));
+        }
+    };
 
-    docContent()
-    {
-        return("");
-    }
-
-    checkProfilepic()
-    {
-        if(this.state.profilepicfile)
-            return (<img src = {require("../uploads/" + this.state.profilepicfile)} />);
-        else
-            return ("no image");
-    }
-
-    patientContent()
-    {
-        return(
-        <div>
-            <div className="title">
-                Profileedit
-            </div>
-
-
-            <div className="bg-right"></div>
-
-            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                
-
-                <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
-                
-                <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
-
-                <input type="text" placeholder="Doctor IDs" onChange={this.handleInputChange} name="shareWith"></input>
-
-                <input type="submit" className="btn btn-primary" value="Submit" />
-                
-            </form>
-        </div>
-
-        )
-    }
-
-    getContent()
-    {
-        if(this.isDoc())
-            return this.docContent();
-        else
-            return this.patientContent();
-    }
-
-    checkLogin(mail)
-    {
+    stop = () =>{
+        console.log("stoppedDdD");
         
-            return mail()
+        Mp3Recorder
+          .stop()
+          .getMp3()
+          .then(([buffer, blob]) => {
+            var reader = new FileReader();
+            reader.readAsDataURL(blob); 
+            var base64data = '';
+            reader.onloadend = function() {
+                base64data = reader.result;                
+                console.log("blob is: " + base64data);
+                blob_file = base64data;
+            }
+            
+            const blobURL = URL.createObjectURL(blob)
+            this.setState({ blobURL, isRecording: false });
+          }).catch((e) => console.log(e));
+    };
 
-            /*try {
-                const decoded = jwt.verify(this.state.token, "randomString");
-                //return "it is: " + decoded.user;
-                const user = User.findById(req.user.id);
-            } catch (e) {
-                console.error(e);
-            }*/
-    }
+    
 
     render(){
 
         return (
             <div>
-                <button onClick={this.start} disabled={this.state.isRecording}>
-                Record
-                </button>
-                <button onClick={this.stop} disabled={!this.state.isRecording}>
-                Stop
-                </button>
-                <audio src={this.state.blobURL} controls="controls" />
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+
+                    <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
+                    
+                    <input type="submit" className="btn btn-primary" value="Submit" /><br />
+
+                    
+                    
+                </form>
+
+                    <button onClick={this.start} disabled={this.state.isRecording}>
+                        Record
+                    </button>
+                    <button onClick={this.stop} disabled={!this.state.isRecording}>
+                        Stop
+                    </button>
+                    <audio src={this.state.blobURL} controls="controls" />
             </div>
         );
     }

@@ -24,6 +24,7 @@ import OverviewMyFiles from './content/OverviewMyFiles';
 import Picture from './content/Picture';
 import Chat from './content/Chat';
 import Dashboard from './content/Dashboard';
+import Voice from './content/Voice';
 
 function App() {
 
@@ -33,7 +34,8 @@ function App() {
     
           <div className="MediComm">
               <Switch>
-                <Route path ="/header" component = {Header}/>
+                <Route path = "/voice" component = {Voice}/>
+                <Route path = "/header" component = {Header}/>
                 <Route path = "/dashboard" component = {Dashboard}/>
                 <Route path = "/login" component = {Login}/>
                 <Route path = "/pat-reg" component = {Patreg}/>
