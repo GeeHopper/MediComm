@@ -208,9 +208,9 @@ class Chat extends React.Component {
             {
                 return (
                     <div key={"main" + i}>
-                        test1
-                        <input type="text" placeholder="received message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
-                        from {this.state.senders[i]}
+                        {this.state.messages[i]} from {this.state.senders[i]}
+                        <br />
+                        <hr />
                     </div>
 
                 );
@@ -219,9 +219,10 @@ class Chat extends React.Component {
                 console.log("type is...: " + this.state.types[i]);
                 return(
                     <div key={"main" + i}>
-                        test2
-                        test blob is {this.state.messages[i]}
-                            <ReactPlayer url={this.state.messages[i]} controls />
+                        <ReactPlayer url={this.state.messages[i]} controls height='10%' />
+                            from {this.state.senders[i]}
+                        <br />
+                        <hr />
                     </div>
                 );
             }
@@ -231,20 +232,20 @@ class Chat extends React.Component {
             {
                 return (
                     <div key={"main" + i}>
-                        test3
-                        <input type="text" placeholder="sent message" value={this.state.messages[i]} className="input" name="messages" onChange={this.handleInputChange} />
-                        to {this.state.receivers[i]}
+                        {this.state.messages[i]} to {this.state.receivers[i]}
+                        <br />
+                        <hr />
                     </div>
 
                 );
             }
             else if(this.state.types[i] === "audio"){
-                console.log("type is...: " + this.state.types[i]);
                 return(
                     <div key={"main" + i}>
-                        test4
-                        test blob is {this.state.messages[i]}
-                            <ReactPlayer url={this.state.messages[i]} controls />
+                            <ReactPlayer url={this.state.messages[i]} controls height={20} /> 
+                            to {this.state.receivers[i]}
+                            <br />
+                            <hr />
                     </div>
                 );
             }

@@ -3,7 +3,6 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ReactDOM from 'react-dom';
-import Header from './content/Header';
 import Login from './content/Login';
 import Patreg from './content/Patreg';
 import Profileedit from './content/Profileedit';
@@ -26,6 +25,10 @@ import Chat from './content/Chat';
 import Dashboard from './content/Dashboard';
 import Voice from './content/Voice';
 
+// Layout Types
+import { DefaultLayout } from "./layouts";
+
+
 function App() {
 
 
@@ -35,8 +38,9 @@ function App() {
           <div className="MediComm">
               <Switch>
                 <Route path = "/voice" component = {Voice}/>
-                <Route path = "/header" component = {Header}/>
-                <Route path = "/dashboard" component = {Dashboard}/>
+                <DefaultLayout>
+                  <Route path = "/dashboard" component = {Dashboard} />
+                </DefaultLayout>
                 <Route path = "/login" component = {Login}/>
                 <Route path = "/pat-reg" component = {Patreg}/>
                 <Route path = "/doc-reg" component = {Docreg}/>

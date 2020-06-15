@@ -7,7 +7,6 @@ import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
 
 var ObjectID = require('mongodb').ObjectID;
-const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 //makeid to save profile pics and associate them with the users
 function makefileid(length, ending) {

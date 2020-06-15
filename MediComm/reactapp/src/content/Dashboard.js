@@ -4,6 +4,19 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+
+//new design related imports
+import PropTypes from "prop-types";
+import { Container, Row, Col } from "shards-react";
+
+import PageTitle from "../components/common/PageTitle.js";
+import SmallStats from "../components/common/SmallStats.js";
+import UsersOverview from "../components/blog/UsersOverview";
+import UsersByDevice from "../components/blog/UsersByDevice";
+import NewDraft from "../components/blog/NewDraft";
+import Discussions from "../components/blog/Discussions";
+import TopReferrals from "../components/common/TopReferrals";
+
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -47,7 +60,6 @@ class Dashboard extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-        
           
     }
 
@@ -129,6 +141,7 @@ class Dashboard extends React.Component{
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
+        
         const url = 'http://localhost:8080/me';
         const options = {
         method: 'GET',
@@ -526,7 +539,17 @@ class Dashboard extends React.Component{
 
     render(){
 
-        return this.getContent();
+        //return this.getContent();
+        return(
+            <Container fluid className="main-content-container px-4">
+                {/* Page Header */}
+                <Row noGutters className="page-header py-4">
+                <PageTitle title="Terminübersicht" subtitle="Medibook" className="text-sm-left mb-3" />
+                </Row>
+
+            
+            </Container>
+        )
     }
 }
 
