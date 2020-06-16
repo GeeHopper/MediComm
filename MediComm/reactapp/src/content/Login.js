@@ -3,6 +3,8 @@ import Output from './Output';
 import loginpng from '../static/res/images/login.png';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import PropTypes from "prop-types";
+import { Container, Row, Col } from "shards-react";
 
 class Login extends React.Component{
     constructor(){
@@ -192,6 +194,16 @@ class Login extends React.Component{
         );
         
     }
+
+    
 }
+
+Login.propTypes = {
+    /**
+     * The small stats dataset.
+     */
+    smallStats: PropTypes.array
+};
+  
 
 export default Login;

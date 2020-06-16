@@ -171,7 +171,6 @@ class Voice extends React.Component{
     };
 
     stop = () =>{
-        console.log("stoppedDdD");
         
         Mp3Recorder
           .stop()

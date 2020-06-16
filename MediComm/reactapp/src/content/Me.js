@@ -24,23 +24,28 @@ class Me extends React.Component{
     constructor(){
         super();
         this.state = {
+            //basic userdata
             profilepic: '',
             mail: '',
             firstname: '',
             lastname: '',
             address: '',
-            phone: '',
-            mail: '',
-            fax: '',
-            url: '',
-            fieldofwork: '',
-            insurednumber: '',
-            healthinsurance: '',
             isDoc: '',
             patid: '',
             userid: '',
             docid: '',
-            profilepicfile: ''
+            profilepicfile: '',
+
+            //doc related
+            phone: '',
+            fax: '',
+            url: '',
+            fieldofwork: '',
+            establishmentnumber: '',
+
+            //patient related
+            insurednumber: '',
+            healthinsurance: '',
         };
         
         //always passing our token so the site can verify wether we're logged in or not
@@ -58,7 +63,7 @@ class Me extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, docid, fieldofwork, phone, fax, docnum, establishmentnumber} = this.state;
         const form_data = new FormData();
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const user = {
@@ -79,12 +84,32 @@ class Me extends React.Component{
             form_data.append("newfilename", newfilename);
             user.profilepic = newfilename;
         }
+
+        var doctor = '';
+        var patient = '';
        
-        const patient = {
-            insurednumber,
-            healthinsurance,
-            patid
-        };
+        if(this.state.isDoc === "0")
+        {
+            console.log("i doc")
+            patient = {
+                insurednumber,
+                healthinsurance,
+                patid
+            };
+        }
+        else
+        {
+            console.log("i doc")
+            doctor = {
+                phone,
+                fax,
+                docnum,
+                establishmentnumber,
+                fieldofwork,
+                mail,
+                docid
+            }
+        }
         
         console.log("user profilepic: " + user.profilepic);
 
@@ -95,12 +120,24 @@ class Me extends React.Component{
             .catch(err => {
                 console.error(err);
         });
-        axios
-        .post('http://localhost:8080/edit-sent-patient', patient)
-            .then(() => console.log('Patient updated :))'))
-            .catch(err => {
-                console.error(err);
-        });
+        if(this.state.isDoc === "0")
+        {
+            axios
+            .post('http://localhost:8080/edit-sent-patient', patient)
+                .then(() => console.log('Patient updated :))'))
+                .catch(err => {
+                    console.error(err);
+            });
+        }
+        else
+        {
+            axios
+            .post('http://localhost:8080/edit-sent-doctor', doctor)
+                .then(() => console.log('Patient updated :))'))
+                .catch(err => {
+                    console.error(err);
+            });
+        }
         const headerss = {
             'content-type': 'multipart/form-data'
         }
@@ -125,8 +162,8 @@ class Me extends React.Component{
         console.log("username: " + username);
     }
 
-    //using axios in here to get access to the response of our backend in our frontend
-    componentDidMount () {
+    getUserData(){
+
         const url = 'http://localhost:8080/me';
         const options = {
         method: 'GET',
@@ -151,52 +188,40 @@ class Me extends React.Component{
                 this.setState({profilepicfile: response.data.user.profilepic});
             }
             this.setState({userid: response.data.user._id});
-            this.setState({patid: response.data.patient._id});
-            this.setState({mail: response.data.patient.mail});
+            this.setState({mail: response.data.user.mail});
             this.setState({firstname: response.data.user.firstname});
             this.setState({lastname: response.data.user.lastname});
             this.setState({password: response.data.user.password});
             this.setState({address: response.data.user.address});
-            this.setState({insurednumber: response.data.patient.insurednumber});
-            this.setState({healthinsurance: response.data.patient.healthinsurance});
+            this.setState({isDoc: response.data.user.isDoc});
+            if(response.data.user.isDoc === "0")
+            {
+                this.setState({patid: response.data.patient._id});
+                this.setState({insurednumber: response.data.patient.insurednumber});
+                this.setState({healthinsurance: response.data.patient.healthinsurance});
+            }
+            else
+            {
+                this.setState({docid: response.data.doctor._id});
+                this.setState({fax: response.data.doctor.fax});
+                this.setState({phone: response.data.doctor.phone});
+                this.setState({fieldofwork: response.data.doctor.fieldofwork});
+                this.setState({url: response.data.doctor.url});
+                this.setState({establishmentnumber: response.data.doctor.establishmentnumber});
+            }
+            
         });
-
-      
-
         
+    }
 
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
+    //using axios in here to get access to the response of our backend in our frontend
+    componentDidMount () {
+        this.getUserData();
     }  
 
     isDoc()
     {
-        if(this.state.isDoc == "1")
+        if(this.state.isDoc === "1")
             return true;
         else
             return false;
@@ -204,13 +229,98 @@ class Me extends React.Component{
 
     docContent()
     {
-        return("");
+        return(
+            <div>
+            <div className="title">
+                Profileedit
+            </div>
+            {
+                /*
+                phone: '',
+            mail: '',
+            fax: '',
+            url: '',
+            fieldofwork: '',
+
+                */
+            }
+
+            <div className="bg-right"></div>
+
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+                
+                <div className="mail">
+                    <div className="input_field">
+                        <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
+                        <i className="mail"></i>
+                    </div>
+                </div>
+
+                <div className="vorName">
+                    <div className="input_field">
+                        <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
+                    </div>
+
+                </div>
+
+                <div className="nachName">
+                    <div className="input_field">
+                        <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
+                        <i className="name"></i>
+                    </div>
+                </div>
+
+
+                <div className="pass">
+                    <div className="input_field">
+                        <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
+                        <i className="enlock"></i>
+                    </div>
+                </div>
+
+                <div className="anschrift">
+                    <div className="input_field">
+                        <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
+                        <i className="anschrift"></i>
+                    </div>
+                </div>
+
+
+                <div className="kk">
+                    <div className="input_field">
+                        <input list="kk" placeholder="Phone" className="input" value={this.state.phone} name="phone" onChange={this.handleInputChange}/>
+                    </div>
+                </div>
+
+                <input type="text" placeholder="Fax" className="input" value={this.state.fax} name="fax" onChange={this.handleInputChange}/>
+                <br />
+
+                <input type="text" placeholder="URL" className="input" value={this.state.url} name="url" onChange={this.handleInputChange}/>
+                <br />
+
+                <input type="text" placeholder="Establishmentnumber" className="input" value={this.state.establishmentnumber} name="establishmentnumber" onChange={this.handleInputChange}/>
+                <br />
+
+                <input type="text" placeholder="Field of work" className="input" value={this.state.fieldofwork} name="fieldofwork" onChange={this.handleInputChange}/>
+                <br />
+
+
+                {this.checkProfilepic()}
+
+                <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
+                
+                <input type="submit" className="btn btn-primary" value="Submit" />
+                
+            </form>
+        </div>
+        );
     }
 
     checkProfilepic()
     {
         if(this.state.profilepicfile)
-            return (<img src = {require("../uploads/" + this.state.profilepicfile)} />);
+            return (<img src = {require("../../public/uploads/" + this.state.profilepicfile)} />);
         else
             return ("no image");
     }

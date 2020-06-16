@@ -338,7 +338,7 @@ router.post(
                 });
                 if (!doctor)
                     return res.status(400).json({
-                        message: "Patient Not Exist"
+                        message: "Doctor Not Exist"
                     });
 
                 const isMatch = await bcrypt.compare(password, user.password);
@@ -465,6 +465,11 @@ router.post("/addPatient", auth, async (req, res) => {
 
 });
 
+
+
+
+
+
 router.post(
     "/edit-sent-user",
     [
@@ -574,6 +579,60 @@ router.post(
         }
     }
 );
+
+router.post(
+    "/edit-sent-doctor",
+    [
+        check("fieldofwork", "Please Enter a Valid fieldofwork")
+            .not()
+            .isEmpty(),
+        check("establishmentnumber", "Please Enter a Valid establishmentnumber")
+            .not()
+            .isEmpty()
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+        const {
+            phone,
+            fax,
+            docnum,
+            establishmentnumber,
+            fieldofwork,
+            mail,
+            docid
+        } = req.body;
+        try {
+            let doctor = await Doctor.findOne({
+                "_id": ObjectID(docid)
+            });
+            if (!doctor) {
+                console.log("no patient found with the requested id");
+            }
+
+            doctor.phone = req.body.phone;
+            doctor.fax = req.body.fax;
+            doctor.docnum = req.body.docnum;
+            doctor.establishmentnumber = req.body.establishmentnumber;
+            doctor.fieldofwork = req.body.fieldofwork;
+            doctor.mail = req.body.mail;
+            doctor.save();
+        } catch (err) {
+            console.log(err.message);
+            console.log(err.stack)
+            res.status(500).send("Error in Saving");
+        }
+    }
+);
+
+
+
+
+
 
 router.post(
     "/edit-sent-patientfile",

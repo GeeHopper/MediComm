@@ -145,6 +145,7 @@ class Webserver
         this.app.post("/checkUserUrl", this.urlParser, user);
         this.app.post("/checkFile", this.urlParser, user);
         this.app.post("/edit-sent-patient", this.urlParser, user);
+        this.app.post("/edit-sent-doctor", this.urlParser, user);
         this.app.post("/edit-sent-patientfile", this.urlParser, user);
         this.app.post("/edit-sent-patnotes", this.urlParser, user);
         this.app.post("/edit-sent-docnotes", this.urlParser, user);

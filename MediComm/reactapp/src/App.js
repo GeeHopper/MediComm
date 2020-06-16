@@ -24,6 +24,12 @@ import Picture from './content/Picture';
 import Chat from './content/Chat';
 import Dashboard from './content/Dashboard';
 import Voice from './content/Voice';
+import routes from './routes'
+
+import withTracker from "./withTracker";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 
 // Layout Types
 import { DefaultLayout } from "./layouts";
@@ -36,36 +42,23 @@ function App() {
     
     
           <div className="MediComm">
-              <Switch>
-                <Route path = "/voice" component = {Voice}/>
-                <DefaultLayout>
-                  <Route path = "/dashboard" component = {Dashboard} />
-                </DefaultLayout>
-                <Route path = "/login" component = {Login}/>
-                <Route path = "/pat-reg" component = {Patreg}/>
-                <Route path = "/doc-reg" component = {Docreg}/>
-                <Route path = "/profileedit" component = {Profileedit}/>
-                <Route path = "/me" component = {Me}/>
-                <Route path = "/dsgvo" component = {Dsgvo}/>
-                <Route path = "/profile/:userid" component = {Profile}/>
-                <Route path = "/search/:query" component = {Search}/>
-                <Route path = "/OverviewMyDocs" component = {MyDocsOverview}/>
-                <Route path = "/Picture" component = {Picture}/>
-                <Route path = "/Chat" component = {Chat}/>
-                <Route path = "/OverviewMyPats" component = {MyPatsOverview}/>
-                <Route path = "/OverviewMyFiles" component = {OverviewMyFiles}/>
-                <Route path = "/SearchMyDocs/:query" component = {SearchMyDocs}/>
-                <Route path = "/SearchMyPats/:query" component = {SearchMyPats}/>
-                <Route path = "/fileUpload" component = {FileUpload}/>
-                <Route path = "/fileUploadDoc" component = {FileUploadDoc} />
-                <Route path = "/viewFile/:query" component = {ViewFile}/>
-                <Route path="/inline" render={() => (
-                  <div class="test">inline test</div>
-                )}/>
-                {/* keep '/' route at the bottom to avoid bugs */}
-                <Route render={() =>(
-                  <div>404: Site doesn't exist</div>
-                )}/>
+              <Switch basename={process.env.REACT_APP_BASENAME || ""}>
+                {routes.map((route, index) => {
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={withTracker(props => {
+                      return (
+                        <route.layout {...props}>
+                          <route.component {...props} />
+                        </route.layout>
+                      );
+                    })}
+                  />
+                );
+              })}
               </Switch>
           
           </div>

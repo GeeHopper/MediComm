@@ -541,16 +541,25 @@ class Dashboard extends React.Component{
 
         //return this.getContent();
         return(
-            <Container fluid className="main-content-container px-4">
-                {/* Page Header */}
-                <Row noGutters className="page-header py-4">
-                <PageTitle title="Terminübersicht" subtitle="Medibook" className="text-sm-left mb-3" />
-                </Row>
-
             
-            </Container>
+                <Container fluid className="main-content-container px-4">
+                    
+                    <Row noGutters className="page-header py-4">
+                        <PageTitle title="Terminübersicht" subtitle="Medibook" className="text-sm-left mb-3" />
+                    </Row>
+
+                
+                </Container>
         )
     }
 }
+
+Dashboard.propTypes = {
+    /**
+     * The small stats dataset.
+     */
+    smallStats: PropTypes.array
+};
+  
 
 export default Dashboard;
