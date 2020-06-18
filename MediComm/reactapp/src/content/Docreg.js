@@ -87,18 +87,20 @@ class Docreg extends React.Component{
 
     render(){
         return(
-            <div className="container-fluid">
-            <div className="row" style={{backgroundColor: "#f3eded"}}>
-                <div className="col-md-7" style={{backgroundColor: "#ffffff"}}>
+            <div className="container-fluid" style={{background: "white"}}>
+            <div className="row"style={{backgroundColor: "#f3eded"}}>
+            
+                <div className="col-md-7" style={{backgroundColor: "white"}}>
                     <div id="doc-reg">
                         <img className="doc-reg img-fluid" src={docpng} alt="doc-reg" />
                     </div>
                 </div>
+                
     
-    
+            
                 <div className="col-md-4 pt-5 ml-md-5" style={{minHeigth: 100}}>
                     <div className="title text-center mt-4">
-                        <h2 className="text-secondary mb-4">Registrieren</h2>
+                        <h2 className="text-secondary mb-5 ">Registrieren</h2>
                     </div>
                     <div className="bg-right"></div>
     
@@ -182,15 +184,18 @@ class Docreg extends React.Component{
                             </div>
                         </div>
                         <div id="agreement">
-                            <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>Please accept the <a href="/dsgvo">License and User Agreement</a>
+                        <div class="button text-center mt-3 " style={{fontWeight: 'bold', fontSize: 12}}>
+                            <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>  Please accept the <a href="/dsgvo">License and User Agreement</a>
+                        </div>
                         </div>
 
                         <div className="form">
                             <div className="button text-center">
-                                <input type="submit" className="btn btn-primary badge-pill w-50 mt-4" onChange={this.handleInputChange} value="Registrieren" />
+                                <input type="submit" className="btn btn-primary badge-pill w-50 mt-5" onChange={this.handleInputChange} value="Registrieren" style={{fontWeight: 'bold', fontSize: 12}}></input>
                             </div>
                         </div>
-                    
+                        <div className="row"style={{backgroundColor: "#f3eded"}}>
+                            <p> <br></br> </p> </div>
                     </form>
                 </div>
             </div>

@@ -112,11 +112,14 @@ class Login extends React.Component{
                         font-family: 'Lobster', cursive;\
                         text-align: center;\
                       }\
+                      h3{\
+                        color: rgb(170, 125, 243);\
+                      }\
                 "}
                 </style>
                 
 
-                        <div className="container-fluid">
+                        <div className="container-fluid" style={{background: "white"}}>
                             <div className="row">
                                 <div className="col-sm-6">
                                 <br />
@@ -125,23 +128,23 @@ class Login extends React.Component{
                                 </div>
                                 <div className="col-sm-6 mt-5 text-center">
                                     <div className="title py-4">
-                                        <h3 className="text-secondary mt-5">Login</h3>
+                                        <h3 className=" mt-5"style={{fontWeight: 'bold'}}>Login</h3>
                                     </div>
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="form w-50 mx-auto">
                                             <div className="input_field my-4">
-                                                <input type="text" placeholder="Email" name="mail" className="input form-control py-4" onChange={this.handleInputChange}/>
+                                                <input type="text" placeholder="Email" name="mail" className="input form-control py-3" onChange={this.handleInputChange}/>
                                                 <i className="mail"></i>
                                             </div>
                                             <div className="input_field my-4">
-                                                <input type="password" placeholder="Passwort" name="password" className="input form-control py-4" onChange={this.handleInputChange}/>
+                                                <input type="password" placeholder="Passwort" name="password" className="input form-control py-3" onChange={this.handleInputChange}/>
                                                 <i className="enlock"></i>
                                             </div>
-                                            <div className="no-acc">
+                                            <div className="no-acc" style={{fontWeight: 'bold',fontSize: 15}}>
                                                 <p>Noch kein Account? <a href="/reg">Signup!</a></p>
                                             </div>
                                                 <div className="button">
-                                                    <button type="submit" className="btn btn-primary w-50 my-4"><Link to="/overview">Login</Link></button>
+                                                    <button type="submit" className="btn btn-primary w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}><Link to="/overview">Login</Link></button>
                                                 </div>
                                         </div>
                                     </form>
@@ -159,26 +162,30 @@ class Login extends React.Component{
                                     </div>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-around my-5 text-center flex-wrap">
-                                <div className="iconTermin">
+                            <div className="d-flex justify-content-around my-5 text-center flex-wrap"style={{background: "white"}}>
+                                <div className="iconTermin mt-1">
                                     <i className="far fa-calendar-check"></i>
-                                    <p className="termin-title">Termine vereinbaren</p>
+                                    <p className="termin-title  mt-3" style={{fontWeight: 'bold',color: 'rgb(170, 125, 243)',fontSize: 15}}>Termine vereinbaren</p>
                                 </div>
                                 <div className="iconDoc ">
                                     <i className="fas fa-user-md"></i>
-                                    <p className="doc-title">Arztsuche </p>
+                                    <p className="doc-title mt-3"style={{fontWeight: 'bold',fontSize: 15}}>Arztsuche </p>
                                 </div>
                                 <div className="iconNote ">
                                     <i className="far fa-sticky-note"></i>
-                                    <p className="note-title">Ihre Notizen </p>
+                                    <p className="note-title  mt-3"style={{fontWeight: 'bold',fontSize: 15}}>Ihre Notizen </p>
+                                </div>
+                                <div class="iconDrug ">
+                                     <i class="fas fa-capsules"></i>
+                                    <p class="note-title mt-3"style={{fontWeight: 'bold',fontSize: 15}}>Rezept beantragen</p>
                                 </div>
                                 <div className="iconFolder ">
                                     <i className="far fa-folder"></i>
-                                    <p className="folder-title">Ihre Gesundheitsakte </p>
+                                    <p className="folder-title mt-3"style={{fontWeight: 'bold',fontSize: 15}}>Ihre Gesundheitsakte </p>
                                 </div>
                                 <div className="iconMessage ">
                                     <i className="far fa-envelope"></i>
-                                    <p className="message-title">Austausch von Nachrichten</p>
+                                    <p className="message-title mt-3"style={{fontWeight: 'bold',fontSize: 15}}>Austausch von Nachrichten</p>
                                 </div>
                             </div>
                             <div className="row">

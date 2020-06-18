@@ -11,13 +11,13 @@ class Reg extends React.Component{
             min-height: 50vh;\
         }\
         @media screen and (min-width: 767px){\
+          {\
             .container-fluid,.col-md-6,.d-flex{\
             min-height: 100vh;\
         }\
         }\
 
        .row {\
-
             min-height: 100vh;\
         }\
 
