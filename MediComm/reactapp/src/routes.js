@@ -12,6 +12,7 @@ import Me from "./content/Me";
 import Chat from "./content/Chat";
 import Docreg from "./content/Docreg";
 import Patreg from "./content/Patreg";
+import Search from "./content/Search";
 
 export default [
     {
@@ -48,6 +49,11 @@ export default [
     path: "/chat",
     layout: DefaultLayout,
     component: Chat
+  },
+  {
+    path: "/search",
+    layout: DefaultLayout,
+    component: Search
   },
   
   
