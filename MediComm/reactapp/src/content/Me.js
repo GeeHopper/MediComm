@@ -39,7 +39,6 @@ class Me extends React.Component{
             //doc related
             phone: '',
             fax: '',
-            url: '',
             fieldofwork: '',
             establishmentnumber: '',
 
@@ -63,14 +62,13 @@ class Me extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, docid, fieldofwork, phone, fax, docnum, establishmentnumber} = this.state;
+        const {mail, firstname, lastname, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, docid, fieldofwork, phone, fax, docnum, establishmentnumber} = this.state;
         const form_data = new FormData();
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const user = {
             mail,
             firstname,
             lastname,
-            password,
             address,
             agreement,
             userid,
@@ -181,7 +179,6 @@ class Me extends React.Component{
             //this.setUsername(response.data.firstname)
             //this.setState(resp);
             //console.log(response.data);
-            console.log(response.data.profilepic);
             if(response.data.user.profilepic)
             {
                 this.setState({profilepic: response.data.user.profilepic});
@@ -206,7 +203,6 @@ class Me extends React.Component{
                 this.setState({fax: response.data.doctor.fax});
                 this.setState({phone: response.data.doctor.phone});
                 this.setState({fieldofwork: response.data.doctor.fieldofwork});
-                this.setState({url: response.data.doctor.url});
                 this.setState({establishmentnumber: response.data.doctor.establishmentnumber});
             }
             
@@ -231,85 +227,43 @@ class Me extends React.Component{
     {
         return(
             <div>
-            <div className="title">
-                Profileedit
-            </div>
-            {
-                /*
-                phone: '',
-            mail: '',
-            fax: '',
-            url: '',
-            fieldofwork: '',
-
-                */
-            }
-
             <div className="bg-right"></div>
 
             <form onSubmit={this.handleSubmit} encType="multipart/formdata">
                 
-                <div className="mail">
-                    <div className="input_field">
-                        <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
-                        <i className="mail"></i>
-                    </div>
-                </div>
-
-                <div className="vorName">
-                    <div className="input_field">
-                        <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-
-                </div>
-
-                <div className="nachName">
-                    <div className="input_field">
-                        <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-                </div>
-
-
-                <div className="pass">
-                    <div className="input_field">
-                        <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
-                        <i className="enlock"></i>
-                    </div>
-                </div>
-
-                <div className="anschrift">
-                    <div className="input_field">
-                        <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
-                        <i className="anschrift"></i>
-                    </div>
-                </div>
-
-
-                <div className="kk">
-                    <div className="input_field">
-                        <input list="kk" placeholder="Phone" className="input" value={this.state.phone} name="phone" onChange={this.handleInputChange}/>
-                    </div>
-                </div>
-
-                <input type="text" placeholder="Fax" className="input" value={this.state.fax} name="fax" onChange={this.handleInputChange}/>
-                <br />
-
-                <input type="text" placeholder="URL" className="input" value={this.state.url} name="url" onChange={this.handleInputChange}/>
-                <br />
-
-                <input type="text" placeholder="Establishmentnumber" className="input" value={this.state.establishmentnumber} name="establishmentnumber" onChange={this.handleInputChange}/>
-                <br />
-
-                <input type="text" placeholder="Field of work" className="input" value={this.state.fieldofwork} name="fieldofwork" onChange={this.handleInputChange}/>
-                <br />
-
-
                 {this.checkProfilepic()}
+                <br />
 
                 <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
+
+
                 
+                Mail: <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
+                <br />
+                   
+                Firstname: <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
+                <br />
+
+                Lastname: <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
+                <br />
+                   
+                address: <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
+                <br />
+
+
+                
+                Phone Number:<input list="kk" placeholder="Phone" className="input" value={this.state.phone} name="phone" onChange={this.handleInputChange}/>
+                <br />
+
+                Fax: <input type="text" placeholder="Fax" className="input" value={this.state.fax} name="fax" onChange={this.handleInputChange}/>
+                <br />
+
+                Establishmentnumber: <input type="text" placeholder="Establishmentnumber" className="input" value={this.state.establishmentnumber} name="establishmentnumber" onChange={this.handleInputChange}/>
+                <br />
+
+                Field of Work: <input type="text" placeholder="Field of work" className="input" value={this.state.fieldofwork} name="fieldofwork" onChange={this.handleInputChange}/>
+                <br />
+
                 <input type="submit" className="btn btn-primary" value="Submit" />
                 
             </form>
@@ -320,7 +274,7 @@ class Me extends React.Component{
     checkProfilepic()
     {
         if(this.state.profilepicfile)
-            return (<img src = {require("../../public/uploads/" + this.state.profilepicfile)} />);
+            return (<img src = {require("../../public/uploads/" + this.state.profilepicfile)} width="200" height="200"/>);
         else
             return ("no image");
     }
@@ -357,14 +311,6 @@ class Me extends React.Component{
                     <div className="input_field">
                         <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
                         <i className="name"></i>
-                    </div>
-                </div>
-
-
-                <div className="pass">
-                    <div className="input_field">
-                        <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
-                        <i className="enlock"></i>
                     </div>
                 </div>
 

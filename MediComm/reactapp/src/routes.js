@@ -9,12 +9,30 @@ import { NoLayout } from "./layouts"
 import Dashboard from "./content/Dashboard";
 import Login from "./content/Login";
 import Me from "./content/Me";
+import Chat from "./content/Chat";
+import Docreg from "./content/Docreg";
+import Patreg from "./content/Patreg";
 
 export default [
+    {
+        path: "/pat-reg",
+        layout: NoLayout,
+        component: Patreg
+    },
+    {
+        path: "/doc-reg",
+        layout: NoLayout,
+        component: Docreg
+    },
     {
     path: "/login",
     layout: NoLayout,
     component: Login
+    },
+    {
+        path: "/doc-reg",
+        layout: NoLayout,
+        component: Login
     },
   {
     path: "/dashboard",
@@ -25,6 +43,11 @@ export default [
     path: "/me",
     layout: DefaultLayout,
     component: Me
+  },
+  {
+    path: "/chat",
+    layout: DefaultLayout,
+    component: Chat
   },
   
   

@@ -21,7 +21,9 @@ export default class UserActions extends React.Component {
 
       //User related
       profilepic: '',
-      profilepicfile: ''
+      profilepicfile: '',
+      firstname: '',
+      lastname: ''
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -51,13 +53,13 @@ export default class UserActions extends React.Component {
             //this.setUsername(response.data.firstname)
             //this.setState(resp);
             //console.log(response.data);
-            console.log("pp is: " + response.data.user.profilepic);
             if(response.data.user.profilepic)
             {
-                console.log("it is");
                 this.setState({profilepic: response.data.user.profilepic});
                 this.setState({profilepicfile: response.data.user.profilepic});
             }
+            this.setState({firstname: response.data.user.firstname});
+            this.setState({lastname: response.data.user.lastname});
         });
   }
 
@@ -68,10 +70,10 @@ export default class UserActions extends React.Component {
 
             return (
               <img
-            className="user-avatar rounded-circle mr-2"
-            src={require("../../../../../public/uploads/" + this.state.profilepicfile)}
-            alt="User Avatar"
-          />
+              className="user-avatar rounded-circle mr-2"
+              src={require("../../../../../public/uploads/" + this.state.profilepicfile)}
+              alt="User Avatar"
+            />
             );
         }
         else
@@ -82,10 +84,9 @@ export default class UserActions extends React.Component {
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-          {console.log("pp inline is: " + this.state.profilepic)}
           {this.checkProfilepic()}
           {" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block">{this.state.firstname} {this.state.lastname}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
          

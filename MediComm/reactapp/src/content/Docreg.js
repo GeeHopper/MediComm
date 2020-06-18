@@ -69,6 +69,15 @@ class Docreg extends React.Component{
             .then(() => console.log('User registered :))'))
             .catch(err => {
                 console.error(err);
+                try{
+                    err.response.data.errors.forEach(element => {
+                        alert(element["msg"]);
+                    });
+                }
+                catch
+                {
+                    console.log("error when reading out error messages");
+                }
         });
 
 
@@ -164,12 +173,6 @@ class Docreg extends React.Component{
                             <div className="input_field">
                                 <input type="text" placeholder="Betriebsstättennummer " onChange={this.handleInputChange} name="establishmentnumber" className="input form-control my-3" /> 
                                 <i className="betriebsstättennummer "></i>
-                            </div>
-                        </div>
-                        <div className="adresse">
-                            <div className="input_field">
-                                <input type="text" placeholder="Adresse " onChange={this.handleInputChange} name="adresse" className="input form-control my-3" /> 
-                                <i className="adresse "></i>
                             </div>
                         </div>
                         <div className="fachrichtung">

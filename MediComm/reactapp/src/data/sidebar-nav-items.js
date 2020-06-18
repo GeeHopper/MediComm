@@ -2,14 +2,14 @@ export default function() {
   return [
 
     {
-      title: "User Profile",
+      title: "Mein Profil",
       htmlBefore: '<i class="material-icons">person</i>',
-      to: "/user-profile-lite",
+      to: "/me",
     },
     {
-      title: "Dokumente",
-      htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/tables",
+      title: "Nachrichten",
+      htmlBefore: '<i class="material-icons">chat</i>',
+      to: "/chat",
     },
 
     {

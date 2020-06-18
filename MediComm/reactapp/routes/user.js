@@ -38,7 +38,7 @@ router.post(
         check("address", "Please Enter a Valid address")
             .not()
             .isEmpty(),
-        check("agreement", "Please Enter a Valid address")
+        check("agreement", "Please accept the License Agreement")
             .not()
             .isEmpty(),
         check("phone", "Please Enter a Valid phone number")
@@ -480,9 +480,6 @@ router.post(
             .not()
             .isEmpty(),
         check("mail", "Please enter a valid email").isEmail(),
-        check("password", "Please enter a valid password").isLength({
-            min: 6
-        }),
         check("address", "Please Enter a Valid address")
             .not()
             .isEmpty()
@@ -496,7 +493,6 @@ router.post(
         }
         const {
             mail,
-            password,
             firstname,
             lastname,
             address,
@@ -518,8 +514,6 @@ router.post(
               req.file.destination+req.fiel.originalname);*/
 
             //hashing password
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(password, salt);
 
             //setting the patid of the user object to the Obj id of the Patient :)
             user.mail = req.body.mail;
