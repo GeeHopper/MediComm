@@ -224,16 +224,16 @@ class Picture extends React.Component{
     {
         return(
             <div>
-      {
-        (this.state.dataUri)
-          ? <ImagePreview dataUri={this.state.dataUri}
-            isFullscreen={this.state.isFullscreen}
-          /> 
-          : <Camera onTakePhotoAnimationDone = {this.handleTakePhotoAnimationDone}
-            isFullscreen={this.state.isFullscreen}
-          />
-      }
-    </div>
+                {
+                    (this.state.dataUri)
+                    ? <ImagePreview dataUri={this.state.dataUri}
+                        isFullscreen={this.state.isFullscreen}
+                    /> 
+                    : <Camera onTakePhotoAnimationDone = {this.handleTakePhotoAnimationDone}
+                        isFullscreen={this.state.isFullscreen}
+                    />
+                }
+            </div>
 
         );
     }
@@ -249,80 +249,16 @@ class Picture extends React.Component{
     patientContent()
     {
         return(
-        <div>
-            <div className="title">
-                Profileedit
-            </div>
-
-
-            <div className="bg-right"></div>
-
-            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                
-                <div className="mail">
-                    <div className="input_field">
-                        <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
-                        <i className="mail"></i>
-                    </div>
-                </div>
-
-                <div className="vorName">
-                    <div className="input_field">
-                        <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-
-                </div>
-
-                <div className="nachName">
-                    <div className="input_field">
-                        <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-                </div>
-
-
-                <div className="pass">
-                    <div className="input_field">
-                        <input name="password" type="password"  placeholder="Passwort" className="input" onChange={this.handleInputChange}/>
-                        <i className="enlock"></i>
-                    </div>
-                </div>
-
-                <div className="anschrift">
-                    <div className="input_field">
-                        <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
-                        <i className="anschrift"></i>
-                    </div>
-                </div>
-
-
-                <div className="kk">
-                    <div className="input_field">
-                        <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange}/>
-                        <datalist id="kk">
-                            <option value="AOK" />
-                            <option value="Knappschaft" />
-                            <option value="Innungskrankenkasse" />
-                            <option value="DAK Gesundheit" />
-                            <option value="BARMER" />
-                        </datalist>
-                    </div>
-                </div>
-
-                <div className="verNr">
-                <div className="input_field">
-                    <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange}/>
-                    <i className="verNr"></i>
-                </div>
-                </div>
-                {this.checkProfilepic()}
-
-                <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
-                
-                <input type="submit" className="btn btn-primary" value="Submit" />
-                
-            </form>
+            <div>
+            {
+                (this.state.dataUri)
+                ? <ImagePreview dataUri={this.state.dataUri}
+                    isFullscreen={this.state.isFullscreen}
+                /> 
+                : <Camera onTakePhotoAnimationDone = {this.handleTakePhotoAnimationDone}
+                    isFullscreen={this.state.isFullscreen}
+                />
+            }
         </div>
 
         )

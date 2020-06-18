@@ -37,6 +37,12 @@ export default function() {
       htmlBefore: '<i class="material-icons">phone</i>',
       to: "/voice",
     },
+    {
+      title: "Foto aufnehmen",
+      htmlBefore: '<i class="material-icons">camera</i>',
+      to: "/picture",
+    },
+
 
     {
       title: "Terminplan",
