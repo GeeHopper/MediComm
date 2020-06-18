@@ -210,11 +210,6 @@ class Search extends React.Component {
         return (
             <div key={"main" + i}>
 
-                <div className="title">
-                    Profileedit
-                </div>
-
-
                 <div className="bg-right"></div>
 
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">

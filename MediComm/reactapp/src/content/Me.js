@@ -361,19 +361,6 @@ class Me extends React.Component{
             return this.patientContent();
     }
 
-    checkLogin(mail)
-    {
-        
-            return mail()
-
-            /*try {
-                const decoded = jwt.verify(this.state.token, "randomString");
-                //return "it is: " + decoded.user;
-                const user = User.findById(req.user.id);
-            } catch (e) {
-                console.error(e);
-            }*/
-    }
 
     render(){
 

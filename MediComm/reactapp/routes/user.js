@@ -802,10 +802,14 @@ router.post("/overviewMyDocs", auth, async (req, res) => {
 router.post("/overviewMyFiles", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("in myfilesoverview ");
+        //User.find({ "mail": { $regex: ".*" + req.body.data.query + ".*" } });
+        //Chat.find({ $or:[ {'sender':req.body.data.userid}, {'receiver':req.body.data.userid}]});
         console.log("pat id is: " + req.body.data.pat_userid);
-        const patientfiles = await Patientfile.find({ pat_userid: req.body.data.pat_userid });
+        console.log("doc id is: " + req.body.data.doc_userid);
+        //const patientfiles = await Patientfile.find({ pat_userid: req.body.data.pat_userid });
+        const patientfiles = await Patientfile.find({ $or:[{"pat_userid": req.body.data.pat_userid }, {"shareWith": { $regex: ".*" + req.body.data.doc_userid + ".*" }}]});
         
+
         res.json({
             patientfiles: patientfiles
         })
@@ -916,7 +920,6 @@ router.post("/searchMyPats", auth, async (req, res) => {
         res.json({
             patients: patients
         });
-        console.log(therapies[0].pat_userid + "is the pat");
 
         //res.send(JSON.stringify(user));
     } catch (e) {

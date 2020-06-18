@@ -135,13 +135,15 @@ class ViewFile extends React.PureComponent{
         });
         
 
-        var filename = this.props.match.params.query;
+        const params = new URLSearchParams(this.props.location.search);
+        const filename = params.get('filename'); 
+
+        console.log("FILENAME IS: " + filename);
 
         //checking for extension in url
-        var n = filename.indexOf('.');
-        filename = filename.substring(0, n != -1 ? n : filename.length);
+        /*var n = filename.indexOf('.');
+        filename = filename.substring(0, n != -1 ? n : filename.length);*/
 
-        console.log("filename is: " + this.filename) 
 
         console.log("User Id is: " + this.props.match.params.query);
         this.setState({fileToPlay: "/uploads/" + this.props.match.params.query});
@@ -241,7 +243,7 @@ class ViewFile extends React.PureComponent{
         console.log("your patid is: " + this.state.patid);
         console.log("sharewith is: " + this.state.shareWith);
         console.log("desired patid is: " + this.state.pat_userid);
-        if(this.state.patid === this.state.pat_userid)
+        if(this.state.userid === this.state.pat_userid)
         {
             console.log("you're authorized")
             if(this.state.filetype === "png" || this.state.filetype === "jpg")
@@ -271,7 +273,7 @@ class ViewFile extends React.PureComponent{
             console.log("shares are: " + this.state.shareWith[i]);
 
             //replacing comma
-            if(this.state.shareWith[i].replace(/\s/g, '') === this.state.docid)
+            if(this.state.shareWith[i].replace(/\s/g, '') === this.state.userid)
                 return true;
         }
         return false;

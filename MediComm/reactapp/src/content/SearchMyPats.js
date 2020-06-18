@@ -97,7 +97,10 @@ class SearchMyPats extends React.Component {
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
-        var patlastname = this.props.match.params.query;
+
+        const params = new URLSearchParams(this.props.location.search);
+        const patlastname = params.get('patlastname'); 
+
         var url = 'http://localhost:8080/me';
         var options = {
         method: 'GET',
@@ -154,73 +157,84 @@ class SearchMyPats extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                for (var i = 0; i < response.data.patients.length; i++) {
-                    try
-                    {
-                        if (response.data.patients[i].profilepic != undefined) {
-                            this.state.profilepic.push(response.data.patients[i].profilepic);
-                            this.setState({
-                                profilepic: this.state.profilepic
-                            });
+                if(response.data.patients.length > 0)
+                {
+                    for (var i = 0; i < response.data.patients.length; i++) {
+                        try
+                        {
+                            if (response.data.patients[i].profilepic != undefined) {
+                                this.state.profilepic.push(response.data.patients[i].profilepic);
+                                this.setState({
+                                    profilepic: this.state.profilepic
+                                });
 
-                            this.state.profilepicfile.push(response.data.patients[i].profilepicfile);
-                            this.setState({
-                                profilepicfile: this.state.profilepicfile
-                            });
+                                this.state.profilepicfile.push(response.data.patients[i].profilepicfile);
+                                this.setState({
+                                    profilepicfile: this.state.profilepicfile
+                                });
+                            }
                         }
+                        catch
+                        {
+                            this.state.profilepic = "doc_pic.png"
+                        }
+                        this.state.mail.push(response.data.patients[i].mail);
+                        this.setState({
+                            mail: this.state.mail
+                        });
+                        this.state.userid.push(response.data.patients[i]._id);
+                        this.setState({
+                            mail: this.state.mail
+                        });
+                        console.log("mail is: " + response.data.patients[i].mail);
+
+                        this.state.firstname.push(response.data.patients[i].firstname);
+                        this.setState({
+                            firstname: this.state.firstname
+                        });
+
+                        this.state.lastname.push(response.data.patients[i].lastname);
+                        this.setState({
+                            lastname: this.state.lastname
+                        });
+
+                        this.state.address.push(response.data.patients[i].address);
+                        this.setState({
+                            address: this.state.address
+                        });
+
+                        this.state.patid.push(response.data.patients[i].patid);
+                        this.setState({
+                            patid: this.state.patid
+                        });
+
+                        /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
+                        this.setState({
+                            insurednumber: this.state.insurednumber
+                        });
+
+                        this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
+                        this.setState({
+                            healthinsurance: this.state.healthinsurance
+                        });*/
+
+                        /*if(this.state.lastname ==== "krickler")*/
+                        //if(this.state.mail === this.props.match.params.query)
+                        this.state.content.push(this.patientSearchContent(i));
+                        this.setState({
+                            content: this.state.content
+                        })
                     }
-                    catch
-                    {
-                        this.state.profilepic = "doc_pic.png"
-                    }
-                    this.state.mail.push(response.data.patients[i].mail);
-                    this.setState({
-                        mail: this.state.mail
-                    });
-                    this.state.userid.push(response.data.patients[i]._id);
-                    this.setState({
-                        mail: this.state.mail
-                    });
-                    console.log("mail is: " + response.data.patients[i].mail);
-
-                    this.state.firstname.push(response.data.patients[i].firstname);
-                    this.setState({
-                        firstname: this.state.firstname
-                    });
-
-                    this.state.lastname.push(response.data.patients[i].lastname);
-                    this.setState({
-                        lastname: this.state.lastname
-                    });
-
-                    this.state.address.push(response.data.patients[i].address);
-                    this.setState({
-                        address: this.state.address
-                    });
-
-                    this.state.patid.push(response.data.patients[i].patid);
-                    this.setState({
-                        patid: this.state.patid
-                    });
-
-                    /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
-                    this.setState({
-                        insurednumber: this.state.insurednumber
-                    });
-
-                    this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
-                    this.setState({
-                        healthinsurance: this.state.healthinsurance
-                    });*/
-
-                    /*if(this.state.lastname ==== "krickler")*/
-                    //if(this.state.mail === this.props.match.params.query)
-                    this.state.content.push(this.patientSearchContent(i));
-                    this.setState({
-                        content: this.state.content
-                    })
                 }
-                console.log("len: " + response.data.patients.length);
+                else
+                {
+                    this.state.content.push(<div>Kein Patient gefunden. :(</div>);
+                        this.setState({
+                            content: this.state.content
+                        })
+                        console.log("len: " + response.data.patients.length);
+                }
+                
             });
 
 

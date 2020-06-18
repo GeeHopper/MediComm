@@ -97,7 +97,10 @@ class SearchMyDocs extends React.Component {
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
-        var doclastname = this.props.match.params.query;
+
+        const params = new URLSearchParams(this.props.location.search);
+        const doclastname = params.get('doclastname'); // bar
+
         var url = 'http://localhost:8080/me';
         var options = {
         method: 'GET',
@@ -336,6 +339,8 @@ class SearchMyDocs extends React.Component {
                             <i className="verNr"></i>
                         </div>
                     </div>
+
+                    <br /><a href={"profile/?userid=" + this.state.userid}>Profile besuchen</a>
                     {/*this.checkProfilepic(i)*/}
 
 

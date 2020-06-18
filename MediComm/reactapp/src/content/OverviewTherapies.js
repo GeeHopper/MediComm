@@ -225,7 +225,7 @@ class OverviewTherapies extends React.Component{
         if(this.state.isDoc != '')
         {
             console.log("doc is: " + this.state.isDoc)
-            window.location.href = "/fileuploaddoc"
+            window.location.href = "/overviewmypats"
         }
         else
         {
@@ -242,7 +242,7 @@ class OverviewTherapies extends React.Component{
         if(this.state.isDoc != '')
         {
             console.log("doc is: " + this.state.isDoc)
-            window.location.href = "/fileuploadpat"
+            window.location.href = "/overviewmydocs"
         }
         else
         {

@@ -17,7 +17,7 @@ function makeprofilepicid(length) {
     return result + ".png";
  }
 
-class OverviewTherapies extends React.Component{
+class Me extends React.Component{
 
     profilepicfile = "";
 
@@ -154,6 +154,12 @@ class OverviewTherapies extends React.Component{
         event.preventDefault();*/
     }
 
+    setUsername(username)
+    {
+        this.username = username;
+        console.log("username: " + username);
+    }
+
     getUserData(){
 
         const url = 'http://localhost:8080/me';
@@ -187,14 +193,12 @@ class OverviewTherapies extends React.Component{
             this.setState({isDoc: response.data.user.isDoc});
             if(response.data.user.isDoc === "0")
             {
-                console.log("u no doc");
                 this.setState({patid: response.data.patient._id});
                 this.setState({insurednumber: response.data.patient.insurednumber});
                 this.setState({healthinsurance: response.data.patient.healthinsurance});
             }
             else
             {
-                console.log("u doc");
                 this.setState({docid: response.data.doctor._id});
                 this.setState({fax: response.data.doctor.fax});
                 this.setState({phone: response.data.doctor.phone});
@@ -207,13 +211,12 @@ class OverviewTherapies extends React.Component{
     }
 
     //using axios in here to get access to the response of our backend in our frontend
-    componentWillMount () {
+    componentDidMount () {
         this.getUserData();
     }  
 
     isDoc()
     {
-        
         if(this.state.isDoc === "1")
             return true;
         else
@@ -222,34 +225,35 @@ class OverviewTherapies extends React.Component{
 
     docContent()
     {
-        if(this.state.isDoc != '')
-        {
-            console.log("doc is: " + this.state.isDoc)
-            window.location.href = "/fileuploaddoc"
-        }
-        else
-        {
-            console.log("loadin in doc");
-            return(<div>loading..</div>);
-        }
-        //window.location.href = "/overviewmypats";
-        //return(window.location.href = "http://stackoverflow.com";);
-    }
+        return(
+            <div>
 
+            <form action="searchmypats" encType="multipart/formdata">
+                
+            <input type="text" placeholder="Suche Patienten durch Nachnamen..." className="input" name="patlastname"/>
+                    
+            <input type="submit" className="btn btn-primary" value="Submit" />
+                
+            </form>
+        </div>
+        );
+    }
 
     patientContent()
     {
-        if(this.state.isDoc != '')
-        {
-            console.log("doc is: " + this.state.isDoc)
-            window.location.href = "/fileuploadpat"
-        }
-        else
-        {
-            console.log("loadin in pat");
-            return(<div>loading..</div>);
-        }
-        //window.location.href = "/overviewmydocs";
+        return(
+        <div>
+
+            <form action="searchmydocs" encType="multipart/formdata">
+                
+            <input type="text" placeholder="Suche Doktor durch Nachnamen..." className="input" name="doclastname"/>
+                    
+            <input type="submit" className="btn btn-primary" value="Submit" />
+                
+            </form>
+        </div>
+
+        )
     }
 
     getContent()
@@ -267,4 +271,4 @@ class OverviewTherapies extends React.Component{
     }
 }
 
-export default OverviewTherapies;
+export default Me;

@@ -13,9 +13,24 @@ export default function() {
     },
 
     {
-      title: "Nachrichten",
-      htmlBefore: '<i class="material-icons">note_add</i>',
-      to: "/nachrichten",
+      title: "Suche",
+      htmlBefore: '<i class="material-icons">search</i>',
+      to: "/searchoverview",
+    },
+    {
+      title: "Übsersicht",
+      htmlBefore: '<i class="material-icons">house</i>',
+      to: "/overviewtherapies",
+    },
+    {
+      title: "Meine Dateien",
+      htmlBefore: '<i class="material-icons">attach_file</i>',
+      to: "/overviewmyfiles",
+    },
+    {
+      title: "Datei hochladen",
+      htmlBefore: '<i class="material-icons">cloud</i>',
+      to: "/fileupload",
     },
 
     {

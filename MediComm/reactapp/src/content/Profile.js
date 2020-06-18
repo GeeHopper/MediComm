@@ -4,6 +4,7 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import { element } from 'prop-types';
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -61,6 +62,9 @@ class Profile extends React.Component {
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount() {
 
+        const params = new URLSearchParams(this.props.location.search);
+        const userid = params.get('userid');
+
         const url = 'http://localhost:8080/checkUserUrl';
         const options = {
             method: 'POST',
@@ -68,10 +72,10 @@ class Profile extends React.Component {
                 'token': Cookies.get("token")
             },
             data: {
-                'userid': this.props.match.params.userid
+                'userid': userid
             }
         };
-        console.log("User Id is: " + this.props.match.params.userid)
+        console.log("User Id is: " + userid)
         axios.post(url, options)
             .then(response => {
                 //console.log(response.json({message: "request received!", response}));
@@ -82,10 +86,12 @@ class Profile extends React.Component {
                 //this.setUsername(response.data.firstname)
                 //this.setState(resp);
                 //console.log(response.data);
-                console.log("doctor: " + response.data.user);
-                if (response.data.user.profilepic != undefined) {
-                    this.setState({ profilepic: response.data.user.profilepic });
-                    this.setState({ profilepicfile: response.data.user.profilepic });
+                if (response.data.user) {
+                    if(response.data.user.profilepic)
+                    {
+                        this.setState({ profilepic: response.data.user.profilepic });
+                        this.setState({ profilepicfile: response.data.user.profilepic });
+                    }
                 }
                 this.setState({ userid: response.data.user._id });
                 this.setState({ mail: response.data.user.mail });
@@ -94,10 +100,16 @@ class Profile extends React.Component {
                 this.setState({ password: response.data.user.password });
                 this.setState({ address: response.data.user.address });
                 this.setState({ patid: response.data.user.patid });
+                this.setState({isDoc: response.data.user.isDoc});
                 console.log("patid: " + this.state.patid);
-                this.setState({ insurednumber: response.data.patient.insurednumber });
-                this.setState({ healthinsurance: response.data.patient.healthinsurance });
+                if(response.data.patient)
+                {
+                    this.setState({ insurednumber: response.data.patient.insurednumber });
+                    this.setState({ healthinsurance: response.data.patient.healthinsurance });
+                }
             });
+
+        this.fetchDoc();
 
 
         /*fetch('http://localhost:8080/me')
@@ -137,7 +149,63 @@ class Profile extends React.Component {
     }
 
     docContent() {
-        return ("");
+        return (
+                <div>
+                    <div className="title">
+                        Profileedit
+                </div>
+    
+    
+                    <div className="bg-right"></div>
+    
+                    <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+    
+                        <div className="mail">
+                            <div className="input_field">
+                                <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
+                                <i className="mail"></i>
+                            </div>
+                        </div>
+    
+                        <div className="vorName">
+                            <div className="input_field">
+                                <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
+                                <i className="name"></i>
+                            </div>
+    
+                        </div>
+    
+                        <div className="nachName">
+                            <div className="input_field">
+                                <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
+                                <i className="name"></i>
+                            </div>
+                        </div>
+    
+    
+                        <div className="pass">
+                            <div className="input_field">
+                                <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
+                                <i className="enlock"></i>
+                            </div>
+                        </div>
+    
+                        <div className="anschrift">
+                            <div className="input_field">
+                                <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
+                                <i className="anschrift"></i>
+                            </div>
+                        </div>
+    
+    
+                        {this.checkProfilepic()}
+    
+    
+                    </form>
+                </div>
+    
+            );
+        
     }
 
     checkProfilepic() {
@@ -185,7 +253,6 @@ class Profile extends React.Component {
 
     addPatient = e =>
     {
-        this.fetchDoc();
         if(this.doctor.isDoc === "1")
         {
             console.log("yews doc");
@@ -212,86 +279,73 @@ class Profile extends React.Component {
     }
 
     patientContent() {
-        return (
-            <div>
-                <div className="title">
-                    Profileedit
-            </div>
-
-
-                <div className="bg-right"></div>
-
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-
-                    <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
-                            <i className="mail"></i>
-                        </div>
-                    </div>
-
-                    <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                            <i className="name"></i>
+        if(this.state.isDoc !== '')
+        {
+            return (      
+                    <div>
+                    
+                        <div className="mail">
+                            <div className="input_field">
+                                <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
+                                <i className="mail"></i>
+                            </div>
                         </div>
 
-                    </div>
+                        <div className="vorName">
+                            <div className="input_field">
+                                <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
+                                <i className="name"></i>
+                            </div>
 
-                    <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
-                            <i className="name"></i>
                         </div>
-                    </div>
 
-
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
+                        <div className="nachName">
+                            <div className="input_field">
+                                <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
+                                <i className="name"></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
+
+                        <div className="pass">
+                            <div className="input_field">
+                                <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
+                                <i className="enlock"></i>
+                            </div>
                         </div>
-                    </div>
 
-
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange} />
-                            <datalist id="kk">
-                                <option value="AOK" />
-                                <option value="Knappschaft" />
-                                <option value="Innungskrankenkasse" />
-                                <option value="DAK Gesundheit" />
-                                <option value="BARMER" />
-                            </datalist>
+                        <div className="anschrift">
+                            <div className="input_field">
+                                <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
+                                <i className="anschrift"></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
+
+                        
+                        Krankenkasse: <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange} />
+                                
+
+                        <div className="verNr">
+                            <div className="input_field">
+                                <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange} />
+                                <i className="verNr"></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="addFriend">
-                        <button onClick={this.addPatient}>Add Patient</button>
-                    </div>
+                        <div className="addFriend">
+                            <button onClick={this.addPatient}>Add Patient</button>
+                        </div>
 
-                    {this.checkProfilepic()}
+                        {this.checkProfilepic()}
 
+                        
+                </div>
 
-                </form>
-            </div>
-
-        )
+            );
+        }
+        else
+            return(<div>loading...</div>);
     }
 
     getContent() {
