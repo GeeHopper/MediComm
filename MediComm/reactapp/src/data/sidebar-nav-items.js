@@ -32,6 +32,11 @@ export default function() {
       htmlBefore: '<i class="material-icons">cloud</i>',
       to: "/fileupload",
     },
+    {
+      title: "Sprachnachricht aufnehmen",
+      htmlBefore: '<i class="material-icons">phone</i>',
+      to: "/voice",
+    },
 
     {
       title: "Terminplan",

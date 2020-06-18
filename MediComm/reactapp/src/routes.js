@@ -25,6 +25,7 @@ import FileUpload from "./content/FileUpload";
 import FileUploadDoc from "./content/FileUploadDoc";
 import FileUploadPat from "./content/FileUploadPat";
 import ViewFile from "./content/ViewFile";
+import Voice from "./content/Voice";
 
 export default [
     {
@@ -121,6 +122,11 @@ export default [
     path: "/viewfile",
     layout: DefaultLayout,
     component: ViewFile
+  },
+  {
+    path: "/voice",
+    layout: DefaultLayout,
+    component: Voice
   },
   
   
