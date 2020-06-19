@@ -285,66 +285,19 @@ class OverviewMyPats extends React.Component {
         return (
             <div key={"main" + i}>
 
-                <div className="title">
-                    Profileedit
-                </div>
-
-
-                <div className="bg-right"></div>
-
                 <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
 
-                    <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input" name="mail" onChange={this.handleInputChange} />
-                            <i className="mail"></i>
-                        </div>
-                    </div>
-
-                    <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-
-                    </div>
-
-                    <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
-
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
-
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
+                    Mail: {this.state.mail[i]} 
+                    <br />
+                    Vorname: {this.state.firstname[i]}  
+                    <br />
+                    Nachname: {this.state.lastname[i]}  
+                    <br />
+                    Adresse: {this.state.address[i]}  
+                    <br />
+                    Krankenkasse: {this.state.healthinsurance[i]}  
+                    <br />
+                    Versichertennummer: {this.state.insurednumber[i]} 
 
                     <div className="verNr">
                         <div className="input_field">
@@ -352,10 +305,9 @@ class OverviewMyPats extends React.Component {
                             <i className="verNr"></i>
                         </div>
                     </div>
-                    {/*this.checkProfilepic(i)*/}
 
                     <input type="submit" className="btn btn-primary" value="Update patNotes" />
-
+                    <br />
 
                 </form>
             </div>

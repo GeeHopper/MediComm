@@ -233,35 +233,6 @@ class OverviewMyDocs extends React.Component {
                 }
                 console.log("len: " + response.data.doctors.length);
             });
-
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
     }
 
     isDoc() {
@@ -296,67 +267,23 @@ class OverviewMyDocs extends React.Component {
 
                 <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
 
-                    <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input" name="mail" onChange={this.handleInputChange} />
-                            <i className="mail"></i>
-                        </div>
-                    </div>
+                    
+                    Mail: {this.state.mail[i]}      
+                    <br />
+                    Vorname: {this.state.firstname[i]}      
+                    <br />
+                    Nachname: {this.state.lastname[i]}      
+                    <br />
+                    Adresse: {this.state.address[i]}      
+                    <br />
 
-                    <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-
-                    </div>
-
-                    <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
-
-                    <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input" name="address" onChange={this.handleInputChange} />
-                            <i className="anschrift"></i>
-                        </div>
-                    </div>
-
-
-                    <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
-
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Notizen" className="input" value={this.state.docNotes[i]} name="docNotes" onChange={(event) => this.handleDocNotesChange(i, event)} />
                             <i className="verNr"></i>
-                        </div>
-                    </div>
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Notizen" className="input" value={this.state.docNotes[i]} name="docNotes" onChange={(event) => this.handleDocNotesChange(i, event)} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
-                    {/*this.checkProfilepic(i)*/}
+                    <br />
 
                     <input type="submit" className="btn btn-primary" value="Update docNotes" />
 
+                    <br />
 
                 </form>
             </div>
