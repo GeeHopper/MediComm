@@ -1,3 +1,6 @@
+
+
+
 import React from 'react';
 import Output from './Output';
 import App from '../App';
@@ -152,8 +155,8 @@ class Me extends React.Component{
 
         /*this.setState({sendForm: this.state.name});
         event.preventDefault();*/
-    }
 
+    }
     setUsername(username)
     {
         this.username = username;
@@ -369,3 +372,4 @@ class Me extends React.Component{
 }
 
 export default Me;
+
