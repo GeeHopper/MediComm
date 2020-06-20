@@ -1078,9 +1078,9 @@ router.post("/chat-receive", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
         console.log("receiving chat");
-        console.log("user id is: " + req.body.data.userid);
+        //console.log("user id is: " + req.body.data.userid);
         //const messages = await Chat.find({ sender: req.body.data.userid });
-        const messages = await Chat.find({ $or:[ {'sender':req.body.data.userid}, {'receiver':req.body.data.userid}]});
+        const messages = await Chat.find({ $or:[ {'sender':req.body.data.mail}, {'receiver':req.body.data.mail}]});
 
         /*for (i = 0; i < messages.length; i++) {
             console.log("therapy: " + i + " added");

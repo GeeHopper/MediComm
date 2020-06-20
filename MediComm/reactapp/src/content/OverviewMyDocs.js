@@ -65,13 +65,13 @@ class OverviewMyDocs extends React.Component {
             docNotes,
         }
 
-        console.log("doc notes are: " + therapy.docNotes);
+        //console.log("doc notes are: " + therapy.docNotes);
 
         
         //using axios to post
         axios
         .post('http://localhost:8080/edit-sent-docnotes', therapy)
-            .then(() => console.log('docNotes updated :))'))
+            .then(() => console.log('docNotes updated. )'))
             .catch(err => {
                 console.error(err);
         });
@@ -79,30 +79,29 @@ class OverviewMyDocs extends React.Component {
     }
 
     handleDocNotesChange(i, e) {
-        console.log("iii: " + i);
 
         const newNotes = this.state.docNotes;
         newNotes[i] = e.target.value;
-        console.log("changed: " + e.target.value);
+        //console.log("changed: " + e.target.value);
 
         this.setState({
             docNotes: newNotes
         }, () => {
-            console.log("notes: " + this.state.docNotes);
+            //console.log("notes: " + this.state.docNotes);
         });
         
         var newContent = [];
-        console.log("length is: " + this.state.mail.length);
+        //  console.log("length is: " + this.state.mail.length);
         for(var i = 0; i < this.state.mail.length; i++)
         {
-            console.log("i: " + i);
+            //console.log("i: " + i);
             newContent.push(this.doctorOverviewContent(i));
         }
 
         this.setState({
             content: newContent
         }, () => {
-            console.log("content: " + this.state.content);
+            //console.log("content: " + this.state.content);
         });
     };
 
@@ -133,19 +132,19 @@ class OverviewMyDocs extends React.Component {
             
             if(response.data.user.isDoc === "0")
             {
-                console.log("youre a patient");
+                //console.log("youre a patient");
                 this.patient = response.data.user;
                 this.state.patientid = response.data.user._id;
             }
             else
             {
-                console.log("youre a doc");
+                //console.log("youre a doc");
             }
         });
 
 
 
-        console.log("your id is: " + this.patient._id);
+        //console.log("your id is: " + this.patient._id);
         url = 'http://localhost:8080/overviewMyDocs';
         options = {
             method: 'POST',
@@ -158,14 +157,6 @@ class OverviewMyDocs extends React.Component {
         };
         axios.post(url, options)
             .then(response => {
-                //console.log(response.json({message: "request received!", response}));
-                //this.state.mail = response.json({message: "request received!", response}).parse();
-                //console.log (response.json());
-                //this.state.mail = response.data.firstname;
-                //console.log(response.data);
-                //this.setUsername(response.data.firstname)
-                //this.setState(resp);
-                //console.log(response.data);
                 console.log(response.data.doctors[0].firstname);
                 for (var i = 0; i < response.data.doctors.length; i++) {
                     if (response.data.doctors[i].profilepic != undefined) {
@@ -213,58 +204,21 @@ class OverviewMyDocs extends React.Component {
                     this.setState({
                         docNotes: this.state.docNotes
                     });
-
-                    /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
-                    this.setState({
-                        insurednumber: this.state.insurednumber
-                    });
-
-                    this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
-                    this.setState({
-                        healthinsurance: this.state.healthinsurance
-                    });*/
-
-                    /*if(this.state.lastname ==== "krickler")*/
-                    //if(this.state.mail === this.props.match.params.query)
+                    
                     this.state.content.push(this.doctorOverviewContent(i));
                     this.setState({
                         content: this.state.content
                     })
                 }
-                console.log("len: " + response.data.doctors.length);
+                //console.log("len: " + response.data.doctors.length);
             });
     }
 
-    isDoc() {
-        if (this.state.isDoc == "1")
-            return true;
-        else
-            return false;
-    }
 
-    docContent() {
-        return ("");
-    }
-
-    checkProfilepic(i) {
-        if (typeof this.state.profilepicfile[i] === "undefined")
-            return ("no image");
-        else
-            return (<img src={require("../uploads/" + this.state.profilepicfile[i])} />);
-
-    }
 
     doctorOverviewContent(i) {
         return (
             <div key={"main" + i}>
-
-                <div className="title">
-                    Profileedit
-                </div>
-
-
-                <div className="bg-right"></div>
-
                 <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
 
                     
@@ -289,23 +243,6 @@ class OverviewMyDocs extends React.Component {
             </div>
 
         )
-    }
-
-    getContent() {
-        //string contents = 
-    }
-
-    checkLogin(mail) {
-
-        return mail()
-
-        /*try {
-            const decoded = jwt.verify(this.state.token, "randomString");
-            //return "it is: " + decoded.user;
-            const user = User.findById(req.user.id);
-        } catch (e) {
-            console.error(e);
-        }*/
     }
 
     render() {

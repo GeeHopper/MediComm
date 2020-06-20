@@ -36,7 +36,6 @@ class Voice extends React.Component{
             lastname: '',
             address: '',
             phone: '',
-            mail: '',
             fax: '',
             url: '',
             fieldofwork: '',
@@ -86,7 +85,7 @@ class Voice extends React.Component{
         console.log("NOW BLOB IS: " + blob_file);
 
         const chat = {
-            sender: this.state.userid,
+            sender: this.state.mail,
             receiver: this.state.receiver,
             message: blob_file,
             type: 'audio',
@@ -139,6 +138,7 @@ class Voice extends React.Component{
                 this.setState({profilepic: response.data.user.profilepic});
                 this.setState({profilepicfile: response.data.user.profilepic});
             }
+            this.setState({mail: response.data.user.mail});
             this.setState({userid: response.data.user._id});
             this.setState({firstname: response.data.user.firstname});
             this.setState({lastname: response.data.user.lastname});

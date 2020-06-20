@@ -151,56 +151,31 @@ class Profile extends React.Component {
     docContent() {
         return (
                 <div>
-                    <div className="title">
-                        Profileedit
-                </div>
-    
-    
+
                     <div className="bg-right"></div>
     
                     <form onSubmit={this.handleSubmit} encType="multipart/formdata">
     
-                        <div className="mail">
-                            <div className="input_field">
-                                <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
-                                <i className="mail"></i>
-                            </div>
-                        </div>
+                    {this.checkProfilepic()}
+
+                    <br />
+
+                    Email: {this.state.mail}
+
+                    <br />
     
-                        <div className="vorName">
-                            <div className="input_field">
-                                <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                                <i className="name"></i>
-                            </div>
+                    Firstname: {this.state.firstname}
+
+                    <br />
+
+                    Lastname: {this.state.lastname} 
+
+                    <br />
     
-                        </div>
-    
-                        <div className="nachName">
-                            <div className="input_field">
-                                <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
-                                <i className="name"></i>
-                            </div>
-                        </div>
-    
-    
-                        <div className="pass">
-                            <div className="input_field">
-                                <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                                <i className="enlock"></i>
-                            </div>
-                        </div>
-    
-                        <div className="anschrift">
-                            <div className="input_field">
-                                <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
-                                <i className="anschrift"></i>
-                            </div>
-                        </div>
-    
-    
-                        {this.checkProfilepic()}
-    
-    
+                    Address: {this.state.address} 
+
+                    <br />
+                    
                     </form>
                 </div>
     
@@ -283,61 +258,40 @@ class Profile extends React.Component {
         {
             return (      
                     <div>
+
+                        {this.checkProfilepic()}
+
+                        <br />
                     
-                        <div className="mail">
-                            <div className="input_field">
-                                <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange} />
-                                <i className="mail"></i>
-                            </div>
-                        </div>
+                        Mail: {this.state.mail} 
 
-                        <div className="vorName">
-                            <div className="input_field">
-                                <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                                <i className="name"></i>
-                            </div>
+                        <br />
 
-                        </div>
+                        Firstname: {this.state.firstname}
 
-                        <div className="nachName">
-                            <div className="input_field">
-                                <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange} />
-                                <i className="name"></i>
-                            </div>
-                        </div>
+                        <br />
 
+                        Lastname: {this.state.lastname} 
 
-                        <div className="pass">
-                            <div className="input_field">
-                                <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                                <i className="enlock"></i>
-                            </div>
-                        </div>
+                        <br />
 
-                        <div className="anschrift">
-                            <div className="input_field">
-                                <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange} />
-                                <i className="anschrift"></i>
-                            </div>
-                        </div>
+                        Anschrift: {this.state.address} 
 
-
+                        <br />
                         
-                        Krankenkasse: <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange} />
-                                
+                        Krankenkasse: {this.state.healthinsurance} 
 
-                        <div className="verNr">
-                            <div className="input_field">
-                                <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange} />
-                                <i className="verNr"></i>
-                            </div>
-                        </div>
+                        <br />
+
+                        Versichertennummer: {this.state.insurednumber} 
+
+                        <br />
 
                         <div className="addFriend">
                             <button onClick={this.addPatient}>Add Patient</button>
                         </div>
 
-                        {this.checkProfilepic()}
+                       
 
                         
                 </div>

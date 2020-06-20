@@ -23,7 +23,6 @@ class Chat extends React.Component {
             lastname: '',
             address: '',
             phone: '',
-            mail: '',
             fax: '',
             url: '',
             fieldofwork: '',
@@ -66,7 +65,7 @@ class Chat extends React.Component {
 
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const chat = {
-            sender: this.state.userid,
+            sender: this.state.mail,
             receiver: this.state.receiver,
             message: this.state.message,
             type: 'text',
@@ -123,6 +122,7 @@ class Chat extends React.Component {
                 this.setState({ password: response.data.user.password });
                 this.setState({ address: response.data.user.address });
                 this.setState({ isDoc: response.data.user.isDoc });
+                this.setState({ mail: response.data.user.mail});
                 //this.setState({insurednumber: response.data.patient.insurednumber});
                 //this.setState({healthinsurance: response.data.patient.healthinsurance});
 
@@ -135,7 +135,7 @@ class Chat extends React.Component {
                         'token': Cookies.get("token")
                     },
                     data: {
-                        'userid': this.state.userid
+                        'mail': this.state.mail
                     }
                 };
                 axios.post(url, options)
@@ -203,7 +203,7 @@ class Chat extends React.Component {
     chatContent(i) {
         var content = [];
 
-        if (this.state.senders[i] !== this.state.userid) {
+        if (this.state.senders[i] !== this.state.mail) {
             if(this.state.types[i] === "text")
             {
                 return (
