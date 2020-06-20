@@ -11,7 +11,7 @@ const Therapy = require("../model/therapy");
 const Patientfile = require("../model/patientfile");
 const Chat = require("../model/chat");
 
-const auth = require("../middleware/auth");
+const auth = require("../src/middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
 var fs = require("fs");
 

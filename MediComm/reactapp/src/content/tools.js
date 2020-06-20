@@ -52,6 +52,17 @@ class Tools
         });
         
     }
+
+    static checkLogin(token)
+    {
+        if (!token) 
+        {
+            window.location="/login";
+            return false;
+        }
+        else
+            return true;
+    }
 }
 
 export default Tools;
