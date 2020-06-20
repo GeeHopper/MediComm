@@ -27,6 +27,7 @@ import FileUploadPat from "./content/FileUploadPat";
 import ViewFile from "./content/ViewFile";
 import Voice from "./content/Voice";
 import Picture from "./content/Picture";
+import DSGVO from "./content/DSGVO";
 
 export default [
     {
@@ -133,6 +134,11 @@ export default [
     path: "/picture",
     layout: DefaultLayout,
     component: Picture
+  },
+  {
+    path: "/dsgvo",
+    layout: NoLayout,
+    component: DSGVO
   },
   
   

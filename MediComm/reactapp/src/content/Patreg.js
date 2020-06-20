@@ -36,6 +36,7 @@ class Patreg extends React.Component{
 
     //assigns the state values to the input values on input change
     handleInputChange = e => {
+        console.log("changed");
         this.setState({
           [e.target.name]: e.target.value,
         });
@@ -145,7 +146,7 @@ class Patreg extends React.Component{
 
                     <div class="kk">
                         <div class="input_field">
-                            <input list="kk" placeholder="Krankenkasse" class="input form-control my-3"onChange={this.handleInputChange}/>
+                            <input list="kk" placeholder="Krankenkasse" name="healthinsurance" class="input form-control my-3"onChange={this.handleInputChange}/>
                             <datalist id="kk">
                                 <option value="AOK"></option>
                                 <option value="Knappschaft"></option>
@@ -158,7 +159,7 @@ class Patreg extends React.Component{
 
                     <div class="verNr">
                         <div class="input_field">
-                            <input type="text" placeholder="Versichertennummer " class="input form-control my-3"onChange={this.handleInputChange}/>
+                            <input type="text" placeholder="Versichertennummer " name="insurednumber" class="input form-control my-3"onChange={this.handleInputChange}/>
                             <i class="verNr"></i>
                         </div>
                     </div>
