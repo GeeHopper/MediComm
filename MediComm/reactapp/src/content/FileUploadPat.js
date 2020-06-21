@@ -4,6 +4,7 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -56,7 +57,7 @@ class FileUpload extends React.Component{
     }
 
     handleInputChange = e => {
-        console.log("file set");
+        //console.log("file set");
         this.setState({
           [e.target.name]: e.target.value,
         });
@@ -81,7 +82,7 @@ class FileUpload extends React.Component{
         
         if(e.target.file.files[0])
         {
-            console.log("file found");
+            //console.log("file found");
             form_data.append("file", e.target.file.files[0]);
             form_data.append("newfilename", patientfile.filename);
             form_data.append("filetype", e.target.file.files[0].name.split('.').pop());
@@ -89,7 +90,7 @@ class FileUpload extends React.Component{
             patientfile.filetype = e.target.file.files[0].name.split('.').pop();
             patientfile.notes = this.state.notes;
             patientfile.shareWith = this.state.shareWith;
-            console.log("sharing with: " + patientfile.shareWith)
+            //console.log("sharing with: " + patientfile.shareWith)
         }
 
         const headerss = {
@@ -110,9 +111,8 @@ class FileUpload extends React.Component{
                     console.error(err);
             });
         }
-       //HIER WEITER
         
-        console.log("new filename: " + patientfile.filename);
+        //console.log("new filename: " + patientfile.filename);
 
 
 
@@ -122,92 +122,15 @@ class FileUpload extends React.Component{
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
-        const url = 'http://localhost:8080/me';
-        const options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-            console.log(response.data.profilepic);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({userid: response.data.user._id});
-            this.setState({patid: response.data.patient._id});
-            this.setState({mail: response.data.patient.mail});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-            this.setState({insurednumber: response.data.patient.insurednumber});
-            this.setState({healthinsurance: response.data.patient.healthinsurance});
-        });
-
-      
-
-        
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
+        Tools.getUserData(this);
     }  
-
-    isDoc()
-    {
-        if(this.state.isDoc == "1")
-            return true;
-        else
-            return false;
-    }
-
     docContent()
     {
-        return("");
-    }
-
-    checkProfilepic()
-    {
-        if(this.state.profilepicfile)
-            return (<img src = {require("../uploads/" + this.state.profilepicfile)} />);
-        else
-            return ("no image");
+        return(
+            <div>
+                Bitte als Patient einloggen. :)
+            </div>
+        );
     }
 
     patientContent()
@@ -240,26 +163,12 @@ class FileUpload extends React.Component{
 
     getContent()
     {
-        if(this.isDoc())
+        if(Tools.isDoc(this))
             return this.docContent();
         else
             return this.patientContent();
     }
-
-    checkLogin(mail)
-    {
-        
-            return mail()
-
-            /*try {
-                const decoded = jwt.verify(this.state.token, "randomString");
-                //return "it is: " + decoded.user;
-                const user = User.findById(req.user.id);
-            } catch (e) {
-                console.error(e);
-            }*/
-    }
-
+    
     render(){
 
         return this.getContent();

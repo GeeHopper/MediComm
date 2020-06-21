@@ -4,6 +4,7 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -56,7 +57,7 @@ class FileUploadDoc extends React.Component{
     }
 
     handleInputChange = e => {
-        console.log("file set");
+        //("file set");
         this.setState({
           [e.target.name]: e.target.value,
         });
@@ -81,7 +82,7 @@ class FileUploadDoc extends React.Component{
         
         if(e.target.file.files[0])
         {
-            console.log("file found");
+            //("file found");
             form_data.append("file", e.target.file.files[0]);
             form_data.append("newfilename", patientfile.filename);
             form_data.append("filetype", e.target.file.files[0].name.split('.').pop());
@@ -112,7 +113,7 @@ class FileUploadDoc extends React.Component{
         }
        //HIER WEITER
         
-        console.log("new filename: " + patientfile.filename);
+        //console.log("new filename: " + patientfile.filename);
 
 
 
@@ -120,78 +121,9 @@ class FileUploadDoc extends React.Component{
         event.preventDefault();*/
     }
 
-    setUsername(username)
-    {
-        this.username = username;
-        console.log("username: " + username);
-    }
-
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
-        const url = 'http://localhost:8080/me';
-        const options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-            console.log(response.data.profilepic);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({userid: response.data.user._id});
-            this.setState({docid: response.data.doctor._id});
-            console.log("docid is: " + response.data.doctor._id);
-            this.setState({mail: response.data.user.mail});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-        });
-
-      
-
-        
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
+        Tools.getUserData(this);
     }  
 
     isDoc()
@@ -215,29 +147,38 @@ class FileUploadDoc extends React.Component{
             return ("no image");
     }
 
+    docContent()
+    {
+        return(
+            <div>
+                <div className="title">
+                    Profileedit
+                </div>
+
+
+                <div className="bg-right"></div>
+
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+                    
+
+                    <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
+
+                    <input type="text" placeholder="Patient related to the document" onChange={this.handleInputChange} name="pat_mail"></input>
+                    
+                    <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
+
+                    <input type="submit" className="btn btn-primary" value="Submit" />
+                    
+                </form>
+            </div>
+        )
+    }
+
     patientContent()
     {
         return(
         <div>
-            <div className="title">
-                Profileedit
-            </div>
-
-
-            <div className="bg-right"></div>
-
-            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                
-
-                <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
-
-                <input type="text" placeholder="Patient related to the document" onChange={this.handleInputChange} name="pat_mail"></input>
-                
-                <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
-
-                <input type="submit" className="btn btn-primary" value="Submit" />
-                
-            </form>
+            Bitte als Arzt einloggen.
         </div>
 
         )
@@ -245,24 +186,10 @@ class FileUploadDoc extends React.Component{
 
     getContent()
     {
-        if(this.isDoc())
+        if(Tools.isDoc(this))
             return this.docContent();
         else
             return this.patientContent();
-    }
-
-    checkLogin(mail)
-    {
-        
-            return mail()
-
-            /*try {
-                const decoded = jwt.verify(this.state.token, "randomString");
-                //return "it is: " + decoded.user;
-                const user = User.findById(req.user.id);
-            } catch (e) {
-                console.error(e);
-            }*/
     }
 
     render(){
