@@ -154,7 +154,7 @@ class OverviewMyDocs extends React.Component {
         };
         axios.post(url, options)
             .then(response => {
-                console.log(response.data.doctors[0].firstname);
+                //console.log(response.data.doctors[0].firstname);
                 for (var i = 0; i < response.data.doctors.length; i++) {
                     if (response.data.doctors[i].profilepic != undefined) {
                         this.state.profilepic.push(response.data.doctors[i].profilepic);
@@ -175,7 +175,7 @@ class OverviewMyDocs extends React.Component {
                     this.setState({
                         mail: this.state.mail
                     });
-                    console.log("mail is: " + response.data.doctors[i].mail);
+                    //console.log("mail is: " + response.data.doctors[i].mail);
 
                     this.state.firstname.push(response.data.doctors[i].firstname);
                     this.setState({

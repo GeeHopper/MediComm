@@ -2,6 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
+import Tools from './Tools';
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -65,7 +66,7 @@ class Voice extends React.Component{
     }
 
     handleInputChange = e => {
-        console.log("file set");
+        //og("file set");
         this.setState({
           [e.target.name]: e.target.value,
         });
@@ -79,7 +80,7 @@ class Voice extends React.Component{
         
         //console.log("file is: " + e.target.file.files[0]);
         
-        console.log("NOW BLOB IS: " + blob_file);
+        //console.log("now blob is: " + blob_file);
 
         const chat = {
             sender: this.state.mail,
@@ -90,7 +91,7 @@ class Voice extends React.Component{
 
         if(blob_file !== '')
         {
-            console.log("blob found");
+            //console.log("blob found");
             form_data.append("blob", blob_file);
         }
         else{
@@ -102,7 +103,7 @@ class Voice extends React.Component{
         }
         if(this.state.blobURL)
         {
-            console.log("sending blob...");
+            //console.log("sending blob...");
             axios
             .post('http://localhost:8080/chat-sent', chat)
             .then(() => console.log('Message sent :))'))
@@ -120,28 +121,7 @@ class Voice extends React.Component{
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
-        const url = 'http://localhost:8080/me';
-        const options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            console.log(response.data.profilepic);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({mail: response.data.user.mail});
-            this.setState({userid: response.data.user._id});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-        });
+        Tools.getUserData(this)
 
         navigator.getUserMedia({ audio: true },
             () => {
@@ -197,9 +177,7 @@ class Voice extends React.Component{
 
                     <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
                     
-                    <input type="submit" className="btn btn-primary" value="Submit" /><br />
-
-                    
+                    <input type="submit" className="btn btn-primary" value="Submit" /><br />     
                     
                 </form>
 

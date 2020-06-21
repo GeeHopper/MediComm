@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -39,22 +40,6 @@ class Profile extends React.Component {
 
     }
 
-    handleInputChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-
-
-        /*this.setState({sendForm: this.state.name});
-        event.preventDefault();*/
-    }
-
-
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount() {
 
@@ -71,7 +56,7 @@ class Profile extends React.Component {
                 'userid': userid
             }
         };
-        console.log("User Id is: " + userid)
+        //("User Id is: " + userid)
         axios.post(url, options)
             .then(response => {
                 //console.log(response.json({message: "request received!", response}));
@@ -88,7 +73,7 @@ class Profile extends React.Component {
                         this.setState({ profilepic: response.data.user.profilepic });
                         this.setState({ profilepicfile: response.data.user.profilepic });
                     }
-                }
+                
                     this.setState({ userid: response.data.user._id });
                     this.setState({ mail: response.data.user.mail });
                     this.setState({ firstname: response.data.user.firstname });
@@ -97,8 +82,8 @@ class Profile extends React.Component {
                     this.setState({ address: response.data.user.address });
                     this.setState({ patid: response.data.user.patid });
                     this.setState({isDoc: response.data.user.isDoc});
-                    console.log("patid: " + this.state.patid);
-                
+                    //console.log("patid: " + this.state.patid);
+                }
                 if(response.data.patient)
                 {
                     this.setState({ insurednumber: response.data.patient.insurednumber });
@@ -107,42 +92,6 @@ class Profile extends React.Component {
             });
 
         this.fetchDoc();
-
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
-    }
-
-    isDoc() {
-        if (this.state.isDoc == "1")
-            return true;
-        else
-            return false;
     }
 
     docContent() {
@@ -198,26 +147,17 @@ class Profile extends React.Component {
         };
         axios.get(url, options)
         .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
 
-            
             
             if(response.data.user.isDoc === "1")
             {
-                console.log("youre a doc");
+                //console.log("youre a doc");
                 this.doctor = response.data.user;
                 return true;
             }
             else
             {
-                console.log("youre not a doc");
+                //console.log("youre not a doc");
                 return false;
             }
         });
@@ -227,9 +167,8 @@ class Profile extends React.Component {
     {
         if(this.doctor.isDoc === "1")
         {
-            console.log("yews doc");
-            console.log("your id is: " + this.doctor._id);
-            console.log("your patients id is: " + this.state.userid);
+            //console.log("your docid is: " + this.doctor._id);
+            //console.log("your patients id is: " + this.state.userid);
             var params = {
                 doc_userid: this.doctor._id,
                 pat_userid: this.state.userid
@@ -242,12 +181,8 @@ class Profile extends React.Component {
             });
         }
         else{
-            console.log("no doc");
+            console.log("Bitte als Arzt einloggen.");
         }
-
-        //using axios to post
-        
-
     }
 
     patientContent() {
@@ -300,27 +235,13 @@ class Profile extends React.Component {
     }
 
     getContent() {
-        if (this.isDoc())
+        if (Tools.isDoc(this))
             return this.docContent();
         else
             return this.patientContent();
     }
 
-    checkLogin(mail) {
-
-        return mail()
-
-        /*try {
-            const decoded = jwt.verify(this.state.token, "randomString");
-            //return "it is: " + decoded.user;
-            const user = User.findById(req.user.id);
-        } catch (e) {
-            console.error(e);
-        }*/
-    }
-
     render() {
-
         return this.getContent();
     }
 }

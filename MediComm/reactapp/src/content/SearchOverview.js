@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -85,7 +86,6 @@ class Me extends React.Component{
        
         if(this.state.isDoc === "0")
         {
-            console.log("i doc")
             patient = {
                 insurednumber,
                 healthinsurance,
@@ -94,7 +94,6 @@ class Me extends React.Component{
         }
         else
         {
-            console.log("i doc")
             doctor = {
                 phone,
                 fax,
@@ -106,7 +105,7 @@ class Me extends React.Component{
             }
         }
         
-        console.log("user profilepic: " + user.profilepic);
+        //console.log("user profilepic: " + user.profilepic);
 
         //using axios to post
         axios
@@ -128,7 +127,7 @@ class Me extends React.Component{
         {
             axios
             .post('http://localhost:8080/edit-sent-doctor', doctor)
-                .then(() => console.log('Patient updated :))'))
+                .then(() => console.log('Doktor updated :))'))
                 .catch(err => {
                     console.error(err);
             });
@@ -151,74 +150,11 @@ class Me extends React.Component{
         event.preventDefault();*/
     }
 
-    setUsername(username)
-    {
-        this.username = username;
-        console.log("username: " + username);
-    }
-
-    getUserData(){
-
-        const url = 'http://localhost:8080/me';
-        const options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({userid: response.data.user._id});
-            this.setState({mail: response.data.user.mail});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-            this.setState({isDoc: response.data.user.isDoc});
-            if(response.data.user.isDoc === "0")
-            {
-                this.setState({patid: response.data.patient._id});
-                this.setState({insurednumber: response.data.patient.insurednumber});
-                this.setState({healthinsurance: response.data.patient.healthinsurance});
-            }
-            else
-            {
-                this.setState({docid: response.data.doctor._id});
-                this.setState({fax: response.data.doctor.fax});
-                this.setState({phone: response.data.doctor.phone});
-                this.setState({fieldofwork: response.data.doctor.fieldofwork});
-                this.setState({establishmentnumber: response.data.doctor.establishmentnumber});
-            }
-            
-        });
-        
-    }
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
-        this.getUserData();
+        Tools.getUserData(this);
     }  
-
-    isDoc()
-    {
-        if(this.state.isDoc === "1")
-            return true;
-        else
-            return false;
-    }
 
     docContent()
     {
@@ -243,7 +179,7 @@ class Me extends React.Component{
 
             <form action="searchmydocs" encType="multipart/formdata">
                 
-            <input type="text" placeholder="Suche Doktor durch Nachnamen..." className="input" name="doclastname"/>
+            <input type="text" placeholder="Suche Doktoren durch Nachnamen..." className="input" name="doclastname"/>
                     
             <input type="submit" className="btn btn-primary" value="Submit" />
                 
@@ -255,7 +191,7 @@ class Me extends React.Component{
 
     getContent()
     {
-        if(this.isDoc())
+        if(Tools.isDoc(this))
             return this.docContent();
         else
             return this.patientContent();

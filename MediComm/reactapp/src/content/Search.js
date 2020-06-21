@@ -39,21 +39,6 @@ class Search extends React.Component {
 
     }
 
-    handleInputChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-
-
-        /*this.setState({sendForm: this.state.name});
-        event.preventDefault();*/
-    }
-
 
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount() {
@@ -74,15 +59,7 @@ class Search extends React.Component {
         console.log("User Id is: " + this.props.match.params.query)
         axios.post(url, options)
             .then(response => {
-                //console.log(response.json({message: "request received!", response}));
-                //this.state.mail = response.json({message: "request received!", response}).parse();
-                //console.log (response.json());
-                //this.state.mail = response.data.firstname;
-                //console.log(response.data);
-                //this.setUsername(response.data.firstname)
-                //this.setState(resp);
-                //console.log(response.data);
-                
+
                 if(response.data.users)
                 {
                     for (var i = 0; i < response.data.users.length; i++) {
@@ -124,19 +101,7 @@ class Search extends React.Component {
                         this.setState({
                             patid: this.state.patid
                         });
-
-                        /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
-                        this.setState({
-                            insurednumber: this.state.insurednumber
-                        });
-
-                        this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
-                        this.setState({
-                            healthinsurance: this.state.healthinsurance
-                        });*/
-
-                        /*if(this.state.lastname ==== "krickler")*/
-                        //if(this.state.mail === this.props.match.params.query)
+                        
                         this.state.content.push(this.patientSearchContent(i));
                         this.setState({
                             content: this.state.content
@@ -154,52 +119,6 @@ class Search extends React.Component {
             });
         
 
-
-        /*fetch('http://localhost:8080/me')
-            .then(response => {
-                if (!response.ok) {
-                    throw Error('Network request failed.')
-                }
-                return response;
-            })
-            .then(data => data.json())
-            .then(data => {
-                this.setState({
-                    persons: data
-                });
-                console.log('parsed json', data);            
-            }, (ex) => {
-                this.setState({
-                    requestError : true
-                });
-                console.log('parsing failed', ex)
-            })*/
-
-        /*axios.get('http://localhost:8080/me',
-        { headers: { 'token':  Cookies.get("token") } }
-        ).then((data)=>{
-            console.log('data comming',data);
-        }).catch((error)=>{
-            console.log('error comming',error);
-        });*/
-    }
-
-    isDoc() {
-        if (this.state.isDoc == "1")
-            return true;
-        else
-            return false;
-    }
-
-    docContent() {
-        return ("");
-    }
-
-    checkProfilepic(i) {
-        if (typeof this.state.profilepicfile[i] === "undefined")
-            return ("no image");
-        else
-            return (<img src={require("../uploads/" + this.state.profilepicfile[i])} />);
 
     }
 
@@ -242,23 +161,6 @@ class Search extends React.Component {
         )
     }
 
-    getContent() {
-        //string contents = 
-    }
-
-    checkLogin(mail) {
-
-        return mail()
-
-        /*try {
-            const decoded = jwt.verify(this.state.token, "randomString");
-            //return "it is: " + decoded.user;
-            const user = User.findById(req.user.id);
-        } catch (e) {
-            console.error(e);
-        }*/
-    }
-
     render() {
 
         return (
@@ -266,8 +168,6 @@ class Search extends React.Component {
                 {this.state.content}
             </div>
         );
-
-        //return 'lol';
     }
 }
 

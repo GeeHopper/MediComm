@@ -35,10 +35,13 @@ class ViewFile extends React.PureComponent{
             filename: '',
             originalfilename: '',
             filetype: '',
+
             //one share with for authentication
             shareWith: [],
+
             //one share with as string to be passed(when editing file infos for example)
             shareWithString: '',
+
             notes: ''
 
         };
@@ -93,20 +96,18 @@ class ViewFile extends React.PureComponent{
         const params = new URLSearchParams(this.props.location.search);
         const filename = params.get('filename'); 
 
-        console.log("FILENAME IS: " + filename);
-
         //checking for extension in url
         /*var n = filename.indexOf('.');
         filename = filename.substring(0, n != -1 ? n : filename.length);*/
 
 
-        console.log("User Id is: " + this.props.match.params.query);
+        //console.log("User Id is: " + this.props.match.params.query);
         this.setState({fileToPlay: "/uploads/" + this.props.match.params.query});
-        console.log("toplay is: " + this.state.fileToPlay)
+        //console.log("to play is: " + this.state.fileToPlay)
 
         //var filenames = this.props.match.params.query;
 
-        //Checking file ingo
+        //Checking file info
         var url = 'http://localhost:8080/checkFile';
         var options = {
         method: 'POST',
@@ -125,27 +126,21 @@ class ViewFile extends React.PureComponent{
             this.setState({originalfilename: response.data.patientfile.originalfilename});
             this.setState({filetype: response.data.patientfile.filetype});
             if(response.data.patientfile.shareWith === undefined)
-                console.log("shared with nobody");
+                console.log("Dokument wird mit niemandem geteilt.");
             else
             {
                 this.setState({shareWith: response.data.patientfile.shareWith.split(',')});
                 this.setState({shareWithString: response.data.patientfile.shareWith});
             }
             if(response.data.patientfile.notes === undefined)
-                console.log("no notes");
+                console.log("Keine Notizen");
             else
                 this.setState({notes: response.data.patientfile.notes});
-            console.log("sharewith is: " + this.state.shareWith);
+            //console.log("sharewith is: " + this.state.shareWith);
             var temp = "../uploads/" + response.data.patientfile.filename + "." + response.data.patientfile.filetype;
             this.setState({fileToPlay: temp});
         });
-
         
-        
-        
-
-        
-
     }  
 
     //check if file has been loaded from the server already
@@ -153,7 +148,6 @@ class ViewFile extends React.PureComponent{
         return(
             <div>
                 <img src={this.state.fileToPlay}/>
-                on itt
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">    
                     <input type="text" placeholder="keywords/comments" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
                     <input type="text" placeholder="Doctor IDs" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
@@ -180,35 +174,23 @@ class ViewFile extends React.PureComponent{
         );
     }
 
-    isDoc()
-    {
-        if(this.state.isDoc === "1")
-        {
-            return true;
-
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     patientContent()
     {
-        console.log("your patid is: " + this.state.patid);
+        /*console.log("your patid is: " + this.state.patid);
         console.log("sharewith is: " + this.state.shareWith);
-        console.log("desired patid is: " + this.state.pat_mail);
+        console.log("desired patid is: " + this.state.pat_mail);*/
         if(this.state.mail === this.state.pat_mail)
         {
-            console.log("you're authorized")
+            //console.log("you're authorized")
             if(this.state.filetype === "png" || this.state.filetype === "jpg")
             {
-                console.log("its a png");
+                //console.log("its a png");
                 return(this.image());
             }
             else if(this.state.filetype === "pdf")
             {
-                console.log("its a pdf");
+                //console.log("its a pdf");
                 return(this.pdf());
             }
             else
@@ -216,7 +198,7 @@ class ViewFile extends React.PureComponent{
         }
         else
         {
-            console.log("youre not authorized")
+            //console.log("youre not authorized")
             return(<div>not authorized</div>);
         }
     }
@@ -225,11 +207,9 @@ class ViewFile extends React.PureComponent{
     {
         for(var i = 0;i < this.state.shareWith.length;i++)
         {
-            console.log("shares are: " + this.state.shareWith[i]);
+            //console.log("shares are: " + this.state.shareWith[i]);
 
             //replacing comma
-            console.log("REMOVED COMMA: " + this.state.shareWith[i].replace(/\s/g, ''));
-            console.log("MAIL IS")
             if(this.state.shareWith[i].replace(/\s/g, '') === this.state.mail)
                 return true;
         }
@@ -238,19 +218,19 @@ class ViewFile extends React.PureComponent{
 
     docContent()
     {
-        console.log("your docid is: " + this.state.docid);
+        //console.log("your docid is: " + this.state.docid);
         var authorized = this.checkShare();
         if(authorized)
         {
-            console.log("you're authorized")
+            //console.log("you're authorized")
             if(this.state.filetype === "png" || this.state.filetype === "jpg")
             {
-                console.log("its a png");
+                //console.log("its a png");
                 return(this.image());
             }
             else if(this.state.filetype === "pdf")
             {
-                console.log("its a pdf");
+                //console.log("its a pdf");
                 return(this.pdf());
             }
             else
@@ -258,21 +238,21 @@ class ViewFile extends React.PureComponent{
         }
         else
         {
-            console.log("youre not authorized")
+            //console.log("youre not authorized")
             return(<div>not authorized</div>);
         }
     }
 
     getContent()
     {
-        if(this.isDoc())
+        if(Tools.isDoc(this))
         {
-            console.log("youre a doctor");
+            //console.log("youre a doctor");
             return this.docContent();
         }
         else
         {
-            console.log("youre a patient");
+            //console.log("youre a patient");
             return this.patientContent();
         }
     }
