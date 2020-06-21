@@ -1,10 +1,6 @@
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
-import { element } from 'prop-types';
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -93,15 +89,16 @@ class Profile extends React.Component {
                         this.setState({ profilepicfile: response.data.user.profilepic });
                     }
                 }
-                this.setState({ userid: response.data.user._id });
-                this.setState({ mail: response.data.user.mail });
-                this.setState({ firstname: response.data.user.firstname });
-                this.setState({ lastname: response.data.user.lastname });
-                this.setState({ password: response.data.user.password });
-                this.setState({ address: response.data.user.address });
-                this.setState({ patid: response.data.user.patid });
-                this.setState({isDoc: response.data.user.isDoc});
-                console.log("patid: " + this.state.patid);
+                    this.setState({ userid: response.data.user._id });
+                    this.setState({ mail: response.data.user.mail });
+                    this.setState({ firstname: response.data.user.firstname });
+                    this.setState({ lastname: response.data.user.lastname });
+                    this.setState({ password: response.data.user.password });
+                    this.setState({ address: response.data.user.address });
+                    this.setState({ patid: response.data.user.patid });
+                    this.setState({isDoc: response.data.user.isDoc});
+                    console.log("patid: " + this.state.patid);
+                
                 if(response.data.patient)
                 {
                     this.setState({ insurednumber: response.data.patient.insurednumber });
@@ -185,7 +182,7 @@ class Profile extends React.Component {
 
     checkProfilepic() {
         if (this.state.profilepicfile)
-            return (<img src={require("../uploads/" + this.state.profilepicfile)} />);
+            return (<img src={require("../../public/uploads/" + this.state.profilepicfile)} width="200" height="200"/>);
         else
             return ("no image");
     }

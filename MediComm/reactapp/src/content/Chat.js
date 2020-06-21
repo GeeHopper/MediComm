@@ -1,12 +1,7 @@
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
-import MicRecorder from 'mic-recorder-to-mp3';
 import ReactPlayer from 'react-player/lazy'
-import auth from "../middleware/auth";
 import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 

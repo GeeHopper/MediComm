@@ -1,5 +1,4 @@
 import React from 'react';
-import Output from './Output';
 import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';

@@ -6,7 +6,6 @@ import { DefaultLayout } from "./layouts";
 import { NoLayout } from "./layouts"
 
 // Route Views
-import Dashboard from "./content/Dashboard";
 import Login from "./content/Login";
 import Me from "./content/Me";
 import Chat from "./content/Chat";
@@ -45,11 +44,6 @@ export default [
     layout: NoLayout,
     component: Login
     },
-  {
-    path: "/dashboard",
-    layout: DefaultLayout,
-    component: Dashboard
-  },
   {
     path: "/searchoverview",
     layout: DefaultLayout,

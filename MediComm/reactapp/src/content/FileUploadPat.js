@@ -1,8 +1,5 @@
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
@@ -168,7 +165,7 @@ class FileUpload extends React.Component{
         else
             return this.patientContent();
     }
-    
+
     render(){
 
         return this.getContent();

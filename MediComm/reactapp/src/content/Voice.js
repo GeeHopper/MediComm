@@ -1,8 +1,5 @@
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
 

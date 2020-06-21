@@ -1,8 +1,5 @@
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';

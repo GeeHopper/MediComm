@@ -2,10 +2,7 @@
 
 
 import React from 'react';
-import Output from './Output';
-import App from '../App';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import Tools from "./Tools";
 
@@ -41,7 +38,7 @@ class Me extends React.Component{
             docid: '',
             profilepicfile: '',
 
-            //doc related
+            //doc related   
             phone: '',
             fax: '',
             fieldofwork: '',
