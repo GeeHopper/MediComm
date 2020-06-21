@@ -3,6 +3,7 @@ import axios from 'axios';
 
 class Tools
 {
+    //getting userdata from the backend and initializing states with is
     static getUserData(comp){
 
         const url = 'http://localhost:8080/me';
@@ -53,6 +54,7 @@ class Tools
         
     }
 
+    //check wether a user is logged in, otherwise redirect him to the login page
     static checkLogin(token)
     {
         if (!token) 
@@ -65,6 +67,7 @@ class Tools
             return true;
     }
     
+    //check wether a user is a doctor
     static isDoc(comp) {
         if (comp.state.isDoc === "1")
             return true;

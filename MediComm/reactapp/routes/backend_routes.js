@@ -1025,8 +1025,8 @@ router.post("/checkFile", auth, async (req, res) => {
         }
         else
         {
-            console.log("found one! :)");
-            console.log("type: " + patientfile.filetype);
+            //console.log("found one! :)");
+            //console.log("type: " + patientfile.filetype);
         }
         res.json({
             patientfile: patientfile

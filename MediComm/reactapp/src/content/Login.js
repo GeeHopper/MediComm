@@ -44,7 +44,7 @@ class Login extends React.Component{
         
         //using axios to post, withcredentials also gets the cookie
         axios
-        .post('http://localhost:8080/login-sent', login, {withCredentials: true})
+        .post('http://10.0.2.2:8080/login-sent', login, {withCredentials: true})
         //.post('http://192.168.2.102:5000/login-sent', login, {withCredentials: true})
             .then(() =>{
              console.log('Logged in :)');
@@ -142,7 +142,7 @@ class Login extends React.Component{
                                                 <p>Noch kein Account? <a href="/reg">Signup!</a></p>
                                             </div>
                                                 <div className="button">
-                                                    <button type="submit" className="btn btn-primary w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}><Link to="/overview">Login</Link></button>
+                                                    <button type="submit" className="btn btn-primary w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}>Login</button>
                                                 </div>
                                         </div>
                                     </form>

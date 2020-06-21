@@ -39,7 +39,8 @@ class Webserver
         this.app = express();
         //Setting header to pass cookies conform CORS
         this.app.use(function(req, res, next) {
-            res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            //res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+            res.header("Access-Control-Allow-Origin", "http://10.0.2.2:5000");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, token");
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header("Access-Control-Allow-Credentials", "true");
@@ -154,6 +155,7 @@ class Webserver
         /* starting server using express */
         var server = this.app.listen(8080, function() {
             var host = server.address().address;
+            //var host = "192.168.2.102";
             var port = server.address().port;
 
             console.log("Express app listening at http://%s:%s", host, port);

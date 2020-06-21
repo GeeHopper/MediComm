@@ -101,7 +101,7 @@ class Search extends React.Component {
                         this.setState({
                             patid: this.state.patid
                         });
-                        
+
                         this.state.content.push(this.patientSearchContent(i));
                         this.setState({
                             content: this.state.content
@@ -147,7 +147,7 @@ class Search extends React.Component {
 
                     <div className="_id">
                         <div className="input_field">
-                            <a type="text" placeholder="URL" href={"http://localhost:3000/profile/?userid="+this.state.userid[i]} className="input" name="lastname" onChange={this.handleInputChange}>Profile</a>
+                            <a type="text" placeholder="URL" href={"http://localhost:5000/profile/?userid="+this.state.userid[i]} className="input" name="lastname" onChange={this.handleInputChange}>Profile</a>
                             <i className="name"></i>
                         </div>
                     </div>

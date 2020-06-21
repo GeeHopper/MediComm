@@ -18,7 +18,7 @@ export default function() {
       to: "/searchoverview",
     },
     {
-      title: "Übsersicht",
+      title: "Übersicht",
       htmlBefore: '<i class="material-icons">house</i>',
       to: "/overviewtherapies",
     },

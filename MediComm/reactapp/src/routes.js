@@ -134,6 +134,11 @@ export default [
     layout: NoLayout,
     component: DSGVO
   },
+  {
+    path: "/",
+    layout: NoLayout,
+    component: Login
+    },
   
   
 ];
