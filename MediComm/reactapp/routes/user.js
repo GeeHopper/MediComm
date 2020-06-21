@@ -423,10 +423,6 @@ router.post("/addPatient", auth, async (req, res) => {
         patNotes = '';
         docNotes = '';
 
-        console.log("You're a doc");
-        console.log("your id is: " + req.body.doc_userid);
-        console.log("your patients id is: " + req.body.pat_userid);
-
 
 
         try {
@@ -631,7 +627,7 @@ router.post(
 router.post(
     "/edit-sent-patientfile",
     [
-        check("filename", "oppps wata filename")
+        check("filename", "invalid filename")
             .not()
             .isEmpty()
     ],
@@ -804,12 +800,20 @@ router.post("/overviewMyFiles", auth, async (req, res) => {
         // request.user is getting fetched from Middleware after token authentication
         //User.find({ "mail": { $regex: ".*" + req.body.data.query + ".*" } });
         //Chat.find({ $or:[ {'sender':req.body.data.userid}, {'receiver':req.body.data.userid}]});
-        console.log("pat id is: " + req.body.data.pat_userid);
-        console.log("doc id is: " + req.body.data.doc_userid);
         //const patientfiles = await Patientfile.find({ pat_userid: req.body.data.pat_userid });
-        const patientfiles = await Patientfile.find({ $or:[{"pat_userid": req.body.data.pat_userid }, {"shareWith": { $regex: ".*" + req.body.data.doc_userid + ".*" }}]});
         
+        var patientfiles = "";
 
+        if(req.body.data.doc_mail)
+        {
+            patientfiles = await Patientfile.find({"shareWith": { $regex: ".*" + req.body.data.doc_mail + ".*" }});
+            console.log("doc mail: " + req.body.data.doc_mail);
+        }
+        else if(req.body.data.pat_mail)
+        {
+            patientfiles = await Patientfile.find({"pat_mail": req.body.data.pat_mail });
+            console.log("pat mail: " + req.body.data.pat_mail);
+        }
         res.json({
             patientfiles: patientfiles
         })
@@ -988,7 +992,7 @@ router.post(
            
             //setting the patid of the user object to the Obj id of the Patient :)
             var patientfile = new Patientfile({
-                pat_userid: req.body.pat_userid,
+                pat_mail: req.body.pat_mail,
                 filename: req.body.filename,
                 original_filename: req.body.original_filename,
                 filetype: req.body.filetype,

@@ -41,7 +41,7 @@ class FileUploadDoc extends React.Component{
             userid: '',
             docid: '',
             file: '',
-            pat_userid: '',
+            pat_mail: '',
             filename: '',
             original_filename: '',
             filetype: '',
@@ -65,12 +65,12 @@ class FileUploadDoc extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, filename, original_filename, filetype} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_mail, filename, original_filename, filetype} = this.state;
         const form_data = new FormData();
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const patientfile = 
         {
-            pat_userid: '',
+            pat_mail: '',
             filename: makefileid(20),
             original_filename: '',
             filetype: '',
@@ -88,8 +88,8 @@ class FileUploadDoc extends React.Component{
             patientfile.original_filename = e.target.file.files[0].name;
             patientfile.filetype = e.target.file.files[0].name.split('.').pop();
             patientfile.notes = this.state.notes;
-            patientfile.pat_userid = this.state.pat_userid;
-            patientfile.shareWith = this.state.userid;
+            patientfile.pat_mail = this.state.pat_mail;
+            patientfile.shareWith = this.state.mail;
         }
 
         const headerss = {
@@ -231,7 +231,7 @@ class FileUploadDoc extends React.Component{
 
                 <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
 
-                <input type="text" placeholder="Patient related to the document" onChange={this.handleInputChange} name="pat_userid"></input>
+                <input type="text" placeholder="Patient related to the document" onChange={this.handleInputChange} name="pat_mail"></input>
                 
                 <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
 

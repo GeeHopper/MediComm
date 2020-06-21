@@ -4,6 +4,7 @@ import App from '../App';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -33,7 +34,7 @@ class ViewFile extends React.PureComponent{
             profilepicfile: '',
             fileToPlay: '',
 
-            pat_userid: '',
+            pat_mail: '',
             filename: '',
             originalfilename: '',
             filetype: '',
@@ -62,10 +63,10 @@ class ViewFile extends React.PureComponent{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {pat_userid, filename, originalfilename, filetype, notes, shareWithString} = this.state;
+        const {pat_mail, filename, originalfilename, filetype, notes, shareWithString} = this.state;
         
         const patfile = {
-            pat_userid,
+            pat_mail,
             filename: this.state.filename,
             originalfilename,
             filetype,
@@ -89,50 +90,7 @@ class ViewFile extends React.PureComponent{
     //using axios in here to get access to the response of our backend in our frontend
     componentDidMount () {
 
-        //Fetching user data
-        var url = 'http://localhost:8080/me';
-        var options = {
-        method: 'GET',
-        headers: {
-            'token': Cookies.get("token"),
-        },
-        };
-        axios.get(url, options)
-        .then(response => {
-            //console.log(response.json({message: "request received!", response}));
-            //this.state.mail = response.json({message: "request received!", response}).parse();
-            //console.log (response.json());
-            //this.state.mail = response.data.firstname;
-            //console.log(response.data);
-            //this.setUsername(response.data.firstname)
-            //this.setState(resp);
-            //console.log(response.data);
-            if(response.data.user.profilepic)
-            {
-                this.setState({profilepic: response.data.user.profilepic});
-                this.setState({profilepicfile: response.data.user.profilepic});
-            }
-            this.setState({userid: response.data.user._id});
-            //this.setState({patid: response.data.patient._id});
-            //this.setState({mail: response.data.patient.mail});
-            this.setState({firstname: response.data.user.firstname});
-            this.setState({lastname: response.data.user.lastname});
-            this.setState({password: response.data.user.password});
-            this.setState({address: response.data.user.address});
-            this.setState({isDoc: response.data.user.isDoc});
-            if(response.data.user.isDoc === "1")
-            {
-                console.log("set docid");
-                this.setState({docid: response.data.user.docid});
-            }
-            else
-            {
-                console.log("set patid");
-                this.setState({patid: response.data.user.patid});
-            }
-            //this.setState({insurednumber: response.data.patient.insurednumber});
-            //this.setState({healthinsurance: response.data.patient.healthinsurance});
-        });
+        Tools.getUserData(this);
         
 
         const params = new URLSearchParams(this.props.location.search);
@@ -164,7 +122,7 @@ class ViewFile extends React.PureComponent{
         };
         axios.post(url, options)
         .then(response => {
-            this.setState({pat_userid: response.data.patientfile.pat_userid});
+            this.setState({pat_mail: response.data.patientfile.pat_mail});
             this.setState({filename: response.data.patientfile.filename});
             //this.setState({filename: "../uploads/dummy.png"});
             this.setState({originalfilename: response.data.patientfile.originalfilename});
@@ -242,8 +200,8 @@ class ViewFile extends React.PureComponent{
     {
         console.log("your patid is: " + this.state.patid);
         console.log("sharewith is: " + this.state.shareWith);
-        console.log("desired patid is: " + this.state.pat_userid);
-        if(this.state.userid === this.state.pat_userid)
+        console.log("desired patid is: " + this.state.pat_mail);
+        if(this.state.mail === this.state.pat_mail)
         {
             console.log("you're authorized")
             if(this.state.filetype === "png" || this.state.filetype === "jpg")
@@ -273,7 +231,9 @@ class ViewFile extends React.PureComponent{
             console.log("shares are: " + this.state.shareWith[i]);
 
             //replacing comma
-            if(this.state.shareWith[i].replace(/\s/g, '') === this.state.userid)
+            console.log("REMOVED COMMA: " + this.state.shareWith[i].replace(/\s/g, ''));
+            console.log("MAIL IS")
+            if(this.state.shareWith[i].replace(/\s/g, '') === this.state.mail)
                 return true;
         }
         return false;

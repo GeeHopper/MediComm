@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 //creating schema for Patientfile in database
 const PatientfileSchema = mongoose.Schema({
-    pat_userid: {
+    pat_mail: {
       type: String,
       required: true
     },

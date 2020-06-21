@@ -37,7 +37,7 @@ class OverviewMyFiles extends React.Component {
             content: [],
 
             //file related states
-            pat_userid: [],
+            pat_mail: [],
             filename: [],
             original_filename: [],
             filetype: [],
@@ -88,7 +88,7 @@ class OverviewMyFiles extends React.Component {
             //console.log(response.data);
 
             
-            this.setState({userid: response.data.user._id})
+            this.setState({mail: response.data.user.mail})
             
             if(response.data.user.isDoc === "0")
             {
@@ -101,7 +101,7 @@ class OverviewMyFiles extends React.Component {
                         'token': Cookies.get("token")
                     },
                     data: {
-                        'pat_userid': this.state.userid
+                        'pat_mail': this.state.mail
                     }
                 };
                 axios.post(url, options)
@@ -117,9 +117,9 @@ class OverviewMyFiles extends React.Component {
                         //console.log("original filename: " + response.data.patientfiles[0].original_filename);
                         for (var i = 0; i < response.data.patientfiles.length; i++) {
                             
-                            this.state.pat_userid.push(response.data.patientfiles[i].pat_userid);
+                            this.state.pat_mail.push(response.data.patientfiles[i].pat_mail);
                             this.setState({
-                                pat_userid: this.state.pat_userid
+                                pat_mail: this.state.pat_mail
                             });
         
                             this.state.filename.push(response.data.patientfiles[i].filename);
@@ -180,7 +180,7 @@ class OverviewMyFiles extends React.Component {
                         'token': Cookies.get("token")
                     },
                     data: {
-                        'doc_userid': this.state.userid
+                        'doc_mail': this.state.mail
                     }
                 };
                 axios.post(url, options)
@@ -196,9 +196,9 @@ class OverviewMyFiles extends React.Component {
                         //console.log("original filename: " + response.data.patientfiles[0].original_filename);
                         for (var i = 0; i < response.data.patientfiles.length; i++) {
                             
-                            this.state.pat_userid.push(response.data.patientfiles[i].pat_userid);
+                            this.state.pat_mail.push(response.data.patientfiles[i].pat_mail);
                             this.setState({
-                                pat_userid: this.state.pat_userid
+                                pat_mail: this.state.pat_mail
                             });
         
                             this.state.filename.push(response.data.patientfiles[i].filename);
@@ -206,7 +206,6 @@ class OverviewMyFiles extends React.Component {
                                 filename: this.state.filename
                             });
         
-                            console.log("filename is: " + response.data.patientfiles[i].filename);
         
                             this.state.original_filename.push(response.data.patientfiles[i].original_filename);
                             this.setState({
@@ -240,7 +239,6 @@ class OverviewMyFiles extends React.Component {
         
                             /*if(this.state.lastname ==== "krickler")*/
                             //if(this.state.mail === this.props.match.params.query)
-                            console.log("CONTENT SET");
                             this.state.content.push(this.overviewContent(i));
                             this.setState({
                                 content: this.state.content
@@ -266,10 +264,6 @@ class OverviewMyFiles extends React.Component {
         return (
             <div key={"main" + i}>
 
-                <div className="title">
-                    Fileedit
-                </div>
-
 
                 <div className="bg-right"></div>
 
@@ -277,14 +271,14 @@ class OverviewMyFiles extends React.Component {
 
                     <div className="mail">
                         <div className="input_field">
-                            <input type="text" placeholder="sharewith" value={this.state.shareWith[i]} className="input" name="shareWith" onChange={this.handleInputChange} />
+                    Teilen mit:        <input type="text" placeholder="sharewith" value={this.state.shareWith[i]} className="input" name="shareWith" onChange={this.handleInputChange} />
                             <i className="mail"></i>
                         </div>
                     </div>
 
                     <div className="vorName">
                         <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.notes[i]} placeholder="notes" className="notes" onChange={this.handleInputChange} />
+                    Notizen/Tags:        <input name="firstname" type="text" value={this.state.notes[i]} placeholder="notes" className="notes" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
 
@@ -292,7 +286,7 @@ class OverviewMyFiles extends React.Component {
 
                     <div className="nachName">
                         <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.original_filename[i]} className="input" name="original_filename" onChange={this.handleInputChange} />
+                    Originaler Dateiname:        <input type="text" placeholder="Nachname" value={this.state.original_filename[i]} className="input" name="original_filename" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
                     </div>

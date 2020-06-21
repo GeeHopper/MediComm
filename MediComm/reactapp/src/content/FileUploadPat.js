@@ -41,7 +41,7 @@ class FileUpload extends React.Component{
             userid: '',
             docid: '',
             file: '',
-            pat_userid: '',
+            pat_mail: '',
             filename: '',
             original_filename: '',
             filetype: '',
@@ -65,12 +65,12 @@ class FileUpload extends React.Component{
     handleSubmit = e =>
     {
         e.preventDefault();
-        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_userid, filename, original_filename, filetype} = this.state;
+        const {mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, pat_mail, filename, original_filename, filetype} = this.state;
         const form_data = new FormData();
         //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
         const patientfile = 
         {
-            pat_userid: this.state.userid,
+            pat_mail: this.state.mail,
             filename: makefileid(20),
             original_filename: '',
             filetype: '',
