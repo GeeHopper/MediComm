@@ -239,7 +239,7 @@ router.post(
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
 
-            console.log("mail: " + req.body.mail);
+            //console.log("mail: " + req.body.mail);
             //setting the patid of the user object to the Obj id of the Patient :)
             user.patid = patient.id;
 
@@ -304,7 +304,7 @@ router.post(
                 });
 
             const userid = user.id;
-            console.log("user id: " + userid);
+            //console.log("user id: " + userid);
 
             var payload;
 
@@ -433,7 +433,7 @@ router.post("/addPatient", auth, async (req, res) => {
                         msg: "Therapy Already Exists"
                     });
                 });
-            console.log("pat notes are: " + patNotes);
+            //console.log("pat notes are: " + patNotes);
             therapy = new Therapy({
                 doc_userid,
                 pat_userid,
@@ -646,7 +646,7 @@ router.post(
         } = req.body;
 
         try {
-            console.log("shareWithString is: " + req.body.shareWithString)
+            //console.log("shareWithString is: " + req.body.shareWithString)
             let patientfile = await Patientfile.findOne({
                 "filename": filename
             });
@@ -685,11 +685,11 @@ router.post(
         } = req.body;
 
         try {
-            console.log("patid is: " + req.body.patid);
-            console.log("docid is: " + req.body.doctorid);
+            //console.log("patid is: " + req.body.patid);
+            //console.log("docid is: " + req.body.doctorid);
             const therapy = await Therapy.findOne({ doc_userid: req.body.doctorid, pat_userid: req.body.patid });
         
-            console.log("docid is: " + therapy.pat_userid + " added");
+            //console.log("docid is: " + therapy.pat_userid + " added");
             therapy.patNotes = req.body.patNotes;
          
             therapy.save();
@@ -722,12 +722,12 @@ router.post(
         } = req.body;
 
         try {
-            console.log("patid is: " + req.body.patientid);
-            console.log("docid is: " + req.body.docid);
+            //console.log("patid is: " + req.body.patientid);
+            //console.log("docid is: " + req.body.docid);
             const therapy = await Therapy.findOne({ doc_userid: req.body.docid, pat_userid: req.body.patientid });
         
-            console.log("patid is: " + therapy.pat_userid + " added");
-            console.log("notes " + req.body.docNotes);
+            //console.log("patid is: " + therapy.pat_userid + " added");
+            //console.log("notes " + req.body.docNotes);
             therapy.docNotes = req.body.docNotes;
          
             therapy.save();
@@ -743,7 +743,7 @@ router.post(
 router.post("/checkUserUrl", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("User id is: " + req.body.data.userid);
+        //console.log("User id is: " + req.body.data.userid);
         const user = await User.findById(req.body.data.userid);
         const patient = await Patient.findById(user.patid);
         const doctor = await Doctor.findById(user.docid);
@@ -770,15 +770,15 @@ router.post("/checkUserUrl", auth, async (req, res) => {
 router.post("/overviewMyDocs", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("in my docs search");
-        console.log("pat id is: " + req.body.data.pat_userid);
+        //console.log("in my docs search");
+        //console.log("pat id is: " + req.body.data.pat_userid);
         const therapies = await Therapy.find({ pat_userid: req.body.data.pat_userid });
         var doctors = [];
         var docNotes = [];
 
         for (i = 0; i < therapies.length; i++) {
-            console.log("therapy: " + i + " added");
-            console.log("docid is: " + therapies[i].doc_userid + " added");
+            //console.log("therapy: " + i + " added");
+            //console.log("docid is: " + therapies[i].doc_userid + " added");
             doctors.push(await User.findOne({ "_id": therapies[i].doc_userid }));
             docNotes.push(therapies[i].docNotes);
         }
@@ -786,7 +786,7 @@ router.post("/overviewMyDocs", auth, async (req, res) => {
             doctors: doctors,
             docNotes: docNotes
         })
-        console.log(therapies[0].doc_userid + "is the doc");
+        //console.log(therapies[0].doc_userid + "is the doc");
 
         //res.send(JSON.stringify(user));
     } catch (e) {
@@ -807,12 +807,12 @@ router.post("/overviewMyFiles", auth, async (req, res) => {
         if(req.body.data.doc_mail)
         {
             patientfiles = await Patientfile.find({"shareWith": { $regex: ".*" + req.body.data.doc_mail + ".*" }});
-            console.log("doc mail: " + req.body.data.doc_mail);
+            //console.log("doc mail: " + req.body.data.doc_mail);
         }
         else if(req.body.data.pat_mail)
         {
             patientfiles = await Patientfile.find({"pat_mail": req.body.data.pat_mail });
-            console.log("pat mail: " + req.body.data.pat_mail);
+            //console.log("pat mail: " + req.body.data.pat_mail);
         }
         res.json({
             patientfiles: patientfiles
@@ -828,15 +828,15 @@ router.post("/overviewMyFiles", auth, async (req, res) => {
 router.post("/overviewMyPats", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("in my pats search");
-        console.log("doc id is: " + req.body.data.doc_userid);
+        //console.log("in my pats search");
+        //console.log("doc id is: " + req.body.data.doc_userid);
         const therapies = await Therapy.find({ doc_userid: req.body.data.doc_userid });
         var patients = [];
         var patNotes = [];
 
         for (i = 0; i < therapies.length; i++) {
-            console.log("therapy: " + i + " added");
-            console.log("docid is: " + therapies[i].pat_userid + " added");
+            //console.log("therapy: " + i + " added");
+            //console.log("docid is: " + therapies[i].pat_userid + " added");
             patients.push(await User.findOne({ "_id": therapies[i].pat_userid }));
             patNotes.push(therapies[i].patNotes);
         }
@@ -846,7 +846,7 @@ router.post("/overviewMyPats", auth, async (req, res) => {
             patients: patients,
             patNotes: patNotes
         })
-        console.log(therapies[0].doc_userid + "is the doc");
+        //console.log(therapies[0].doc_userid + "is the doc");
 
         //res.send(JSON.stringify(user));
     } catch (e) {
@@ -858,23 +858,23 @@ router.post("/overviewMyPats", auth, async (req, res) => {
 router.post("/searchMyDocs", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("in my docs search");
-        console.log("pat id is: " + req.body.data.pat_userid);
-        console.log("lastname filter is: " + req.body.data.doc_lastname)
+        //console.log("in my docs search");
+        //console.log("pat id is: " + req.body.data.pat_userid);
+        //console.log("lastname filter is: " + req.body.data.doc_lastname)
         const therapies = await Therapy.find({ pat_userid: req.body.data.pat_userid });
         var doctors = [];
         var doc;
 
         for (i = 0; i < therapies.length; i++) {
-            console.log("therapy: " + i + " added");
-            console.log("docid is: " + therapies[i].doc_userid);
-            console.log("query is is: " + req.body.data.doc_lastname);
+            //console.log("therapy: " + i + " added");
+            //console.log("docid is: " + therapies[i].doc_userid);
+            //console.log("query is is: " + req.body.data.doc_lastname);
             doc = await User.findOne({ "_id": therapies[i].doc_userid });
-            console.log("lastname of DOC: " + doc.lastname);
+            //console.log("lastname of DOC: " + doc.lastname);
             try
             {
                 if (doc.lastname.includes(req.body.data.doc_lastname)) {
-                    console.log("it fits")
+                    //console.log("it fits")
                     doctors.push(doc);
                 }
             }
@@ -885,7 +885,7 @@ router.post("/searchMyDocs", auth, async (req, res) => {
         res.json({
             doctors: doctors
         });
-        console.log(therapies[0].doc_userid + "is the doc");
+        //console.log(therapies[0].doc_userid + "is the doc");
 
         //res.send(JSON.stringify(user));
     } catch (e) {
@@ -897,23 +897,23 @@ router.post("/searchMyDocs", auth, async (req, res) => {
 router.post("/searchMyPats", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("in my pats search");
-        console.log("doc userid is: " + req.body.data.doc_userid);
-        console.log("lastname filter is: " + req.body.data.pat_lastname)
+        //console.log("in my pats search");
+        //console.log("doc userid is: " + req.body.data.doc_userid);
+        //console.log("lastname filter is: " + req.body.data.pat_lastname)
         const therapies = await Therapy.find({ doc_userid: req.body.data.doc_userid });
         var patients = [];
         var pat;
 
         for (i = 0; i < therapies.length; i++) {
-            console.log("therapy: " + i + " added");
-            console.log("patid is: " + therapies[i].pat_userid);
-            console.log("query is is: " + req.body.data.pat_lastname);
+            //console.log("therapy: " + i + " added");
+            //console.log("patid is: " + therapies[i].pat_userid);
+            //console.log("query is is: " + req.body.data.pat_lastname);
             pat = await User.findOne({ "_id": therapies[i].pat_userid });
-            console.log("lastname of pat: " + pat.lastname);
+            //console.log("lastname of pat: " + pat.lastname);
             try
             {
                 if (pat.lastname.includes(req.body.data.pat_lastname)) {
-                    console.log("it fits")
+                    //console.log("it fits")
                     patients.push(pat);
                 }
             }
@@ -936,13 +936,13 @@ router.post("/searchMyPats", auth, async (req, res) => {
 router.post("/searchQuery", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("search Query is: " + req.body.data.query);
+        //console.log("search Query is: " + req.body.data.query);
         const users = await User.find({ "mail": { $regex: ".*" + req.body.data.query + ".*" } });
         var patients = [];
-        console.log("user 0: " + users[0].patid)
+        //console.log("user 0: " + users[0].patid)
         for (i = 0; i < users.length; i++) {
             patients.push(await Patient.findById(users[i].patid));
-            console.log("user: " + i + " added");
+            //console.log("user: " + i + " added");
 
 
             const doctors = await Doctor.findById(users[i].docid);
@@ -1016,7 +1016,7 @@ router.post("/checkFile", auth, async (req, res) => {
         // request.user is getting fetched from Middleware after token authentication
         
         const filename = req.body.data.filename
-        console.log("filename is: " + filename);
+        //console.log("filename is: " + filename);
         const patientfile = await Patientfile.findOne({"filename": filename});
 
         if(!patientfile)
@@ -1081,7 +1081,7 @@ router.post(
 router.post("/chat-receive", auth, async (req, res) => {
     try {
         // request.user is getting fetched from Middleware after token authentication
-        console.log("receiving chat");
+        //console.log("receiving chat");
         //console.log("user id is: " + req.body.data.userid);
         //const messages = await Chat.find({ sender: req.body.data.userid });
         const messages = await Chat.find({ $or:[ {'sender':req.body.data.mail}, {'receiver':req.body.data.mail}]});
