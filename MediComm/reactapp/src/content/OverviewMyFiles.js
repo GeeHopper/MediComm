@@ -54,14 +54,6 @@ class OverviewMyFiles extends React.Component {
         });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-
-        /*this.setState({sendForm: this.state.name});
-        event.preventDefault();*/
-    }
-
 
     
     //using axios in here to get access to the response of our backend in our frontend
@@ -103,15 +95,7 @@ class OverviewMyFiles extends React.Component {
                 };
                 axios.post(url, options)
                     .then(response => {
-                        //console.log(response.json({message: "request received!", response}));
-                        //this.state.mail = response.json({message: "request received!", response}).parse();
-                        //console.log (response.json());
-                        //this.state.mail = response.data.firstname;
-                        //console.log(response.data);
-                        //this.setUsername(response.data.firstname)
-                        //this.setState(resp);
-                        //console.log(response.data);
-                        //console.log("original filename: " + response.data.patientfiles[0].original_filename);
+                        
                         for (var i = 0; i < response.data.patientfiles.length; i++) {
                             
                             this.state.pat_mail.push(response.data.patientfiles[i].pat_mail);
@@ -124,7 +108,7 @@ class OverviewMyFiles extends React.Component {
                                 filename: this.state.filename
                             });
         
-                            console.log("filename is: " + response.data.patientfiles[i].filename);
+                            //console.log("filename is: " + response.data.patientfiles[i].filename);
         
                             this.state.original_filename.push(response.data.patientfiles[i].original_filename);
                             this.setState({
@@ -145,20 +129,7 @@ class OverviewMyFiles extends React.Component {
                             this.setState({
                                 shareWith: this.state.shareWith
                             });
-        
-                            /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
-                            this.setState({
-                                insurednumber: this.state.insurednumber
-                            });
-        
-                            this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
-                            this.setState({
-                                healthinsurance: this.state.healthinsurance
-                            });*/
-        
-                            /*if(this.state.lastname ==== "krickler")*/
-                            //if(this.state.mail === this.props.match.params.query)
-                            console.log("CONTENT SET");
+
                             this.state.content.push(this.overviewContent(i));
                             this.setState({
                                 content: this.state.content
@@ -168,9 +139,9 @@ class OverviewMyFiles extends React.Component {
             }
             else
             {
-                console.log("youre a doc");
+                //console.log("youre a doc");
                 url = 'http://localhost:8080/overviewMyFiles';
-                console.log("your userid is: " + this.state.userid);
+                //console.log("your userid is: " + this.state.userid);
                 options = {
                     method: 'POST',
                     headers: {
@@ -182,15 +153,7 @@ class OverviewMyFiles extends React.Component {
                 };
                 axios.post(url, options)
                     .then(response => {
-                        //console.log(response.json({message: "request received!", response}));
-                        //this.state.mail = response.json({message: "request received!", response}).parse();
-                        //console.log (response.json());
-                        //this.state.mail = response.data.firstname;
-                        //console.log(response.data);
-                        //this.setUsername(response.data.firstname)
-                        //this.setState(resp);
-                        //console.log(response.data);
-                        //console.log("original filename: " + response.data.patientfiles[0].original_filename);
+                        
                         for (var i = 0; i < response.data.patientfiles.length; i++) {
                             
                             this.state.pat_mail.push(response.data.patientfiles[i].pat_mail);
@@ -223,19 +186,7 @@ class OverviewMyFiles extends React.Component {
                             this.setState({
                                 shareWith: this.state.shareWith
                             });
-        
-                            /*this.state.insurednumber.push(response.data.patients[i].insurednumber);
-                            this.setState({
-                                insurednumber: this.state.insurednumber
-                            });
-        
-                            this.state.healthinsurance.push(response.data.patients[i].healthinsurance);
-                            this.setState({
-                                healthinsurance: this.state.healthinsurance
-                            });*/
-        
-                            /*if(this.state.lastname ==== "krickler")*/
-                            //if(this.state.mail === this.props.match.params.query)
+
                             this.state.content.push(this.overviewContent(i));
                             this.setState({
                                 content: this.state.content
@@ -247,13 +198,6 @@ class OverviewMyFiles extends React.Component {
        
 
 
-    }
-
-    isDoc() {
-        if (this.state.isDoc == "1")
-            return true;
-        else
-            return false;
     }
 
 
