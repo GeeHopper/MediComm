@@ -57,11 +57,19 @@ class Tools
     {
         if (!token) 
         {
+            //redirect if not logged in
             window.location="/login";
             return false;
         }
         else
             return true;
+    }
+    
+    static isDoc(comp) {
+        if (comp.state.isDoc === "1")
+            return true;
+        else
+            return false;
     }
 }
 

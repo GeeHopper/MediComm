@@ -66,7 +66,7 @@ class Chat extends React.Component {
         e.preventDefault();
         const { mail, firstname, lastname, password, address, agreement, insurednumber, healthinsurance, profilepic, patid, userid, receiver, message } = this.state;
 
-        //If a profile pic is sent, it's name gets replaced by a string for identification. this string is once saved in the user table and accesable via uploads/newfilename
+        //If a profile pic is sent, it's name gets replaced by a string for identification.
         const chat = {
             sender: this.state.mail,
             receiver: this.state.receiver,
@@ -83,10 +83,6 @@ class Chat extends React.Component {
                 console.error(err);
             });
 
-
-
-        /*this.setState({sendForm: this.state.name});
-        event.preventDefault();*/
     }
 
     setUsername(username) {
@@ -130,7 +126,6 @@ class Chat extends React.Component {
                 //this.setState({healthinsurance: response.data.patient.healthinsurance});
 
 
-                console.log("your id is: " + this.state.userid);
                 url = 'http://localhost:8080/chat-receive';
                 options = {
                     method: 'POST',
@@ -143,9 +138,9 @@ class Chat extends React.Component {
                 };
                 axios.post(url, options)
                     .then(response => {
-                        console.log(response.data.messages[0]);
+                        //console.log(response.data.messages[0]);
                         for (var i = 0; i < response.data.messages.length; i++) {
-                            console.log("adding message: " + response.data.messages[0].message);
+                            //console.log("adding message: " + response.data.messages[0].message);
                             this.state.messages.push(response.data.messages[i].message);
                             this.setState({
                                 messages: this.state.messages
@@ -158,7 +153,7 @@ class Chat extends React.Component {
                             });*/
 
 
-                            console.log("senders: " + response.data.messages[i].receiver)
+                            //console.log("senders: " + response.data.messages[i].receiver)
 
                             this.state.senders.push(response.data.messages[i].sender);
                             this.setState({
@@ -178,16 +173,16 @@ class Chat extends React.Component {
                         }
 
                         var newContent = [];
-                        console.log("len is: " + this.state.messages.length);
+                        //console.log("len is: " + this.state.messages.length);
                         for (var i = 0; i < this.state.messages.length; i++) {
-                            console.log("i: " + i);
+                            //console.log("i: " + i);
                             newContent.push(this.chatContent(i));
                         }
 
                         this.setState({
                             content: newContent
                         }, () => {
-                            console.log("content:")
+                            //console.log("content:")
                         })
                     });
 
@@ -219,7 +214,7 @@ class Chat extends React.Component {
                 );
             }
             else if(this.state.types[i] === "audio"){
-                console.log("type is...: " + this.state.types[i]);
+                //console.log("type is...: " + this.state.types[i]);
                 return(
                     <div key={"main" + i}>
                         <ReactPlayer url={this.state.messages[i]} controls height='10%' />
@@ -256,14 +251,7 @@ class Chat extends React.Component {
     }
 
 
-
-
-    isDoc() {
-        if (this.state.isDoc === "1")
-            return true;
-        else
-            return false;
-    }
+    
 
     docContent() {
         return (
@@ -284,13 +272,6 @@ class Chat extends React.Component {
 
             </div>
         );
-    }
-
-    checkProfilepic() {
-        if (this.state.profilepicfile)
-            return (<img src={require("../uploads/" + this.state.profilepicfile)} />);
-        else
-            return ("no image");
     }
 
     patientContent() {
@@ -327,7 +308,7 @@ class Chat extends React.Component {
     getContent() {
         if(this.state.errormsg === '')
         {
-            if (this.isDoc())
+            if (Tools.isDoc(this))
                 return this.docContent();
             else
                 return this.patientContent();
@@ -336,19 +317,6 @@ class Chat extends React.Component {
         {
             return this.errorContent();
         }
-    }
-
-    checkLogin(mail) {
-
-        return mail()
-
-        /*try {
-            const decoded = jwt.verify(this.state.token, "randomString");
-            //return "it is: " + decoded.user;
-            const user = User.findById(req.user.id);
-        } catch (e) {
-            console.error(e);
-        }*/
     }
 
     render() {
