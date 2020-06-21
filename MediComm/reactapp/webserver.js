@@ -58,25 +58,6 @@ class Webserver
 
     expressMethods()
     {
-        
-        /* cookie usage */
-        /*this.app.get("/cookie_set", function(request, response){
-            response.cookie("hshl", "myValue", {expire: new Date() + 10000})
-                .end("set cookie");
-        });
-
-        this.app.get("/cookie_get", function(request, response){
-            console.log(request.cookies);
-            response.end("Cookie: " + request.cookies["hshl"])
-        });
-
-        this.app.get("/cookie_delete", function(request, response){
-            response.clearCookie("hshl");
-            response.end("Cookie deleted");
-        });*/
-        /* end cookie usage */
-
-
         //sending to routes/backend_routes.js
         this.app.post("/pat-reg-sent", this.urlParser, backend_routes);
         this.app.post("/doc-reg-sent", this.urlParser, backend_routes);
