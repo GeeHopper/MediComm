@@ -65,7 +65,7 @@ class Login extends React.Component{
     {
         if(localStorage.getItem('token')) {
             console.log("got token");
-            this.props.history.push("/dashboard");
+            this.props.history.push("/me");
         }
         console.log("no tokenss)")
     }
