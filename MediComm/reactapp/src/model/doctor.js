@@ -25,7 +25,7 @@ const DoctorSchema = mongoose.Schema({
     mail: {
       type: String,
       required: true
-    },
+    }
   });
   
   //export user model with UserSchema

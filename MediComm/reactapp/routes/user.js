@@ -4,12 +4,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
-const User = require("../model/User");
-const Patient = require("../model/Patient");
-const Doctor = require("../model/Doctor");
-const Therapy = require("../model/therapy");
-const Patientfile = require("../model/patientfile");
-const Chat = require("../model/chat");
+const User = require("../src/model/User");
+const Patient = require("../src/model/Patient");
+const Doctor = require("../src/model/Doctor");
+const Therapy = require("../src/model/therapy");
+const Patientfile = require("../src/model/patientfile");
+const Chat = require("../src/model/chat");
 
 const auth = require("../src/middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
