@@ -94,7 +94,6 @@ class Me extends React.Component{
        
         if(this.state.isDoc === "0")
         {
-            console.log("i doc")
             patient = {
                 insurednumber,
                 healthinsurance,
@@ -103,7 +102,6 @@ class Me extends React.Component{
         }
         else
         {
-            console.log("i doc")
             doctor = {
                 phone,
                 fax,
@@ -118,7 +116,7 @@ class Me extends React.Component{
         //using axios to post
         axios
         .post('http://localhost:8080/edit-sent-user', user)
-            .then(() => console.log('User updated :))'))
+            .then(() => console.log('User updated. :))'))
             .catch(err => {
                 console.error(err);
         });
@@ -126,7 +124,7 @@ class Me extends React.Component{
         {
             axios
             .post('http://localhost:8080/edit-sent-patient', patient)
-                .then(() => console.log('Patient updated :))'))
+                .then(() => console.log('Patient updated. :))'))
                 .catch(err => {
                     console.error(err);
             });
@@ -135,7 +133,7 @@ class Me extends React.Component{
         {
             axios
             .post('http://localhost:8080/edit-sent-doctor', doctor)
-                .then(() => console.log('Doctor updated :))'))
+                .then(() => console.log('Doctor updated. :))'))
                 .catch(err => {
                     console.error(err);
             });
@@ -147,7 +145,7 @@ class Me extends React.Component{
         {
             axios
             .post('http://localhost:8080/profilepic-sent', form_data,{headerss})
-                .then(() => console.log('Profilepic set.'))
+                .then(() => console.log('Profilepic set. :)'))
                 .catch(err => {
                     console.error(err);
             });
