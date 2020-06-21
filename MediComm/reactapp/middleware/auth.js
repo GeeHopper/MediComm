@@ -6,6 +6,7 @@ module.exports = function(req, res, next) {
   if (!token) return res.status(401).json({ message: "Auth Error" });
 
   try {
+    //verifying token that has been set after login
     const decoded = jwt.verify(token, "randomString");
     req.user = decoded.user;
     req.patient = decoded.patient;
