@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 const Patient = require("../model/patient");
 const queryString = require('query-string');
 var ObjectID = require('mongodb').ObjectID;
@@ -126,39 +126,39 @@ class Search extends React.Component {
 
     patientSearchContent(i) {
         return (
-            <div key={"main" + i}>
+            <div className="form w-50 my-5" key={"main" + i}>
 
-                <div className="bg-right"></div>
 
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
-                    <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
+                <div className="vorName">
+                    <div className="input_field my-4">
+                        <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input  form-control py-2" onChange={this.handleInputChange} />
+                        <i className="name"></i>
                     </div>
 
-                    <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
-                            <i className="name"></i>
-                        </div>
+                </div>
+
+                <div className="nachName">
+                    <div className="input_field my-4">
+                        <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input  form-control py-2" name="lastname" onChange={this.handleInputChange} />
+                        <i className="name"></i>
                     </div>
+                </div>
 
-                    <div className="_id">
-                        <div className="input_field">
-                            <a type="text" placeholder="URL" href={"http://localhost:5000/profile/?userid="+this.state.userid[i]} className="input" name="lastname" onChange={this.handleInputChange}>Profile</a>
-                            <i className="name"></i>
-                        </div>
+                <div className="_id">
+                    <div className="button text-center my-4">
+                        <a type="text" placeholder="URL" href={"http://localhost:3000/profile/?userid="+this.state.userid[i]} className="btn btn-primary" name="lastname" onChange={this.handleInputChange}>Profile</a>
+                        <i className="name"></i>
                     </div>
+                </div>
 
-                    {/*this.checkProfilepic(i)*/}
+                {/*this.checkProfilepic(i)*/}
 
 
-                </form>
-            </div>
+            </form>
+        </div>
 
         )
     }

@@ -4,7 +4,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -171,46 +171,71 @@ class Me extends React.Component{
     docContent()
     {
         return(
-            <div>
-            <div className="bg-right"></div>
+            <div className="form w-50 mx-auto my-5">
+
 
             <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                
+
                 {this.checkProfilepic()}
                 <br />
 
                 <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
 
 
-                
-                Mail: <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
-                <br />
-                   
-                Firstname: <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
-                <br />
+                <div className="mail ">
+                    <div className="input_field my-4">
+               <input type="text" placeholder="E-Mail" value={this.state.mail} className="input form-control py-3" name="mail" onChange={this.handleInputChange}/>
+               <i className="mail"></i>
+                    </div>
+                    </div>
 
-                Lastname: <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
-                <br />
-                   
-                address: <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
-                <br />
+                    <div className="vorName">
+                    <div className="input_field my-4">
+              <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input form-control py-3" onChange={this.handleInputChange}/>
+              </div>
+              </div>
+
+              <div className="nachName">
+                    <div className="input_field my-4">
+       <input type="text" placeholder="Nachname" value={this.state.lastname} className="input form-control py-3" name="lastname" onChange={this.handleInputChange}/>
+       </div>
+              </div>
+
+                    <div className="anschrift">
+                    <div className="input_field my-4">
+             <input type="text" placeholder="Anschrift" value={this.state.address} className="input form-control py-3" name="address" onChange={this.handleInputChange}/>
+             </div>
+              </div>
 
 
-                
-                Phone Number:<input list="kk" placeholder="Phone" className="input" value={this.state.phone} name="phone" onChange={this.handleInputChange}/>
-                <br />
+              <div className="kk">
+                    <div className="input_field my-4">
+             <input list="kk" placeholder="Phone" className="input form-control py-3"  value={this.state.phone} name="phone" onChange={this.handleInputChange}/>
+             </div>
+              </div>
 
-                Fax: <input type="text" placeholder="Fax" className="input" value={this.state.fax} name="fax" onChange={this.handleInputChange}/>
-                <br />
+              <div className="Fax">
+                    <div className="input_field my-4">
+                <input type="text" placeholder="Fax" className="input form-control py-3" value={this.state.fax} name="fax" onChange={this.handleInputChange}/>
+               </div>
+              </div>
 
-                Establishmentnumber: <input type="text" placeholder="Establishmentnumber" className="input" value={this.state.establishmentnumber} name="establishmentnumber" onChange={this.handleInputChange}/>
-                <br />
+                <div className="verNr">
+                <div className="input_field my-4">
+                 <input type="text" placeholder="Establishmentnumber" className="input form-control py-3" value={this.state.establishmentnumber} name="establishmentnumber" onChange={this.handleInputChange}/>
+                 </div>
+              </div>
 
-                Field of Work: <input type="text" placeholder="Field of work" className="input" value={this.state.fieldofwork} name="fieldofwork" onChange={this.handleInputChange}/>
-                <br />
+              <div className="work">
+                <div className="input_field my-4">
+              <input type="text" placeholder="Field of work" className="input form-control py-3" value={this.state.fieldofwork} name="fieldofwork" onChange={this.handleInputChange}/>
+              </div>
+              </div>
 
-                <input type="submit" className="btn btn-primary" value="Submit" />
-                
+                <div className=" button text-center">
+                <input type="submit" className="btn btn-primary" value="Submit"  style={{fontWeight: 'bold', fontSize: 15}}></input>
+                </div>
+
             </form>
         </div>
         );
@@ -227,73 +252,75 @@ class Me extends React.Component{
     patientContent()
     {
         return(
-        <div>
-            <div className="title">
-                Profileedit
-            </div>
-
-
-            <div className="bg-right"></div>
-
-            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                
-                <div className="mail">
-                    <div className="input_field">
-                        <input type="text" placeholder="Eemail" value={this.state.mail} className="input" name="mail" onChange={this.handleInputChange}/>
-                        <i className="mail"></i>
-                    </div>
-                </div>
-
-                <div className="vorName">
-                    <div className="input_field">
-                        <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-
-                </div>
-
-                <div className="nachName">
-                    <div className="input_field">
-                        <input type="text" placeholder="Nachname" value={this.state.lastname} className="input" name="lastname" onChange={this.handleInputChange}/>
-                        <i className="name"></i>
-                    </div>
-                </div>
-
-                <div className="anschrift">
-                    <div className="input_field">
-                        <input type="text" placeholder="Anschrift" value={this.state.address} className="input" name="address" onChange={this.handleInputChange}/>
-                        <i className="anschrift"></i>
-                    </div>
-                </div>
-
-
-                <div className="kk">
-                    <div className="input_field">
-                        <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange}/>
-                        <datalist id="kk">
-                            <option value="AOK" />
-                            <option value="Knappschaft" />
-                            <option value="Innungskrankenkasse" />
-                            <option value="DAK Gesundheit" />
-                            <option value="BARMER" />
-                        </datalist>
-                    </div>
-                </div>
-
-                <div className="verNr">
-                <div className="input_field">
-                    <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange}/>
-                    <i className="verNr"></i>
-                </div>
-                </div>
-                {this.checkProfilepic()}
-
-                <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
-                
-                <input type="submit" className="btn btn-primary" value="Submit" />
-                
-            </form>
-        </div>
+            <div className="form w-50 mx-auto my-5">
+            <div className="title ">
+                <h2 className="text-secondary mb-5 py-4 text-center"> <u>Profilansicht</u> </h2>
+             </div>
+ 
+ 
+ 
+             <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+ 
+             <input type="file" name="profilepic" onChange={this.handleInputChange}/> <br/>
+ 
+                 <div className="mail ">
+                     <div className="input_field my-4">
+                         <input type="text" placeholder="E-Mail" value={this.state.mail} className="input form-control py-3" name="mail" onChange={this.handleInputChange}/>
+                         <i className="mail"></i>
+                     </div>
+                 </div>
+ 
+                 <div className="vorName">
+                     <div className="input_field my-4">
+                         <input name="firstname" type="text" value={this.state.firstname} placeholder="Vorname" className="input form-control py-3" onChange={this.handleInputChange}/>
+                         <i className="name"></i>
+                     </div>
+ 
+                 </div>
+ 
+                 <div className="nachName">
+                     <div className="input_field my-4">
+                         <input type="text" placeholder="Nachname" value={this.state.lastname} className="input form-control py-3" name="lastname" onChange={this.handleInputChange}/>
+                         <i className="name"></i>
+                     </div>
+                 </div>
+ 
+                 <div className="anschrift">
+                     <div className="input_field my-4">
+                         <input type="text" placeholder="Anschrift" value={this.state.address} className="input form-control py-3" name="address" onChange={this.handleInputChange}/>
+                         <i className="anschrift"></i>
+                     </div>
+                 </div>
+ 
+ 
+                 <div className="kk">
+                     <div className="input_field my-4">
+                         <input list="kk" placeholder="Krankenkasse" className="input form-control py-3" value={this.state.healthinsurance} name="healthinsurance" onChange={this.handleInputChange}/>
+                         <datalist id="kk">
+                             <option value="AOK" />
+                             <option value="Knappschaft" />
+                             <option value="Innungskrankenkasse" />
+                             <option value="DAK Gesundheit" />
+                             <option value="BARMER" />
+                         </datalist>
+                     </div>
+                 </div>
+ 
+                 <div className="verNr">
+                 <div className="input_field my-4">
+                     <input type="text" placeholder="Versichertennummer" className="input form-control py-3" value={this.state.insurednumber} name="insurednumber" onChange={this.handleInputChange}/>
+                     <i className="verNr"></i>
+                 </div>
+                 </div>
+                 {this.checkProfilepic()}
+ 
+ 
+ 
+                 <div className="button text-center" >
+                 <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+                 </div>
+             </form>
+         </div>
 
         )
     }

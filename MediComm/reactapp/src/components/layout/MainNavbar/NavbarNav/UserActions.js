@@ -11,7 +11,7 @@ import {
 } from "shards-react";
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "../../../../content/Tools";
+import Tools from "../../../../content/tools";
 
 export default class UserActions extends React.Component {
   constructor(props) {

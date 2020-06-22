@@ -51,15 +51,11 @@ export default function() {
       htmlAfter: ""
     },
     {
-      title: "Medikamente",
+      title: "AU Bescheinigung",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
       to: "/blog-posts",
-    },
-    {
-      title: "Errors",
-      htmlBefore: '<i class="material-icons">error</i>',
-      to: "/errors",
     }
+   
 
     /*
     {

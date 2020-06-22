@@ -1,7 +1,7 @@
 import React from 'react';
 import docpng from '../static/res/images/doc.png';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 
 
 

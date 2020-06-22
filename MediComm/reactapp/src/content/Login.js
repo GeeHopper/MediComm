@@ -1,7 +1,7 @@
 import React from 'react';
 import loginpng from '../static/res/images/login.png';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
 import Cookies from 'js-cookie';
@@ -152,8 +152,15 @@ class Login extends React.Component{
                                                 <i className="enlock"></i>
                                             </div>
                                             <div className="no-acc" style={{fontWeight: 'bold',fontSize: 15}}>
-                                                <p>Noch kein Account? <a href="/doc-reg">Signup als Arzt</a><br/><a href="/pat-reg">Signup als Patient</a></p>
+                                                <p>Noch kein Account?<br></br></p>
                                             </div>
+
+                                            <div className="buttonDocPat form-inline">
+                                            <button type="submit" className="btn btn-outline-info w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}> <a href="/doc-reg">Signup als Arzt</a></button>
+                                                    <button type="submit" className="btn btn-outline-info w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}><a href="/pat-reg">Signup als Patient</a></button>
+                                                   
+                                                </div>
+
                                                 <div className="button">
                                                     <button type="submit" className="btn btn-primary w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}>Login</button>
                                                 </div>
@@ -176,7 +183,7 @@ class Login extends React.Component{
                             <div className="d-flex justify-content-around my-5 text-center flex-wrap"style={{background: "white"}}>
                                 <div className="iconTermin mt-1">
                                     <i className="far fa-calendar-check"></i>
-                                    <p className="termin-title  mt-3" style={{fontWeight: 'bold',color: 'rgb(170, 125, 243)',fontSize: 15}}>Termine vereinbaren</p>
+                                    <p className="termin-title  mt-3" style={{fontWeight: 'bold',fontSize: 15}}>Termine vereinbaren</p>
                                 </div>
                                 <div className="iconDoc ">
                                     <i className="fas fa-user-md"></i>

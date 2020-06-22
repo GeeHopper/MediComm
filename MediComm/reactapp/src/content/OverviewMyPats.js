@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -206,34 +206,73 @@ class OverviewMyPats extends React.Component {
     
     patientOverviewContent(i) {
         return (
-            <div key={"main" + i}>
+            <div className="form w-50 mx-auto my-5" key={"main" + i}>
 
-                <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
+            <form onSubmit={(event) => this.handleSubmit(i, event)} encType="multipart/formdata">
 
-                    Mail: {this.state.mail[i]} 
-                    <br />
-                    Vorname: {this.state.firstname[i]}  
-                    <br />
-                    Nachname: {this.state.lastname[i]}  
-                    <br />
-                    Adresse: {this.state.address[i]}  
-                    <br />
-                    Krankenkasse: {this.state.healthinsurance[i]}  
-                    <br />
-                    Versichertennummer: {this.state.insurednumber[i]} 
+            <div className=" row mx-md-n5 ">
 
-                    <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Notizen" className="input" value={this.state.patNotes[i]} name="patNotes" onChange={(event) => this.handlePatNotesChange(i, event)} />
-                            <i className="verNr"></i>
-                        </div>
+            <div className="input_field px-md-5 " style={{fontWeight: 'bold', fontSize: 20}}>
+            <div className="title text-primary">
+                Vorname:
+                </div>
+                 {this.state.firstname[i]}
+                 </div>
+
+                 <div className="input_field px-md-5" style={{fontWeight: 'bold', fontSize: 20}}>
+                    <div className="title text-primary text-right">
+                Nachname:
+                </div>
+                 {this.state.lastname[i]}
+                 </div>
+
+
+                 </div>
+
+                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                   <div className="title text-primary ">
+                 E-Mail:
+                 </div>
+                 {this.state.mail[i]}
+                 </div>
+
+                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                   <div className="title text-primary ">
+                Adresse:
+                </div>
+                 {this.state.address[i]}
+                 </div>
+
+                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                   <div className="title text-primary ">
+                Krankenkasse:
+                </div>
+                 {this.state.healthinsurance[i]}
+                 </div>
+
+
+                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                   <div className="title text-primary ">
+                Versichertennummer:
+                </div>
+                {this.state.insurednumber[i]}
+                </div>
+
+                <div className="verNr">
+                    <div className="input_field my-3">
+                        <input type="text" placeholder="Notizen" className="input form-control py-2" value={this.state.patNotes[i]} name="patNotes" onChange={(event) => this.handlePatNotesChange(i, event)} />
+                        <i className="verNr"></i>
                     </div>
+                </div>
 
-                    <input type="submit" className="btn btn-primary" value="Update patNotes" />
-                    <br />
+                <input type="submit" className="btn btn-primary" value="Update patNotes" />
+                <br />
 
-                </form>
-            </div>
+                <hr  style={{backgroundColor: 'black'}}/>
+
+            </form>
+        </div>
+
 
         )
     }

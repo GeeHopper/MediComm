@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -160,14 +160,15 @@ class Me extends React.Component{
     docContent()
     {
         return(
-            <div>
+            <div className="form w-50 mx-auto my-5">
 
             <form action="searchmypats" encType="multipart/formdata">
-                
-            <input type="text" placeholder="Suche Patienten durch Nachnamen..." className="input" name="patlastname"/>
-                    
-            <input type="submit" className="btn btn-primary" value="Submit" />
-                
+
+            <input type="text" placeholder="Suche Patienten durch Nachnamen..." className="input form-control py-3" name="patlastname"/>
+                    <br></br>
+                    <div className=" button text-center">
+            <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+            </div>
             </form>
         </div>
         );
@@ -176,17 +177,17 @@ class Me extends React.Component{
     patientContent()
     {
         return(
-        <div>
+            <div className="form w-50 mx-auto my-5">
 
             <form action="searchmydocs" encType="multipart/formdata">
-                
-            <input type="text" placeholder="Suche Doktoren durch Nachnamen..." className="input" name="doclastname"/>
-                    
-            <input type="submit" className="btn btn-primary" value="Submit" />
-                
+
+            <input type="text" placeholder="Suche Doktor durch Nachnamen..." className="input form-control py-3" name="doclastname"/>
+            <br></br>
+            <div className=" button text-center">
+            <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+            </div>
             </form>
         </div>
-
         )
     }
 

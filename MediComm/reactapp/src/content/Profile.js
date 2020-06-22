@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -97,34 +97,54 @@ class Profile extends React.Component {
 
     docContent() {
         return (
-                <div>
+            <div className="form w-50 mx-auto my-5">
 
-                    <div className="bg-right"></div>
-    
-                    <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-    
-                    {this.checkProfilepic()}
 
-                    <br />
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
-                    Email: {this.state.mail}
+            {this.checkProfilepic()}
 
-                    <br />
-    
-                    Firstname: {this.state.firstname}
 
-                    <br />
+            <div className=" row mx-md-n5 ">
 
-                    Lastname: {this.state.lastname} 
+            <div className="input_field px-md-5 " style={{fontWeight: 'bold', fontSize: 20}}>
+            <div className="title text-primary">
+           Nachname:
+           </div>
+             {this.state.lastname}
 
-                    <br />
-    
-                    Address: {this.state.address} 
+             </div>
 
-                    <br />
-                    
-                    </form>
-                </div>
+
+             <div className="input_field px-md-5" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary text-right">
+            Vorname:
+            </div>
+            {this.state.firstname}
+            </div>
+            </div>
+
+            <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+               <div className="title text-primary ">
+            Em-Mail:
+            </div>
+            {this.state.mail}
+            </div>
+
+
+
+
+            <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary">
+            Addresse:
+              </div>
+             {this.state.address}
+</div>
+
+
+            </form>
+        </div>
+
     
             );
         
@@ -190,44 +210,74 @@ class Profile extends React.Component {
         if(this.state.isDoc !== '')
         {
             return (      
-                    <div>
+                <div className="form w-50 mx-auto my-5">
 
-                        {this.checkProfilepic()}
+                {this.checkProfilepic()}
 
-                        <br />
-                    
-                        Mail: {this.state.mail} 
+                <div className=" row mx-md-n5 ">
 
-                        <br />
-
-                        Firstname: {this.state.firstname}
-
-                        <br />
-
-                        Lastname: {this.state.lastname} 
-
-                        <br />
-
-                        Anschrift: {this.state.address} 
-
-                        <br />
-                        
-                        Krankenkasse: {this.state.healthinsurance} 
-
-                        <br />
-
-                        Versichertennummer: {this.state.insurednumber} 
-
-                        <br />
-
-                        <div className="addFriend">
-                            <button onClick={this.addPatient}>Add Patient</button>
-                        </div>
-
-                       
-
-                        
+                <div className="input_field px-md-5 " style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary">
+                Nachname:
                 </div>
+                {this.state.lastname}
+
+                </div>
+
+
+                <div className="input_field px-md-5" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary text-right">
+                Vorname:
+                </div>
+
+                {this.state.firstname}
+                </div>
+                </div>
+
+
+                <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+               <div className="title text-primary ">
+               E-Mail:
+               </div>
+               {this.state.mail}
+               </div>
+
+
+
+
+                <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary">
+                Anschrift:
+                </div>
+                {this.state.address}
+                </div>
+
+
+
+                <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary">
+                Krankenkasse:
+                </div>
+                 {this.state.healthinsurance}
+                 </div>
+
+                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
+                <div className="title text-primary">
+                Versichertennummer:
+                </div>
+                 {this.state.insurednumber}
+                 </div>
+
+                 <div className="addFriend ">
+                    <input type="submit" className="btn btn-primary"  value="add patient" onClick={this.addPatient}/>
+                </div>
+
+
+
+
+
+
+        </div>
 
             );
         }

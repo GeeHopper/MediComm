@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 var ObjectID = require('mongodb').ObjectID;
 
 //makeid to save profile pics and associate them with the users
@@ -134,22 +134,22 @@ class FileUpload extends React.Component{
     patientContent()
     {
         return(
-        <div>
+            <div className="form w-50 mx-auto my-5">
+
             <div className="title">
-                Profileedit
-            </div>
+           <h5 class="text-secondary mb-5 py-4 text-center"> <u> Dateien hochladen</u> </h5>
+         </div>
 
-
-            <div className="bg-right"></div>
+    
 
             <form onSubmit={this.handleSubmit} encType="multipart/formdata">
                 
 
                 <input type="file" name="file" onChange={this.handleInputChange}/> <br/>
                 
-                <input type="text" placeholder="keywords/comments" onChange={this.handleInputChange} name="notes"></input>
+                <input type="text" placeholder="keywords/comments" className="input form-control my-4 py-3" onChange={this.handleInputChange} name="notes"></input>
 
-                <input type="text" placeholder="Doctor IDs" onChange={this.handleInputChange} name="shareWith"></input>
+                <input type="text" placeholder="Doctor IDs" className="input form-control my-4 py-3" onChange={this.handleInputChange} name="shareWith"></input>
 
                 <input type="submit" className="btn btn-primary" value="Submit" />
                 

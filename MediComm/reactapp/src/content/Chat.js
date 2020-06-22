@@ -2,7 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import ReactPlayer from 'react-player/lazy'
-import Tools from "./Tools";
+import Tools from "./tools";
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -250,43 +250,61 @@ class Chat extends React.Component {
 
     docContent() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+            <div className="form w-50 mx-auto my-5">
 
-                    {
-                        this.state.content
-                    }
-                    <input type="text" placeholder="Empfänger Email" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
-                    <input type="text" placeholder="Nachricht" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+
+                {
+                    this.state.content
+                }
+                <div className="input_field my-4">
+                 <h6>Empfänger:</h6>
+                <input type="text" placeholder="Receiver" value={this.state.receiver} className="input form-control py-3" name="receiver" onChange={this.handleInputChange} />
+                </div>
+
+                <div className="input_field my-4">
+                <h6>Nachricht:</h6>
+                <input type="text" placeholder="Message" value={this.state.message} className="input form-control py-3" name="message" onChange={this.handleInputChange} />
+                </div>
+
+                <div class="button text-center py-5" >
+                <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+                </div>
+
+            </form>
 
 
-                    <input type="submit" className="btn btn-primary" value="Submit" />
-
-                </form>
-
-
-            </div>
+        </div>
         );
     }
 
     patientContent() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+            <div className="form w-50 mx-auto my-5">
 
-                    {
-                        this.state.content
-                    }
-                    <input type="text" placeholder="Empfänger Email" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
-                    <input type="text" placeholder="Nachricht" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+
+                {
+                    this.state.content
+                }
+                <div className="input_field my-4">
+                 <h6>Empfänger:</h6>
+                <input type="text" placeholder="Receiver" value={this.state.receiver} className="input form-control py-3" name="receiver" onChange={this.handleInputChange} />
+                </div>
+
+                <div className="input_field my-4">
+                <h6>Nachricht:</h6>
+                <input type="text" placeholder="Message" value={this.state.message} className="input form-control py-3" name="message" onChange={this.handleInputChange} />
+                </div>
+
+                <div class="button text-center py-5" >
+                <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+                </div>
+
+            </form>
 
 
-                    <input type="submit" className="btn btn-primary" value="Submit" />
-
-                </form>
-
-
-            </div>
+        </div>
         )
     }
 

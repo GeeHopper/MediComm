@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -170,7 +170,12 @@ class SearchMyPats extends React.Component {
                 }
                 else
                 {
-                    this.state.content.push(<div>Kein Patient gefunden. :(</div>);
+                    this.state.content.push( <div className="error__content p-5">
+                    <h2>500</h2>
+                    <h3>Something went wrong!</h3>
+                    <p>There was a problem on our end. Please try again later.</p>
+                    <a href="/searchoverview"> Go back</a>
+                  </div>);
                         this.setState({
                             content: this.state.content
                         })
@@ -190,65 +195,60 @@ class SearchMyPats extends React.Component {
 
     patientSearchContent(i) {
         return (
-            <div key={"main" + i}>
+            <div className="form w-50  my-5" key={"main" + i}>
 
-                <div className="title">
-                    Profileedit
+
+
+
+            <div className="title">
+                    Profilansicht des Patienten
                 </div>
 
-
-                <div className="bg-right"></div>
 
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
                     <div className="mail">
-                        <div className="input_field">
-                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input" name="mail" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="Email" value={this.state.mail[i]} className="input form-control py-2" name="mail" onChange={this.handleInputChange} />
                             <i className="mail"></i>
                         </div>
                     </div>
 
                     <div className="vorName">
-                        <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input form-control py-2" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
 
                     </div>
 
                     <div className="nachName">
-                        <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input form-control py-2" name="lastname" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
                     </div>
 
 
-                    <div className="pass">
-                        <div className="input_field">
-                            <input name="password" type="password" placeholder="Passwort" className="input" onChange={this.handleInputChange} />
-                            <i className="enlock"></i>
-                        </div>
-                    </div>
 
                     <div className="anschrift">
-                        <div className="input_field">
-                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input" name="address" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="Anschrift" value={this.state.address[i]} className="input form-control py-2" name="address" onChange={this.handleInputChange} />
                             <i className="anschrift"></i>
                         </div>
                     </div>
 
 
                     <div className="kk">
-                        <div className="input_field">
-                            <input list="kk" placeholder="Krankenkasse" className="input" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input list="kk" placeholder="Krankenkasse" className="input form-control py-2" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
 
                         </div>
                     </div>
 
                     <div className="verNr">
-                        <div className="input_field">
-                            <input type="text" placeholder="Versichertennummer" className="input" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="Versichertennummer" className="input form-control py-2" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
                             <i className="verNr"></i>
                         </div>
                     </div>
@@ -257,7 +257,6 @@ class SearchMyPats extends React.Component {
 
                 </form>
             </div>
-
         )
     }
 

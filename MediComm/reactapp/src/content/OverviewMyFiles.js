@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -205,48 +205,54 @@ class OverviewMyFiles extends React.Component {
 
     overviewContent(i) {
         return (
-            <div key={"main" + i}>
+            <div  className="form w-50 mx-auto my-5" key={"main" + i}>
+
+                <div className="title">
+                   Daten
+                </div>
 
 
-                <div className="bg-right"></div>
+
 
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
                     <div className="mail">
-                        <div className="input_field">
-                    Teilen mit:        <input type="text" placeholder="sharewith" value={this.state.shareWith[i]} className="input" name="shareWith" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="sharewith" value={this.state.shareWith[i]} className="input form-control py-2" name="shareWith" onChange={this.handleInputChange} />
                             <i className="mail"></i>
                         </div>
                     </div>
 
                     <div className="vorName">
-                        <div className="input_field">
-                    Notizen/Tags:        <input name="firstname" type="text" value={this.state.notes[i]} placeholder="notes" className="notes" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input name="firstname" type="text" value={this.state.notes[i]} placeholder="notes" className="notes form-control py-2" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
 
                     </div>
 
                     <div className="nachName">
-                        <div className="input_field">
-                    Originaler Dateiname:        <input type="text" placeholder="Nachname" value={this.state.original_filename[i]} className="input" name="original_filename" onChange={this.handleInputChange} />
+                        <div className="input_field my-4">
+                            <input type="text" placeholder="Nachname" value={this.state.original_filename[i]} className="input form-control py-2" name="original_filename" onChange={this.handleInputChange} />
                             <i className="name"></i>
                         </div>
                     </div>
 
                     <div className="nachName">
-                        <div className="input_field">
-                            <a href={"viewfile/?filename=" + this.state.filename[i]}>Show file</a>
+                        <div className="button text-center my-4">
+                            <a href={"viewfile/?filename=" + this.state.filename[i]} className="btn btn-primary"> Show file</a>
                             <i className="name"></i>
                         </div>
                     </div>
+
+
+
 
 
                     <br />
                     <br />
                 </form>
             </div>
-
         )
     }
 

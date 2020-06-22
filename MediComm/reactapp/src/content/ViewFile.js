@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -149,13 +149,25 @@ class ViewFile extends React.PureComponent{
         return(
             <div>
                 <img src={this.state.fileToPlay}/>
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">    
-                    <input type="text" placeholder="keywords/comments" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
-                    <input type="text" placeholder="Doctor IDs" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
-                    <input type="submit" className="btn btn-primary" value="Submit" />         
+
+                <div className="title ">
+                <h6 className="text-secondary mb-5 py-4 text-center"> <u>   Ändern:</u> </h6>
+                </div>
+
+                <div className="form w-50 mx-auto my-4">
+                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+                <div className="input_field my-4">
+                    <input type="text" placeholder="keywords/comments" className="input form-control py-2" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
+                    </div>
+                    <div className="input_field my-4">
+                    <input type="text" placeholder="Doctor IDs" className="input form-control py-2" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
+                    </div>
+                    <div className="button text-center" >
+                    <input type="submit" className="btn btn-primary" value="Submit" />
+                    </div>
                 </form>
+                </div>
             </div>
-            
         );
 
     };
@@ -163,14 +175,22 @@ class ViewFile extends React.PureComponent{
     pdf(){
         return(
             <div>
-                <embed src={this.state.fileToPlay} width="500" height="375" 
+                <embed src={this.state.fileToPlay} width="500" height="375"
                 type="application/pdf"></embed>
 
+        <div className="form w-50 mx-auto my-4">
                 <form onSubmit={this.handleSubmit} encType="multipart/formdata">
-                    <input type="text" placeholder="keywords/comments" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
-                    <input type="text" placeholder="Doctor IDs" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
+                <div className="input_field my-4">
+                    <input type="text" placeholder="keywords/comments" className="input form-control py-2" value={this.state.notes} onChange={this.handleInputChange} name="notes"></input>
+                    </div>
+                    <div className="input_field my-4">
+                    <input type="text" placeholder="Doctor IDs" className="input form-control py-2" value={this.state.shareWithString} onChange={this.handleInputChange} name="shareWithString"></input>
+                    </div>
+                    <div class="button text-center" >
                     <input type="submit" className="btn btn-primary" value="Submit" />
+                    </div>
                 </form>
+                </div>
             </div>
         );
     }

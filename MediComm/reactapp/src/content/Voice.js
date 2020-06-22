@@ -2,7 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import MicRecorder from 'mic-recorder-to-mp3';
-import Tools from './Tools';
+import Tools from './tools';
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -173,23 +173,35 @@ class Voice extends React.Component{
     render(){
 
         return (
-            <div>
-                <form onSubmit={this.handleSubmit} encType="multipart/formdata">
+            <div className="form w-50 mx-auto my-5">
 
-                    <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
-                    
-                    <input type="submit" className="btn btn-primary" value="Submit" /><br />     
-                    
-                </form>
+            <form onSubmit={this.handleSubmit} encType="multipart/formdata">
 
-                    <button onClick={this.start} disabled={this.state.isRecording}>
-                        Record
-                    </button>
-                    <button onClick={this.stop} disabled={!this.state.isRecording}>
-                        Stop
-                    </button>
-                    <audio src={this.state.blobURL} controls="controls" />
-            </div>
+            <div className="input_field my-3 " >
+
+                <input type="text" placeholder="Empfänger" value={this.state.receiver} className="input form-control py-3" name="receiver" onChange={this.handleInputChange} />
+              <br></br>
+                <div class="button text-center" >
+                <input type="submit" className="btn btn-primary" value="Submit" style={{fontWeight: 'bold', fontSize: 15}}></input>
+
+                </div>
+                </div>
+
+
+            </form>
+
+            <br></br>
+            <br></br>
+            <br></br>
+                <button onClick={this.start} disabled={this.state.isRecording}>
+
+                    Record
+                </button>
+                <button onClick={this.stop} disabled={!this.state.isRecording}>
+                    Stop
+                </button>
+                <audio src={this.state.blobURL} controls="controls" />
+        </div>
         );
     }
 }

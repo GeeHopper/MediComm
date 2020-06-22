@@ -1,7 +1,7 @@
 import React from 'react';
 import patpng from '../static/res/images/pat.png';
 import axios from 'axios';
-import Tools from "./Tools";
+import Tools from "./tools";
 
 
 
