@@ -13,12 +13,12 @@ export default function() {
     },
 
     {
-      title: "Suche",
+      title: "Meine Suche",
       htmlBefore: '<i class="material-icons">search</i>',
       to: "/searchoverview",
     },
     {
-      title: "Übersicht",
+      title: "Therapie Übersicht",
       htmlBefore: '<i class="material-icons">house</i>',
       to: "/overviewtherapies",
     },
@@ -41,6 +41,11 @@ export default function() {
       title: "Foto aufnehmen",
       htmlBefore: '<i class="material-icons">camera</i>',
       to: "/picture",
+    },
+    {
+      title: "Browse alle Ärzte",
+      htmlBefore: '<i class="material-icons">search</i>',
+      to: "/search?username=",
     },
 
 

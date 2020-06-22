@@ -1,5 +1,6 @@
 import React from 'react';
 import loginpng from '../static/res/images/login.png';
+import smartphonepng from '../static/res/images/smartphone.png';
 import axios from 'axios';
 import Tools from "./tools";
 import PropTypes from "prop-types";
@@ -209,7 +210,13 @@ class Login extends React.Component{
                             <div className="row">
                                 <div className="col-sm-12 px-0">
                                     <div id="middleThree">
-                                        <h3 className="text-secondary text-center">WERBUNG MIT SCREENSHOTS</h3>
+                                        <h3 className="text-secondary text-center"> <br></br></h3>
+                                       
+                                        <div className="col-sm-6">
+                                        <div className="smartphone ">
+                                        <img className="logImg img-fluid" src={smartphonepng} alt="smartImg" style={{ height: 500}}/>
+                                </div>
+                                </div>
                                     </div>
                                 </div>
                             </div>

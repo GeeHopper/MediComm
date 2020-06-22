@@ -265,12 +265,10 @@ class OverviewMyPats extends React.Component {
                     </div>
                 </div>
 
-                <input type="submit" className="btn btn-primary" value="Update patNotes" />
-                <br />
-
-                <hr  style={{backgroundColor: 'black'}}/>
-
-            </form>
+                    <input type="submit" className="btn btn-primary" value="Update patNotes" />
+                    <br />
+                    <hr  style={{backgroundColor: 'black'}}/>
+                    </form>
         </div>
 
 

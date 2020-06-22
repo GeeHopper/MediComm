@@ -18,7 +18,7 @@ export default () => (
       <FormInput
         name="username"
         className="navbar-search"
-        placeholder="Search for User..."
+        placeholder="Suche nach Doktor..."
       />
     </InputGroup>
   </Form>
