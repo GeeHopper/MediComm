@@ -231,6 +231,7 @@ class OverviewMyPats extends React.Component {
 
                     <input type="submit" className="btn btn-primary" value="Update patNotes" />
                     <br />
+                    <br />
 
                 </form>
             </div>

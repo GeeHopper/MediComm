@@ -236,6 +236,7 @@ class OverviewMyDocs extends React.Component {
                     <input type="submit" className="btn btn-primary" value="Update docNotes" />
 
                     <br />
+                    <br />
 
                 </form>
             </div>
