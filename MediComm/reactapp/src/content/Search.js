@@ -65,49 +65,53 @@ class Search extends React.Component {
                 if(response.data.users)
                 {
                     for (var i = 0; i < response.data.users.length; i++) {
-                        if (response.data.users[i].profilepic != undefined) {
-                            this.state.profilepic.push(response.data.users[i].profilepic);
+                        //making sure its a doctor
+                        if(response.data.users[i].isDoc === "1")
+                        {
+                            if (response.data.users[i].profilepic != undefined) {
+                                this.state.profilepic.push(response.data.users[i].profilepic);
+                                this.setState({
+                                    profilepic: this.state.profilepic
+                                });
+
+                                this.state.profilepicfile.push(response.data.users[i].profilepicfile);
+                                this.setState({
+                                    profilepicfile: this.state.profilepicfile
+                                });
+                            }
+                            this.state.mail.push(response.data.users[i].mail);
                             this.setState({
-                                profilepic: this.state.profilepic
+                                mail: this.state.mail
+                            });
+                            this.state.userid.push(response.data.users[i]._id);
+                            this.setState({
+                                _id: this.state.userid
+                            });
+                            this.state.firstname.push(response.data.users[i].firstname);
+                            this.setState({
+                                firstname: this.state.firstname
                             });
 
-                            this.state.profilepicfile.push(response.data.users[i].profilepicfile);
+                            this.state.lastname.push(response.data.users[i].lastname);
                             this.setState({
-                                profilepicfile: this.state.profilepicfile
+                                lastname: this.state.lastname
                             });
+
+                            this.state.address.push(response.data.users[i].address);
+                            this.setState({
+                                address: this.state.address
+                            });
+
+                            this.state.patid.push(response.data.users[i].patid);
+                            this.setState({
+                                patid: this.state.patid
+                            });
+
+                            this.state.content.push(this.patientSearchContent(i));
+                            this.setState({
+                                content: this.state.content
+                            })
                         }
-                        this.state.mail.push(response.data.users[i].mail);
-                        this.setState({
-                            mail: this.state.mail
-                        });
-                        this.state.userid.push(response.data.users[i]._id);
-                        this.setState({
-                            _id: this.state.userid
-                        });
-                        this.state.firstname.push(response.data.users[i].firstname);
-                        this.setState({
-                            firstname: this.state.firstname
-                        });
-
-                        this.state.lastname.push(response.data.users[i].lastname);
-                        this.setState({
-                            lastname: this.state.lastname
-                        });
-
-                        this.state.address.push(response.data.users[i].address);
-                        this.setState({
-                            address: this.state.address
-                        });
-
-                        this.state.patid.push(response.data.users[i].patid);
-                        this.setState({
-                            patid: this.state.patid
-                        });
-
-                        this.state.content.push(this.patientSearchContent(i));
-                        this.setState({
-                            content: this.state.content
-                        })
                     }
                 }
                 else
@@ -134,7 +138,7 @@ class Search extends React.Component {
 
                     <div className="vorName">
                         <div className="input_field">
-                            <input name="firstname" type="text" value={this.state.firstname[i]} placeholder="Vorname" className="input" onChange={this.handleInputChange} />
+                    Vorname: {this.state.firstname[i]} 
                             <i className="name"></i>
                         </div>
 
@@ -142,7 +146,7 @@ class Search extends React.Component {
 
                     <div className="nachName">
                         <div className="input_field">
-                            <input type="text" placeholder="Nachname" value={this.state.lastname[i]} className="input" name="lastname" onChange={this.handleInputChange} />
+                    Nachname: {this.state.lastname[i]} 
                             <i className="name"></i>
                         </div>
                     </div>
@@ -153,6 +157,9 @@ class Search extends React.Component {
                             <i className="name"></i>
                         </div>
                     </div>
+
+                    <br/>
+                    <br/>
 
                     {/*this.checkProfilepic(i)*/}
 
