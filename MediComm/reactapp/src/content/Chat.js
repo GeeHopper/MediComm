@@ -46,7 +46,7 @@ class Chat extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-        //Tools.checkLogin(Cookies.get("token"));
+        Tools.checkLogin(Cookies.get("token"));
 
 
     }
@@ -72,7 +72,7 @@ class Chat extends React.Component {
 
         //using axios to post
         axios
-            .post('http://localhost:8080/chat-sent', chat)
+            .post(Tools.host + '/chat-sent', chat)
             .then(() => console.log('Message sent :))'))
             .catch(err => {
                 console.error(err);
@@ -87,7 +87,7 @@ class Chat extends React.Component {
 
     componentWillMount() {
         //Fetching user data
-        var url = 'http://localhost:8080/me';
+        var url = Tools.host + '/me';
         var options = {
             method: 'GET',
             headers: {
@@ -121,7 +121,7 @@ class Chat extends React.Component {
                 //this.setState({healthinsurance: response.data.patient.healthinsurance});
 
 
-                url = 'http://localhost:8080/chat-receive';
+                url = Tools.host + '/chat-receive';
                 options = {
                     method: 'POST',
                     headers: {
@@ -256,8 +256,8 @@ class Chat extends React.Component {
                     {
                         this.state.content
                     }
-                    <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
-                    <input type="text" placeholder="Message" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Empfänger Email" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Nachricht" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
 
 
                     <input type="submit" className="btn btn-primary" value="Submit" />
@@ -277,8 +277,8 @@ class Chat extends React.Component {
                     {
                         this.state.content
                     }
-                    <input type="text" placeholder="Receiver" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
-                    <input type="text" placeholder="Message" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Empfänger Email" value={this.state.receiver} className="input" name="receiver" onChange={this.handleInputChange} />
+                    <input type="text" placeholder="Nachricht" value={this.state.message} className="input" name="message" onChange={this.handleInputChange} />
 
 
                     <input type="submit" className="btn btn-primary" value="Submit" />

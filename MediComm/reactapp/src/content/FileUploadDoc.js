@@ -49,6 +49,7 @@ class FileUploadDoc extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
         
           
     }
@@ -96,13 +97,13 @@ class FileUploadDoc extends React.Component{
         if(e.target.file.files[0])
         {
             axios
-            .post('http://localhost:8080/fileUpload', form_data,{headerss})
+            .post(Tools.host + '/fileUpload', form_data,{headerss})
                 .then(() => console.log('File uploaded.'))
                 .catch(err => {
                     console.error(err);
             });
             axios
-            .post('http://localhost:8080/patientfile-sent', patientfile)
+            .post(Tools.host + '/patientfile-sent', patientfile)
                 .then(() => console.log('patientfile uploaded.'))
                 .catch(err => {
                     console.error(err);

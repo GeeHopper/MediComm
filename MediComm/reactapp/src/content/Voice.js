@@ -62,6 +62,7 @@ class Voice extends React.Component{
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
         this.stop = this.stop.bind(this);
+        Tools.checkLogin(Cookies.get("token"));
           
     }
 
@@ -105,7 +106,7 @@ class Voice extends React.Component{
         {
             //console.log("sending blob...");
             axios
-            .post('http://localhost:8080/chat-sent', chat)
+            .post(Tools.host + '/chat-sent', chat)
             .then(() => console.log('Message sent :))'))
             .catch(err => {
                 console.error(err);

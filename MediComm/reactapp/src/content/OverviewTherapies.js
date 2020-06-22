@@ -47,6 +47,7 @@ class OverviewTherapies extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
         
           
     }

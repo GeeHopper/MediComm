@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -44,6 +45,7 @@ class OverviewMyFiles extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
 
 
     }
@@ -58,7 +60,7 @@ class OverviewMyFiles extends React.Component {
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
-        var url = 'http://localhost:8080/me';
+        var url = Tools.host + '/me';
         var options = {
         method: 'GET',
         headers: {
@@ -83,7 +85,7 @@ class OverviewMyFiles extends React.Component {
             {
                 console.log("youre a patient");
                 this.patient = response.data.user;
-                url = 'http://localhost:8080/overviewMyFiles';
+                url = Tools.host + '/overviewMyFiles';
                 options = {
                     method: 'POST',
                     headers: {
@@ -140,7 +142,7 @@ class OverviewMyFiles extends React.Component {
             else
             {
                 //console.log("youre a doc");
-                url = 'http://localhost:8080/overviewMyFiles';
+                url = Tools.host + '/overviewMyFiles';
                 //console.log("your userid is: " + this.state.userid);
                 options = {
                     method: 'POST',

@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 const queryString = require('query-string');
 var ObjectID = require('mongodb').ObjectID;
@@ -35,6 +36,7 @@ class Search extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
 
 
     }
@@ -46,7 +48,7 @@ class Search extends React.Component {
         const username = params.get('username'); // bar
         console.log("name is: " + username);
 
-        const url = 'http://localhost:8080/searchQuery';
+        const url = Tools.host + '/searchQuery';
         const options = {
             method: 'POST',
             headers: {

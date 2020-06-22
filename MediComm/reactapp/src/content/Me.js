@@ -51,7 +51,7 @@ class Me extends React.Component{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-        //Tools.checkLogin(Cookies.get("token"));
+        Tools.checkLogin(Cookies.get("token"));
         
           
     }
@@ -112,7 +112,7 @@ class Me extends React.Component{
 
         //using axios to post
         axios
-        .post('http://localhost:8080/edit-sent-user', user)
+        .post(Tools.host + '/edit-sent-user', user)
             .then(() => console.log('User updated. :))'))
             .catch(err => {
                 console.error(err);
@@ -120,7 +120,7 @@ class Me extends React.Component{
         if(this.state.isDoc === "0")
         {
             axios
-            .post('http://localhost:8080/edit-sent-patient', patient)
+            .post(Tools.host + '/edit-sent-patient', patient)
                 .then(() => console.log('Patient updated. :))'))
                 .catch(err => {
                     console.error(err);
@@ -129,7 +129,7 @@ class Me extends React.Component{
         else
         {
             axios
-            .post('http://localhost:8080/edit-sent-doctor', doctor)
+            .post(Tools.host + '/edit-sent-doctor', doctor)
                 .then(() => console.log('Doctor updated. :))'))
                 .catch(err => {
                     console.error(err);
@@ -141,7 +141,7 @@ class Me extends React.Component{
         if(e.target.profilepic.files[0])
         {
             axios
-            .post('http://localhost:8080/profilepic-sent', form_data,{headerss})
+            .post(Tools.host + '/profilepic-sent', form_data,{headerss})
                 .then(() => console.log('Profilepic set. :)'))
                 .catch(err => {
                     console.error(err);

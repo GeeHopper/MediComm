@@ -49,6 +49,7 @@ class ViewFile extends React.PureComponent{
         
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
         
           
     }
@@ -78,7 +79,7 @@ class ViewFile extends React.PureComponent{
         
         //using axios to post
         axios
-        .post('http://localhost:8080/edit-sent-patientfile', patfile)
+        .post(Tools.host + '/edit-sent-patientfile', patfile)
             .then(() => console.log('Patientfile updated :))'))
             .catch(err => {
                 console.error(err);
@@ -108,7 +109,7 @@ class ViewFile extends React.PureComponent{
         //var filenames = this.props.match.params.query;
 
         //Checking file info
-        var url = 'http://localhost:8080/checkFile';
+        var url = Tools.host + '/checkFile';
         var options = {
         method: 'POST',
         headers: {

@@ -11,6 +11,7 @@ import {
 } from "shards-react";
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "../../../../content/Tools";
 
 export default class UserActions extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class UserActions extends React.Component {
   }
 
   componentWillMount(){
-        const url = 'http://localhost:8080/me';
+        const url = Tools.host + '/me';
         const options = {
         method: 'GET',
         headers: {

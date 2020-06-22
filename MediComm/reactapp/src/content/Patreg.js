@@ -1,13 +1,14 @@
 import React from 'react';
 import patpng from '../static/res/images/pat.png';
 import axios from 'axios';
-import fs from 'fs';
+import Tools from "./Tools";
 
 
 
 class Patreg extends React.Component{
     constructor(){
         super();
+        this.agreementchecked = null;
 
         //declaring states for the input values of the form
         this.state = {
@@ -47,14 +48,19 @@ class Patreg extends React.Component{
             insurednumber,
             healthinsurance
         };
-
-        //using axios to post
-        axios
-        .post('http://localhost:8080/pat-reg-sent', user)
-            .then(() => console.log('User registered :))'))
-            .catch(err => {
-                console.error(err);
-        });
+        
+        //console.log("Checked is: " + this.agreementchecked.checked);
+        
+        //check if agreement is accepted
+        if(this.agreementchecked.checked)
+        {
+            axios
+            .post(Tools.host + '/pat-reg-sent', user)
+                .then(() => console.log('User registered :))'))
+                .catch(err => {
+                    console.error(err);
+            });
+        }
     }
 
     render(){
@@ -149,15 +155,9 @@ class Patreg extends React.Component{
                                 </div>
                             </div>
 
-                            <div class="form">
-                                <div class="button text-center">
-                                    <a href="button" class="btn btn-primary badge-pill w-50 mt-4"style={{fontWeight: 'bold', fontSize: 15}}>Registrieren</a>
-                                </div>
-                            </div>
-
                             <div id="agreement">
                             <div class="button text-center mt-3 " style={{fontWeight: 'bold', fontSize: 12}}>
-                            <input type="checkbox" name="agreement" onChange={this.handleInputChange}/> Please accept the <a href="/dsgvo">License and User Agreement</a>
+                            <input type="checkbox" name="agreement" ref={c => {this.agreementchecked = c}} onChange={this.handleInputChange}/> Please accept the <a href="/dsgvo">License and User Agreement</a>
                             </div>
                         </div>
 

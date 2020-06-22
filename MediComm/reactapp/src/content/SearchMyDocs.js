@@ -1,7 +1,6 @@
 import React from 'react';
-import App from '../App';
+import Tools from "./Tools";
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
@@ -37,6 +36,7 @@ class SearchMyDocs extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
 
 
     }
@@ -44,7 +44,7 @@ class SearchMyDocs extends React.Component {
 
     fetchPatient()
     {
-        const url = 'http://localhost:8080/me';
+        const url = Tools.host + '/me';
         const options = {
         method: 'GET',
         headers: {
@@ -75,7 +75,7 @@ class SearchMyDocs extends React.Component {
         const params = new URLSearchParams(this.props.location.search);
         const doclastname = params.get('doclastname'); // bar
 
-        var url = 'http://localhost:8080/me';
+        var url = Tools.host + '/me';
         var options = {
         method: 'GET',
         headers: {
@@ -99,7 +99,7 @@ class SearchMyDocs extends React.Component {
 
         
         //console.log("your id is: " + this.patient._id);
-        url = 'http://localhost:8080/searchMyDocs';
+        url = Tools.host + '/searchMyDocs';
         options = {
             method: 'POST',
             headers: {

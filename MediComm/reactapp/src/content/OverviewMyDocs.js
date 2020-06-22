@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -38,7 +39,7 @@ class OverviewMyDocs extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
-
+        Tools.checkLogin(Cookies.get("token"));
 
     }
 
@@ -67,7 +68,7 @@ class OverviewMyDocs extends React.Component {
         
         //using axios to post
         axios
-        .post('http://localhost:8080/edit-sent-docnotes', therapy)
+        .post(Tools.host + '/edit-sent-docnotes', therapy)
             .then(() => console.log('docNotes updated. )'))
             .catch(err => {
                 console.error(err);
@@ -107,7 +108,7 @@ class OverviewMyDocs extends React.Component {
     
     //using axios in here to get access to the response of our backend in our frontend
     async componentDidMount() {
-        var url = 'http://localhost:8080/me';
+        var url = Tools.host + '/me';
         var options = {
         method: 'GET',
         headers: {
@@ -142,7 +143,7 @@ class OverviewMyDocs extends React.Component {
 
 
         //console.log("your id is: " + this.patient._id);
-        url = 'http://localhost:8080/overviewMyDocs';
+        url = Tools.host + '/overviewMyDocs';
         options = {
             method: 'POST',
             headers: {

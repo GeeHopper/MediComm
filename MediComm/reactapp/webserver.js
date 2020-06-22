@@ -16,6 +16,10 @@ const backend_routes = require("./routes/backend_routes"); //new addition
 class Webserver
 {
 
+    static client = "http://localhost:3000"; //npm start
+    //static client = "http://10.0.2.2:5000"; //emulator test
+    //static client = "htt://localhost:5000"; //serve build
+
     constructor()
     {
         this.init();
@@ -40,7 +44,7 @@ class Webserver
         //Setting header to pass cookies conform CORS
         this.app.use(function(req, res, next) {
             //res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-            res.header("Access-Control-Allow-Origin", "http://10.0.2.2:5000");
+            res.header("Access-Control-Allow-Origin", Webserver.client);
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, token");
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header("Access-Control-Allow-Credentials", "true");

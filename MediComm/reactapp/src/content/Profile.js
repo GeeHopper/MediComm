@@ -36,6 +36,7 @@ class Profile extends React.Component {
 
         //always passing our token so the site can verify wether we're logged in or not
         axios.defaults.headers.common['token'] = Cookies.get("token");
+        Tools.checkLogin(Cookies.get("token"));
 
 
     }
@@ -46,7 +47,7 @@ class Profile extends React.Component {
         const params = new URLSearchParams(this.props.location.search);
         const userid = params.get('userid');
 
-        const url = 'http://localhost:8080/checkUserUrl';
+        const url = Tools.host + '/checkUserUrl';
         const options = {
             method: 'POST',
             headers: {
@@ -138,7 +139,7 @@ class Profile extends React.Component {
 
     fetchDoc()
     {
-        const url = 'http://localhost:8080/me';
+        const url = Tools.host + '/me';
         const options = {
         method: 'GET',
         headers: {
@@ -174,7 +175,7 @@ class Profile extends React.Component {
                 pat_userid: this.state.userid
             };
             axios
-            .post('http://localhost:8080/addPatient/', params)
+            .post(Tools.host + '/addPatient/', params)
                 .then(() => console.log('Patient added :)'))
                 .catch(err => {
                     console.error(err);

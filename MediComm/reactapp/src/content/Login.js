@@ -1,8 +1,10 @@
 import React from 'react';
 import loginpng from '../static/res/images/login.png';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import Tools from "./Tools";
 import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+import Cookies from 'js-cookie';
 
 class Login extends React.Component{
     constructor(){
@@ -15,6 +17,16 @@ class Login extends React.Component{
        
 
         this.updateData = this.updateData.bind(this);
+        try{
+            var token = Cookies.get("token");
+            const decoded = jwt.verify(token, "randomString");
+            console.log("token is valid, redirecting");
+            window.location= "/me";
+        }
+        catch
+        {
+            console.log("Bitte einloggen");
+        }
     }
 
     updateData(event) {
@@ -43,8 +55,9 @@ class Login extends React.Component{
         };
         
         //using axios to post, withcredentials also gets the cookie
+        console.log("host is: " + Tools.host);
         axios
-        .post('http://10.0.2.2:8080/login-sent', login, {withCredentials: true})
+        .post(Tools.host + '/login-sent', login, {withCredentials: true})
         //.post('http://192.168.2.102:5000/login-sent', login, {withCredentials: true})
             .then(() =>{
              console.log('Logged in :)');
@@ -139,7 +152,7 @@ class Login extends React.Component{
                                                 <i className="enlock"></i>
                                             </div>
                                             <div className="no-acc" style={{fontWeight: 'bold',fontSize: 15}}>
-                                                <p>Noch kein Account? <a href="/reg">Signup!</a></p>
+                                                <p>Noch kein Account? <a href="/doc-reg">Signup als Arzt</a><br/><a href="/pat-reg">Signup als Patient</a></p>
                                             </div>
                                                 <div className="button">
                                                     <button type="submit" className="btn btn-primary w-50 my-4" style={{fontWeight: 'bold', fontSize: 15}}>Login</button>

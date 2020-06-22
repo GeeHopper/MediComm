@@ -1,12 +1,17 @@
 import Cookies from 'js-cookie';
 import axios from 'axios';
+const jwt = require("jsonwebtoken");
 
 class Tools
 {
+    static host = "http://localhost:8080";
+    //static host = "http://10.0.2.2:8080";
+    //static host = "htt://localhost:5000";
+
     //getting userdata from the backend and initializing states with is
     static getUserData(comp){
 
-        const url = 'http://localhost:8080/me';
+        const url = Tools.host + '/me';
         const options = {
         method: 'GET',
         headers: {
@@ -64,7 +69,19 @@ class Tools
             return false;
         }
         else
-            return true;
+        {   
+            try{
+                const decoded = jwt.verify(token, "randomString");
+                console.log("token is valid");
+                return true;
+            }
+            catch
+            {
+                console.log("Bitte einloggen");
+                window.location="/login";
+                return false;
+            }
+        }
     }
     
     //check wether a user is a doctor

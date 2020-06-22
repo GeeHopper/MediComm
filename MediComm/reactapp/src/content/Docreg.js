@@ -1,7 +1,7 @@
 import React from 'react';
 import docpng from '../static/res/images/doc.png';
 import axios from 'axios';
-import fs from 'fs';
+import Tools from "./Tools";
 
 
 
@@ -25,6 +25,8 @@ class Docreg extends React.Component{
         };
     
         this.updateData = this.updateData.bind(this);
+
+        this.agreementchecked = null;
     }
 
     updateData(event) {
@@ -57,22 +59,27 @@ class Docreg extends React.Component{
             establishmentnumber
         };
         
-        //using axios to post
-        axios
-        .post('http://localhost:8080/doc-reg-sent', user)
-            .then(() => console.log('User registered :))'))
-            .catch(err => {
-                console.error(err);
-                try{
-                    err.response.data.errors.forEach(element => {
-                        alert(element["msg"]);
-                    });
-                }
-                catch
-                {
-                    console.log("error when reading out error messages");
-                }
-        });
+        //console.log("Checked is: " + this.agreementchecked.checked);
+        
+        //check if agreement is accepted
+        if(this.agreementchecked.checked)
+        {
+            axios
+            .post(Tools.host + '/doc-reg-sent', user)
+                .then(() => console.log('User registered :))'))
+                .catch(err => {
+                    console.error(err);
+                    try{
+                        err.response.data.errors.forEach(element => {
+                            alert(element["msg"]);
+                        });
+                    }
+                    catch
+                    {
+                        console.log("error when reading out error messages");
+                    }
+            });
+        }
 
 
     }
@@ -177,7 +184,7 @@ class Docreg extends React.Component{
                         </div>
                         <div id="agreement">
                         <div class="button text-center mt-3 " style={{fontWeight: 'bold', fontSize: 12}}>
-                            <input type="checkbox" name="agreement" onChange={this.handleInputChange}/>  Please accept the <a href="/dsgvo">License and User Agreement</a>
+                            <input type="checkbox" name="agreement" ref={c => {this.agreementchecked = c}} onChange={this.handleInputChange}/>  Please accept the <a href="/dsgvo">License and User Agreement</a>
                         </div>
                         </div>
 
