@@ -4,7 +4,7 @@ import axios from 'axios';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import ImagePreview from './ImagePreview/index.js'; // source code : ./src/demo/AppWithImagePreview/ImagePreview
-import Tools from "./tools";
+import Tools from "./Tools";
 
 var ObjectID = require('mongodb').ObjectID;
 

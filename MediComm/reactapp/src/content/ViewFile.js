@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./tools";
+import Tools from "./Tools";
 var ObjectID = require('mongodb').ObjectID;
 
 

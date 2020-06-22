@@ -2,7 +2,7 @@ import React from 'react';
 import loginpng from '../static/res/images/login.png';
 import smartphonepng from '../static/res/images/smartphone.png';
 import axios from 'axios';
-import Tools from "./tools";
+import Tools from "./Tools";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
 import Cookies from 'js-cookie';
@@ -214,8 +214,8 @@ class Login extends React.Component{
                                        
                                         <div className="col-sm-6">
                                         <div className="smartphone ">
-                                        <img className="logImg img-fluid" src={smartphonepng} alt="smartImg" style={{ height: 500}}/>
-                                </div>
+                                            
+                                        </div>
                                 </div>
                                     </div>
                                 </div>

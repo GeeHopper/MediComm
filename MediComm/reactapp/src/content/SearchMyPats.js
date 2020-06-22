@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./tools";
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -239,19 +239,7 @@ class SearchMyPats extends React.Component {
                     </div>
 
 
-                    <div className="kk">
-                        <div className="input_field my-4">
-                            <input list="kk" placeholder="Krankenkasse" className="input form-control py-2" value={this.state.healthinsurance[i]} name="healthinsurance" onChange={this.handleInputChange} />
-
-                        </div>
-                    </div>
-
-                    <div className="verNr">
-                        <div className="input_field my-4">
-                            <input type="text" placeholder="Versichertennummer" className="input form-control py-2" value={this.state.insurednumber[i]} name="insurednumber" onChange={this.handleInputChange} />
-                            <i className="verNr"></i>
-                        </div>
-                    </div>
+                    
                     {/*this.checkProfilepic(i)*/}
 
 

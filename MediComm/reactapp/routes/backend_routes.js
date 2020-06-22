@@ -203,7 +203,6 @@ router.post(
             insurednumber,
             healthinsurance
         } = req.body;
-        console.log("agreement is: " + req.body.agreement);
         try {
             let user = await User.findOne({
                 mail
@@ -233,7 +232,6 @@ router.post(
                 healthinsurance,
                 mail
             });
-
 
 
             //hashing password

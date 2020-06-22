@@ -1,5 +1,5 @@
 import React from 'react';
-import Tools from "./tools";
+import Tools from "./Tools";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 const Patient = require("../model/patient");
@@ -184,7 +184,7 @@ class SearchMyDocs extends React.Component {
             <div className="form w-50  my-5" key={"main" + i}>
 
             <div className="title">
-                Profilansicht des Patienten
+                Ihre Doktoren:
             </div>
 
 
@@ -244,9 +244,10 @@ class SearchMyDocs extends React.Component {
                     </div>
                 </div>
 
-                <br /><a href={"profile/?userid=" + this.state.userid}>Profile besuchen</a>
+                <a href={"profile/?userid=" + this.state.userid}>Profile besuchen</a>
                 {/*this.checkProfilepic(i)*/}
 
+                <br/>
 
             </form>
         </div>

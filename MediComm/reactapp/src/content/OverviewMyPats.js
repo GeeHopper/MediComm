@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Tools from "./tools";
+import Tools from "./Tools";
 const Patient = require("../model/patient");
 var ObjectID = require('mongodb').ObjectID;
 
@@ -143,60 +143,65 @@ class OverviewMyPats extends React.Component {
                 'doc_userid': this.doctor._id
             }
         };
-        axios.post(url, options)
+        await axios.post(url, options)
             .then(response => {
                 //console.log(response.data.patients[0].firstname);
                 for (var i = 0; i < response.data.patients.length; i++) {
-                    if (response.data.patients[i].profilepic != undefined) {
-                        this.state.profilepic.push(response.data.patients[i].profilepic);
+                    if(response.data.patients[i])
+                    {
+                        if (response.data.patients[i].profilepic != undefined) {
+                            this.state.profilepic.push(response.data.patients[i].profilepic);
+                            this.setState({
+                                profilepic: this.state.profilepic
+                            });
+
+                            this.state.profilepicfile.push(response.data.patients[i].profilepicfile);
+                            this.setState({
+                                profilepicfile: this.state.profilepicfile
+                            });
+                        }
+                        
+                        this.state.mail.push(response.data.patients[i].mail);
                         this.setState({
-                            profilepic: this.state.profilepic
+                            mail: this.state.mail
+                        });
+                        this.state.userid.push(response.data.patients[i]._id);
+                        this.setState({
+                            mail: this.state.mail
+                        });
+                        //console.log("mail is: " + response.data.patients[i].mail);
+
+                        this.state.firstname.push(response.data.patients[i].firstname);
+                        this.setState({
+                            firstname: this.state.firstname
                         });
 
-                        this.state.profilepicfile.push(response.data.patients[i].profilepicfile);
+                        this.state.lastname.push(response.data.patients[i].lastname);
                         this.setState({
-                            profilepicfile: this.state.profilepicfile
+                            lastname: this.state.lastname
                         });
+
+                        this.state.address.push(response.data.patients[i].address);
+                        this.setState({
+                            address: this.state.address
+                        });
+
+                        this.state.patid.push(response.data.patients[i]._id);
+                        this.setState({
+                            patid: this.state.patid
+                        });
+
+                        this.state.patNotes.push(response.data.patNotes[i]);
+                        this.setState({
+                            patNotes: this.state.patNotes
+                        });
+
+                        this.state.content.push(this.patientOverviewContent(i));
+                        this.setState({
+                            content: this.state.content 
+                        })
+
                     }
-                    this.state.mail.push(response.data.patients[i].mail);
-                    this.setState({
-                        mail: this.state.mail
-                    });
-                    this.state.userid.push(response.data.patients[i]._id);
-                    this.setState({
-                        mail: this.state.mail
-                    });
-                    //console.log("mail is: " + response.data.patients[i].mail);
-
-                    this.state.firstname.push(response.data.patients[i].firstname);
-                    this.setState({
-                        firstname: this.state.firstname
-                    });
-
-                    this.state.lastname.push(response.data.patients[i].lastname);
-                    this.setState({
-                        lastname: this.state.lastname
-                    });
-
-                    this.state.address.push(response.data.patients[i].address);
-                    this.setState({
-                        address: this.state.address
-                    });
-
-                    this.state.patid.push(response.data.patients[i]._id);
-                    this.setState({
-                        patid: this.state.patid
-                    });
-
-                    this.state.patNotes.push(response.data.patNotes[i]);
-                    this.setState({
-                        patNotes: this.state.patNotes
-                    });
-
-                    this.state.content.push(this.patientOverviewContent(i));
-                    this.setState({
-                        content: this.state.content 
-                    })
 
                     
                 }
@@ -214,18 +219,20 @@ class OverviewMyPats extends React.Component {
 
             <div className="input_field px-md-5 " style={{fontWeight: 'bold', fontSize: 20}}>
             <div className="title text-primary">
+                <div></div>
                 Vorname:
                 </div>
                  {this.state.firstname[i]}
-                 </div>
 
+                 </div>
+                
                  <div className="input_field px-md-5" style={{fontWeight: 'bold', fontSize: 20}}>
                     <div className="title text-primary text-right">
                 Nachname:
                 </div>
                  {this.state.lastname[i]}
                  </div>
-
+                
 
                  </div>
 
@@ -243,20 +250,6 @@ class OverviewMyPats extends React.Component {
                  {this.state.address[i]}
                  </div>
 
-                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
-                   <div className="title text-primary ">
-                Krankenkasse:
-                </div>
-                 {this.state.healthinsurance[i]}
-                 </div>
-
-
-                 <div className="input_field my-3" style={{fontWeight: 'bold', fontSize: 20}}>
-                   <div className="title text-primary ">
-                Versichertennummer:
-                </div>
-                {this.state.insurednumber[i]}
-                </div>
 
                 <div className="verNr">
                     <div className="input_field my-3">
@@ -268,7 +261,7 @@ class OverviewMyPats extends React.Component {
                     <input type="submit" className="btn btn-primary" value="Update patNotes" />
                     <br />
                     <hr  style={{backgroundColor: 'black'}}/>
-                    </form>
+                </form>
         </div>
 
 

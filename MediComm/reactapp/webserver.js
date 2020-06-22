@@ -16,9 +16,9 @@ const backend_routes = require("./routes/backend_routes"); //new addition
 class Webserver
 {
 
-    static client = "http://localhost:3000"; //npm start
+    //static client = "http://localhost:3000"; //npm start
     //static client = "http://10.0.2.2:5000"; //emulator test
-    //static client = "htt://localhost:5000"; //serve build
+    static client = "http://localhost:5000"; //serve build
 
     constructor()
     {
